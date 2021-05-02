@@ -21,8 +21,10 @@ WIDTH = '720'
 root.geometry(WIDTH + 'x' + HEIGHT)
 
 
-### Authentication
-auth.authentication(root)
+### Calling out functions
+## Authentication
+auth.userAuth(root)
+
 
 
 ### Tkinter Loop
