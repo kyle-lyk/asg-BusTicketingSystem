@@ -9,7 +9,7 @@ import tkinter
 from tkinter import *
 import json
 
-import auth
+from modules import auth
 
 
 ### Tkinter Root Settings
