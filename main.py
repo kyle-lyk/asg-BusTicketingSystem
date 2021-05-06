@@ -9,21 +9,22 @@ import tkinter
 from tkinter import *
 import json
 
-from modules import auth
+from modules import auth, init
 
 
 ### Tkinter Root Settings
 root = Tk()
 root.title("Bus Ticketing System")
 ## Geometry
-HEIGHT = '510'
 WIDTH = '720'
+HEIGHT = '510'
 root.geometry(WIDTH + 'x' + HEIGHT)
 
 
 ### Calling out functions
 ## Authentication
 auth.userAuth(root)
+init.storageInit()
 
 
 
