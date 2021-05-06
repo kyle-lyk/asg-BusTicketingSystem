@@ -1,7 +1,7 @@
 #####################
-#
-# PSP0201 - Group 4
-#
+#                   #
+# PSP0201 - Group 4 #
+#                   #
 #####################
 
 ### IMPORT MODULES
@@ -22,10 +22,12 @@ root.geometry(WIDTH + 'x' + HEIGHT)
 
 
 ### Calling out functions
+
 ## Authentication
 auth.userAuth(root)
-init.storageInit()
 
+## Storage Initiation
+init.storageInit()
 
 
 ### Tkinter Loop
