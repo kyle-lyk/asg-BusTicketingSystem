@@ -4,10 +4,29 @@
 
 from tkinter import *
 
+#######################################################   Miscellaneous  #################################################################
+
+## Clear Frame function
 def clear_frame(root):
     for widget in root.winfo_children():
         widget.destroy()
 
+### Json functions
+
+def save_to_json_file(data, filename):
+    with open(filename,"w") as file_obj:
+        json.dump(data, file_obj, indent=4)
+
+def open_from_json_file(filename):
+    with open(filename) as file_obj:
+        return 
+
+def show_books(data):
+  return
+
+#######################################################   User Section   #################################################################
+
+## User Authentication Menu
 def userAuth(root):
     clear_frame(root)
 
@@ -21,20 +40,26 @@ def userAuth(root):
     userpasswordEntry = Entry(root, width = 30, show="*").pack()
 
     blankLabel = Label(root, text="").pack()
-    loginButton = Button(root, width=15, text="Login", command=lambda: UserVerification(userEntry,userpasswordEntry)).pack()
+    loginButton = Button(root, width=15, text="Login", command=lambda: userVerification(userEntry,userpasswordEntry)).pack()
 
     regLabel = Label(root, text="\n\n\nNew to here?", font="Helvetica 10").pack()
-    regButton = Button(root, width=20, text="Register user account", command=lambda: UserRegisterPlatform(root)).pack()
+    regButton = Button(root, width=20, text="Register user account", command=lambda: userRegisterPlatform(root)).pack()
 
     blankLabel = Label(root, text="\n").pack()
     adminButton = Button(root, width=20, text="Admin Site", command=lambda: adminAuth(root)).pack(anchor = "sw", padx=25,)
 
     copyrightLabel = Label(root, text="© 2021 Bus Ticketing System. All Rights Reserved.").pack()
 
-def UserVerification(userEntry,userpasswordEntry):
+## User Login Verification
+def userVerification(userEntry,userpasswordEntry):
+    username = userEntry.get()
+    userpassword = userpasswordEntry.get()
+
     return
 
-def UserRegisterPlatform(root):
+
+## User Registration Pop-up Window
+def userRegisterPlatform(root):
     ## Register Interface
     regTop = Toplevel(root)
     regTop.title("Register account")
@@ -56,12 +81,16 @@ def UserRegisterPlatform(root):
     confregpasswordEntry = Entry(regTop, width = 30, show="*").pack()
 
     blankLabel = Label(regTop, text="").pack()
-    confregButton = Button(regTop, width=20, text="Register", command=lambda: UserRegisterConfirm() ).pack()
+    confregButton = Button(regTop, width=20, text="Register", command=lambda: userRegisterConfirm() ).pack()
 
-def UserRegisterConfirm():
+##User Registration Confirm
+def userRegisterConfirm():
     return
 
 
+#######################################################   Admin Section   #################################################################
+
+## Admin Authentication Menu
 def adminAuth(root):
     clear_frame(root)
 
@@ -84,10 +113,12 @@ def adminAuth(root):
     userButton = Button(root, width=20, text="User Site", command=lambda: userAuth(root) ).pack(anchor = "sw", padx=25,)
 
     copyrightLabel = Label(root, text="© 2021 Bus Ticketing System. All Rights Reserved.").pack()
-    
+
+## Admin Login Verification    
 def adminVerification(adminEntry,adminpasswordEntry):
     return
 
+## Admin Registration Pop-up Window
 def adminRegisterPlatform(root):
     ## Register Interface
     amregTop = Toplevel(root)
@@ -112,5 +143,7 @@ def adminRegisterPlatform(root):
     blankLabel = Label(amregTop, text="").pack()
     amconfregButton = Button(amregTop, width=20, text="Register", command=lambda: adminRegisterConfirm() ).pack()
 
+
+## Admin Registration Confirm
 def adminRegisterConfirm():
     return
