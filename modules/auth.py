@@ -2,12 +2,36 @@
 # AUTHENTICATION FUNCTIONS #
 ############################
 
+import tkinter
 from tkinter import *
+from tkinter import messagebox
+import json
 
+#######################################################   Miscellaneous  #################################################################
+
+## Clear Frame function
 def clear_frame(root):
     for widget in root.winfo_children():
         widget.destroy()
 
+### Json functions
+dataDir = './data/'
+
+def add_json(new_data,filename):
+    with open (filename,"r") as f:
+        temp = json.load(f)
+        temp.append(new_data)
+    with open (filename,"w") as f:
+        json.dump(temp, f, indent = 4)
+
+def view_json(filename):
+    with open (filename,'r') as f:
+        data = json.load(f)
+    return data
+
+#######################################################   User Section   #################################################################
+
+## User Authentication Menu
 def userAuth(root):
     clear_frame(root)
 
@@ -15,26 +39,49 @@ def userAuth(root):
     Label(root, text="\nUser Authentication",font="Helvetica 20").pack()
 
     userLabel = Label(root, text="\n\nUsername", font="Helvetica 10").pack()
-    userEntry = Entry(root, width = 30).pack()
+    userEntry = Entry(root, width = 30)
+    userEntry.pack()
 
     userpasswordLabel = Label(root, text="\nPassword", font="Helvetica 10").pack()
-    userpasswordEntry = Entry(root, width = 30, show="*").pack()
+    userpasswordEntry = Entry(root, width = 30, show="*")
+    userpasswordEntry.pack()
 
     blankLabel = Label(root, text="").pack()
-    loginButton = Button(root, width=15, text="Login", command=lambda: UserVerification(userEntry,userpasswordEntry)).pack()
+    loginButton = Button(root, width=15, text="Login", command=lambda: userVerification(userEntry,userpasswordEntry)).pack()
 
     regLabel = Label(root, text="\n\n\nNew to here?", font="Helvetica 10").pack()
-    regButton = Button(root, width=20, text="Register user account", command=lambda: UserRegisterPlatform(root)).pack()
+    regButton = Button(root, width=20, text="Register user account", command=lambda: userRegisterPlatform(root)).pack()
 
     blankLabel = Label(root, text="\n").pack()
     adminButton = Button(root, width=20, text="Admin Site", command=lambda: adminAuth(root)).pack(anchor = "sw", padx=25,)
 
     copyrightLabel = Label(root, text="© 2021 Bus Ticketing System. All Rights Reserved.").pack()
 
-def UserVerification(userEntry,userpasswordEntry):
-    return
+## User Login Verification
+def userVerification(userEntry,userpasswordEntry):
+    username = userEntry.get()
+    password = userpasswordEntry.get()
 
-def UserRegisterPlatform(root):
+    if username == "" :
+        messagebox.showinfo("Error", "Please enter a username!")
+    elif password == "" :
+        messagebox.showinfo("Error", "Please enter a password!")
+    else:
+        data = (view_json(dataDir+'userAcc.json'))
+        userExist = False
+
+        for i in data:
+            if username == (i.get('username')) and password == (i.get('password')):
+                userExist = True
+                break
+
+        if userExist:
+            messagebox.showinfo(f"Welcome back!", "Login Successful!")
+        else:
+            messagebox.showinfo("Failed Authentication", "Username or Password is incorrect! \nPlease check if you have registered the account or not.")
+
+## User Registration Pop-up Window
+def userRegisterPlatform(root):
     ## Register Interface
     regTop = Toplevel(root)
     regTop.title("Register account")
@@ -47,21 +94,61 @@ def UserRegisterPlatform(root):
     regLabel = Label(regTop, text="\nPlease fill in your information below",font="Helvetica 10 bold").pack()    
 
     reguserLabel = Label(regTop, text="\n\nUsername", font="Helvetica 10").pack()
-    reguserEntry = Entry(regTop, width = 30).pack()
+    reguserEntry = Entry(regTop, width = 30)
+    reguserEntry.pack()
 
     regpasswordLabel = Label(regTop, text="\nPassword", font="Helvetica 10").pack()
-    regpasswordEntry = Entry(regTop, width = 30, show="*").pack()
+    regpasswordEntry = Entry(regTop, width = 30, show="*")
+    regpasswordEntry.pack()
 
     confregpasswordLabel = Label(regTop, text="\nConfirm Password", font="Helvetica 10").pack()
-    confregpasswordEntry = Entry(regTop, width = 30, show="*").pack()
+    confregpasswordEntry = Entry(regTop, width = 30, show="*")
+    confregpasswordEntry.pack()
 
-    blankLabel = Label(regTop, text="").pack()
-    confregButton = Button(regTop, width=20, text="Register", command=lambda: UserRegisterConfirm() ).pack()
+    msg = StringVar()
+    msgLabel = Label(regTop, textvariable = msg ).pack()
+    blankLabel = Label(regTop, text= '' ).pack()
+    confregButton = Button(regTop, width=20, text="Register", command=lambda: userRegisterConfirm(reguserEntry,regpasswordEntry,confregpasswordEntry,msg) ).pack()
 
-def UserRegisterConfirm():
-    return
+##User Registration Confirm
+def userRegisterConfirm(reguserEntry,regpasswordEntry,confregpasswordEntry,msg):
+
+    username = reguserEntry.get()
+    password = regpasswordEntry.get()
+    pwconfirm = confregpasswordEntry.get()
+
+    if username == "" :
+        msg.set("Please enter a username!")
+    elif ' ' in username:
+        msg.set("Do not put whitespace in username!")
+
+    elif password == "":
+        msg.set("Please enter a password!")
+    elif ' ' in password:
+        msg.set("Do not put whitespace in password!")
+
+    elif pwconfirm != password:
+        msg.set("Passwords doesn't match!")
+    else:
+        data = (view_json(dataDir+'userAcc.json'))
+        userExist = False
+
+        for i in data:
+            if username == (i.get('username')):
+                msg.set('Username already exists. Please register another username.')
+                userExist = True
+        if not userExist:
+            msg.set("Account created successfully! You may proceed to login.")
+            data = {
+                'username': username ,
+                'password': password
+                }
+            add_json(data, dataDir+'userAcc.json')  
 
 
+#######################################################   Admin Section   #################################################################
+
+## Admin Authentication Menu
 def adminAuth(root):
     clear_frame(root)
 
@@ -69,48 +156,43 @@ def adminAuth(root):
     Label(root, text="\nAdmin Authentication",font="Helvetica 20",bg = "grey",width = 500).pack()
 
     adminLabel = Label(root, text="\n\nAdmin Username", font="Helvetica 10").pack()
-    adminEntry = Entry(root, width = 30).pack()
+    adminEntry = Entry(root, width = 30)
+    adminEntry.pack()
 
     adminpasswordLabel = Label(root, text="\nPassword", font="Helvetica 10").pack()
-    adminpasswordEntry = Entry(root, width = 30, show="*").pack()
+    adminpasswordEntry = Entry(root, width = 30, show="*")
+    adminpasswordEntry.pack()
 
     blankLabel = Label(root, text="").pack()
     adminloginButton = Button(root, width=15, text="Login", command=lambda: adminVerification(adminEntry,adminpasswordEntry)).pack()
 
-    adminregLabel = Label(root, text="\n\n\nNew to here?", font="Helvetica 10").pack()
-    adminregButton = Button(root, width=20, text="Register admin account", command=lambda: adminRegisterPlatform(root)).pack()
+    blankLabel = Label(root, text="",height=6).pack()
 
     blankLabel = Label(root, text="\n").pack()
     userButton = Button(root, width=20, text="User Site", command=lambda: userAuth(root) ).pack(anchor = "sw", padx=25,)
 
     copyrightLabel = Label(root, text="© 2021 Bus Ticketing System. All Rights Reserved.").pack()
-    
+
+## Admin Login Verification    
 def adminVerification(adminEntry,adminpasswordEntry):
-    return
+    username = adminEntry.get()
+    password = adminpasswordEntry.get()
 
-def adminRegisterPlatform(root):
-    ## Register Interface
-    amregTop = Toplevel(root)
-    amregTop.title("Register admin account")
+    if username == "" :
+        messagebox.showinfo("Error", "Please enter a username!")
+    elif password == "" :
+        messagebox.showinfo("Error", "Please enter a password!")
+    else:
+        data = (view_json(dataDir+'adminAcc.json'))
+        userExist = False
 
-    HEIGHT = '320'
-    WIDTH = '400'
-    amregTop.geometry(WIDTH + 'x' + HEIGHT)
-    
-    ## Registration Inputs
-    amregLabel = Label(amregTop, text="\nPlease fill in your information below",font="Helvetica 10 bold").pack()    
+        for i in data:
+            if username == (i.get('username')) and password == (i.get('password')):
+                userExist = True
+                break
 
-    amreguserLabel = Label(amregTop, text="\n\nAdmin Username", font="Helvetica 10").pack()
-    amreguserEntry = Entry(amregTop, width = 30).pack()
+        if userExist:
+            messagebox.showinfo(f"Welcome back!", "Login Successful!")
+        else:
+            messagebox.showinfo("Failed Authentication", "Username or Password is incorrect!")
 
-    amregpasswordLabel = Label(amregTop, text="\nPassword", font="Helvetica 10").pack()
-    amregpasswordEntry = Entry(amregTop, width = 30, show="*").pack()
-
-    amconfregpasswordLabel = Label(amregTop, text="\nConfirm Password", font="Helvetica 10").pack()
-    amconfregpasswordEntry = Entry(amregTop, width = 30, show="*").pack()
-
-    blankLabel = Label(amregTop, text="").pack()
-    amconfregButton = Button(amregTop, width=20, text="Register", command=lambda: adminRegisterConfirm() ).pack()
-
-def adminRegisterConfirm():
-    return
