@@ -5,13 +5,12 @@
 from tkinter import *
 from tkcalendar import *
 from tkinter import messagebox
-root = Tk()
-root.title("Admin Interface")
 
-HEIGHT = '510'
-WIDTH = '720'
-root.geometry(WIDTH + 'x' + HEIGHT)
+import system
+from modules import auth
 
+## Import root from system.py 
+root = system.root
 #######################################################   Miscellaneous  #################################################################
 
 ## Clear Frame function
@@ -36,7 +35,7 @@ def view_json(filename):
 
 #######################################################   Admin Section   #################################################################
 
-def view_bus(root):
+def view_bus():
     return
 
 def create_bus():
@@ -116,11 +115,14 @@ def edit_bus():
     cancel_btn = Button(root, text="Cancel", font="Helvetica 10", bg="#000000", fg="#ffffff", padx=30, command=admin_interface)
     cancel_btn.pack(pady=10)
 
-def delete_bus(root):
+def delete_bus():
     return
 
-def log_out(root):
-    return
+def log_out():
+    confirmLogout = messagebox.askquestion ('Logout Confirmation','Are you sure you want to log out from your account?',icon = 'warning')
+    if confirmLogout == 'yes':
+       auth.userAuth()
+
 
 def admin_interface():
     clear_frame(root)
@@ -132,9 +134,4 @@ def admin_interface():
     create_btn = Button(root, text="Create New Bus", command=create_bus, padx=50).pack(anchor=E, pady=10)
     edit_btn = Button(root, text="Edit Bus", command=edit_bus, padx=70).pack(anchor=E)
     delete_btn = Button(root, text="Delete Bus", command=delete_bus, padx=63).pack(anchor=E, pady=10)
-    logout_btn = Button(root, text="Log Out", command=log_out, padx=70).pack(anchor=E, pady=80)
-
-    
-admin_interface()
-
-root.mainloop()
+    logout_btn = Button(root, text="Log Out", command=lambda:log_out(), padx=70).pack(anchor=E, pady=80)

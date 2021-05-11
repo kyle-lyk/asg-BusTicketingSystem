@@ -2,10 +2,17 @@
 # AUTHENTICATION FUNCTIONS #
 ############################
 
+### IMPORT MODULES
 import tkinter
 from tkinter import *
 from tkinter import messagebox
 import json
+
+import system
+from modules import adminMenu
+
+## Import root from system.py 
+root = system.root
 
 #######################################################   Miscellaneous  #################################################################
 
@@ -32,7 +39,7 @@ def view_json(filename):
 #######################################################   User Section   #################################################################
 
 ## User Authentication Menu
-def userAuth(root):
+def userAuth():
     clear_frame(root)
 
     Label(root, text="\nBus Ticketing System",font="Helvetica 25 bold").pack()
@@ -50,10 +57,10 @@ def userAuth(root):
     loginButton = Button(root, width=15, text="Login", command=lambda: userVerification(userEntry,userpasswordEntry)).pack()
 
     regLabel = Label(root, text="\n\n\nNew to here?", font="Helvetica 10").pack()
-    regButton = Button(root, width=20, text="Register user account", command=lambda: userRegisterPlatform(root)).pack()
+    regButton = Button(root, width=20, text="Register user account", command=lambda: userRegisterPlatform()).pack()
 
     blankLabel = Label(root, text="\n").pack()
-    adminButton = Button(root, width=20, text="Admin Site", command=lambda: adminAuth(root)).pack(anchor = "sw", padx=25,)
+    adminButton = Button(root, width=20, text="Admin Site", command=lambda: adminAuth()).pack(anchor = "sw", padx=25,)
 
     copyrightLabel = Label(root, text="© 2021 Bus Ticketing System. All Rights Reserved.").pack()
 
@@ -81,7 +88,7 @@ def userVerification(userEntry,userpasswordEntry):
             messagebox.showinfo("Failed Authentication", "Username or Password is incorrect! \nPlease check if you have registered the account or not.")
 
 ## User Registration Pop-up Window
-def userRegisterPlatform(root):
+def userRegisterPlatform():
     ## Register Interface
     regTop = Toplevel(root)
     regTop.title("Register account")
@@ -149,7 +156,7 @@ def userRegisterConfirm(reguserEntry,regpasswordEntry,confregpasswordEntry,msg):
 #######################################################   Admin Section   #################################################################
 
 ## Admin Authentication Menu
-def adminAuth(root):
+def adminAuth():
     clear_frame(root)
 
     Label(root, text="\nBus Ticketing System",font="Helvetica 25 bold").pack()
@@ -169,7 +176,7 @@ def adminAuth(root):
     blankLabel = Label(root, text="",height=6).pack()
 
     blankLabel = Label(root, text="\n").pack()
-    userButton = Button(root, width=20, text="User Site", command=lambda: userAuth(root) ).pack(anchor = "sw", padx=25,)
+    userButton = Button(root, width=20, text="User Site", command=lambda: userAuth() ).pack(anchor = "sw", padx=25,)
 
     copyrightLabel = Label(root, text="© 2021 Bus Ticketing System. All Rights Reserved.").pack()
 
@@ -193,6 +200,8 @@ def adminVerification(adminEntry,adminpasswordEntry):
 
         if userExist:
             messagebox.showinfo(f"Welcome back!", "Login Successful!")
+            adminMenu.admin_interface()
+
         else:
             messagebox.showinfo("Failed Authentication", "Username or Password is incorrect!")
 

@@ -5,26 +5,15 @@
 #####################
 
 ### IMPORT MODULES
-import tkinter
-from tkinter import *
-import json
-
 from modules import auth, init
+import system
 
+## Import root from system.py 
+root = system.root
 
-### Tkinter Root Settings
-root = Tk()
-root.title("Bus Ticketing System")
-## Geometry
-WIDTH = '720'
-HEIGHT = '510'
-root.geometry(WIDTH + 'x' + HEIGHT)
-
-
-### Calling out functions
-
+### Init Functions
 ## Authentication
-auth.userAuth(root)
+auth.userAuth()
 
 ## Storage Initiation
 init.storageInit()
