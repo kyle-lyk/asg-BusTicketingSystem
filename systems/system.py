@@ -3,9 +3,7 @@
 ###########################
 
 ### IMPORT MODULES
-import tkinter
 from tkinter import *
-import json
 
 ### Tkinter Root Settings
 root = Tk()
