@@ -8,7 +8,7 @@ from tkinter import *
 from tkinter import messagebox
 import json
 
-import system
+from systems import system
 from modules import adminMenu
 
 ## Import root from system.py 

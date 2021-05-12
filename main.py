@@ -5,8 +5,8 @@
 #####################
 
 ### IMPORT MODULES
-from modules import auth, init
-import system
+from modules import auth
+from systems import system, init
 
 ## Import root from system.py 
 root = system.root
