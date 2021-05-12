@@ -67,11 +67,9 @@ AT_OptionMenu.pack()
 SB_Button = Button(functionframe, text="Search",fg="white", bg="black",justify=CENTER,width=10)
 SB_Button.pack(pady=(20, 0))
 
-CB_Button = Button(functionframe, text='Cancel',fg="white", bg="black",justify=CENTER,width=10)
-CB_Button.pack(pady=(10, 0))
 
 BS_Button = Button(functionframe, width=20, text="Return to Bus Selection")
-BS_Button.pack(pady=(50, 0))
+BS_Button.pack(pady=(80, 0))
 AS_Button = Button(functionframe, width=20, text="Account Settings")
 AS_Button.pack(pady=(80, 0))
 
