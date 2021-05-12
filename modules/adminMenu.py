@@ -5,6 +5,7 @@
 from tkinter import *
 from tkcalendar import *
 from tkinter import messagebox
+import json
 
 import system
 from modules import auth
@@ -44,23 +45,34 @@ def create_bus():
     HEIGHT = '510'
     WIDTH = '680'
     add_Top.geometry(WIDTH + 'x' + HEIGHT)
-
-    def time_picker():
-        time = Frame(add_Top, width=100, height=100)
-        hours = Spinbox(time, from_=0, to=23, wrap=True, state="readonly",width=2,format="%02.0f")
-        minutes = Spinbox(time, from_=0, to=59, wrap=True, state="readonly",width=2, format="%02.0f", increment=10)
-        time.pack()
-        hours.pack(side=LEFT)
-        minutes.pack(side=LEFT)
     
-    def createBusConfirm():
+    def createBusConfirm(date, departure_town, hour, minute, arrival_town, total_seats, fare):
         if station1.get() == station2.get():
             messagebox.showwarning("Error", "Departure Town can not be same as Arrival Town", parent=add_Top)
-        if station1.get() != station2.get() and fare.get() == "" :
+        elif station1.get() != station2.get() and fare.get() == "" :
             messagebox.showwarning("Error", "Please enter the fare!", parent=add_Top)
-        if fare.get() != "":
+        elif fare.get() != "" and station1.get() != station2.get():
             if fare.get().isdigit():
-                messagebox.showinfo("Successful!", "Bus created!", parent=add_Top)
+                    departure_date = date.get()
+                    start_town = departure_town.get()
+                    departure_hour = hour.get()
+                    departure_minute = minute.get()
+                    end_town = arrival_town.get()
+                    seats = total_seats.get()
+                    fee = fare.get()
+                    data = (view_json(dataDir+'busesInfo.json'))                   
+                    data = {
+                        'departure_date': departure_date ,
+                        'departure_town': start_town,
+                        'departure_hour': departure_hour,
+                        'departure_minute': departure_minute,
+                        'arrival town': end_town,
+                        'total_seats': seats,
+                        'fare per seat': fee
+                        }
+                    add_json(data, dataDir+'busesInfo.json')  
+                    messagebox.showinfo("Successful!", "Bus created!", parent=add_Top)
+                    add_Top.destroy()
             
             else:
                 messagebox.showwarning("Error", "Please enter number value only", parent=add_Top)
@@ -87,7 +99,12 @@ def create_bus():
     departure_town.pack()
 
     Label(add_Top, text="Select Departure Time", font="Helvetica 10").pack(pady=(20, 0))
-    time_picker()
+    time = Frame(add_Top, width=100, height=100)
+    hours = Spinbox(time, from_=0, to=23, wrap=True, state="readonly",width=2,format="%02.0f")
+    minutes = Spinbox(time, from_=0, to=59, wrap=True, state="readonly",width=2, format="%02.0f", increment=10)
+    time.pack()
+    hours.pack(side=LEFT)
+    minutes.pack(side=LEFT)
 
     Label(add_Top, text="Select Arrival Town", font="Helvetica 10").pack(pady=(20, 0))
     arrival_town = OptionMenu(add_Top, station2, *stations)
@@ -101,11 +118,12 @@ def create_bus():
     fare = Entry(add_Top, font="Helvetica 10")
     fare.pack()
 
-    add_btn = Button(add_Top, text="Create", font="Helvetica 10", bg="#000000", fg="#ffffff", padx=30, command=createBusConfirm)
+    add_btn = Button(add_Top, text="Create", font="Helvetica 10", bg="#000000", fg="#ffffff", padx=30, command=lambda:createBusConfirm(date, station1, hours, minutes, station2, seats, fare))
     add_btn.pack(pady=(20,0))
 
     cancel_btn = Button(add_Top, text="Cancel", font="Helvetica 10", bg="#000000", fg="#ffffff", padx=30, command=admin_interface)
     cancel_btn.pack(pady=10)
+
 
 
 def edit_bus():
