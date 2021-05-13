@@ -10,7 +10,9 @@ from tkcalendar import *
 ## Import root from system.py 
 root = Tk()
 root.title('Ticket History')
-root.geometry('720x510')
+WIDTH = '740'
+HEIGHT = '550'
+root.geometry(WIDTH + 'x' + HEIGHT)
 
 
 ### Frame Layout
@@ -18,25 +20,27 @@ treeframe = Frame(root)
 functionframe = Frame(root)
 
 ### Treeview List 
-properties = ['Bus ID','Departure Town','Arrival Town','Departure Time','Selected Seat','Total Fare']
+properties = ['Bus ID','Departure Date','Departure Time','Departure Town','Arrival Town','Selected Seat','Total Fare']
 my_tree = ttk.Treeview(treeframe, show='headings')
 my_tree['columns']= properties
 
 
 ## Define Columns
-my_tree.column('Bus ID',width=80)
-my_tree.column('Departure Town',width=80)
-my_tree.column('Arrival Town',width=80)
-my_tree.column('Departure Time',width=80)
+my_tree.column('Bus ID',width=60)
+my_tree.column('Departure Date',width=70)
+my_tree.column('Departure Time',width=60)
+my_tree.column('Departure Town',width=90)
+my_tree.column('Arrival Town',width=90)
 my_tree.column('Selected Seat',width=80)
-my_tree.column('Total Fare',width=80)
+my_tree.column('Total Fare',width=70)
 
 
 ## Define Headings  
 my_tree.heading('Bus ID', text= 'Bus ID')
+my_tree.heading('Departure Date', text='Departure\nDate')
+my_tree.heading('Departure Time', text='Departure\nTime')
 my_tree.heading('Departure Town', text='Departure\nTown')
 my_tree.heading('Arrival Town', text='Arrival\nTown')
-my_tree.heading('Departure Time', text='Departure\nTime')
 my_tree.heading('Selected Seat', text='Selected\nSeat')
 my_tree.heading('Total Fare', text='Total\nFare')
 
