@@ -47,12 +47,29 @@ def create_bus():
     add_Top.geometry(WIDTH + 'x' + HEIGHT)
     
     def createBusConfirm(date, departure_town, hour, minute, arrival_town, total_seats, fare):
+        
+        ## Generate Bus ID
+        data = view_json(dataDir+'busesInfo.json')
+        if not data:
+            char = 'A'
+            digit = 1
+            newbusID = char + f"{digit:05n}"
+        else:
+            lastbusID = data[-1].get('bus_id')
+            splitID = lastbusID.split('A')
+
+            char = 'A'
+            digit = int(splitID[1]) + 1
+            newbusID = char + f"{digit:05n}"
+
+        ## Append Data to Database
         if station1.get() == station2.get():
             messagebox.showwarning("Error", "Departure Town can not be same as Arrival Town", parent=add_Top)
         elif station1.get() != station2.get() and fare.get() == "" :
             messagebox.showwarning("Error", "Please enter the fare!", parent=add_Top)
         elif fare.get() != "" and station1.get() != station2.get():
             if fare.get().isdigit():
+                    busID = newbusID
                     departure_date = date.get()
                     start_town = departure_town.get()
                     departure_hour = hour.get()
@@ -62,10 +79,10 @@ def create_bus():
                     fee = fare.get()
                     data = (view_json(dataDir+'busesInfo.json'))                   
                     data = {
+                        'bus_id': busID,
                         'departure_date': departure_date ,
                         'departure_town': start_town,
-                        'departure_hour': departure_hour,
-                        'departure_minute': departure_minute,
+                        'departure_time': str(departure_hour) + ':' + str(departure_minute),
                         'arrival town': end_town,
                         'total_seats': seats,
                         'fare per seat': fee
