@@ -3,7 +3,6 @@
 ############################
 
 ### IMPORT MODULES
-import tkinter
 from tkinter import *
 from tkinter import messagebox
 import json
@@ -16,7 +15,7 @@ root = system.root
 
 #######################################################   Miscellaneous  #################################################################
 
-## Clear Frame function
+### Clear Frame function
 def clear_frame(root):
     for widget in root.winfo_children():
         widget.destroy()
@@ -42,8 +41,8 @@ def view_json(filename):
 def userAuth():
     clear_frame(root)
 
-    Label(root, text="\nBus Ticketing System",font="Helvetica 25 bold").pack()
-    Label(root, text="\nUser Authentication",font="Helvetica 20").pack()
+    Label(root, text="Bus Ticketing System",font="Helvetica 25 bold").pack(pady=(40,0))
+    Label(root, text="User Authentication",font="Helvetica 20").pack(pady=(30,0))
 
     userLabel = Label(root, text="\n\nUsername", font="Helvetica 10").pack()
     userEntry = Entry(root, width = 30)
@@ -60,9 +59,11 @@ def userAuth():
     regButton = Button(root, width=20, text="Register user account", command=lambda: userRegisterPlatform()).pack()
 
     blankLabel = Label(root, text="\n").pack()
-    adminButton = Button(root, width=20, text="Admin Site", command=lambda: adminAuth()).pack(anchor = "sw", padx=25,)
+    adminButton = Button(root, width=20, text="Admin Site", command=lambda: adminAuth()).pack(anchor = "sw", padx=25)
 
-    copyrightLabel = Label(root, text="© 2021 Bus Ticketing System. All Rights Reserved.").pack()
+
+    copyrightLabel = Label(root, text="© 2021 Bus Ticketing System. All Rights Reserved.").pack(pady=20)
+
 
 ## User Login Verification
 def userVerification(userEntry,userpasswordEntry):
@@ -93,8 +94,8 @@ def userRegisterPlatform():
     regTop = Toplevel(root)
     regTop.title("Register account")
 
-    HEIGHT = '320'
     WIDTH = '400'
+    HEIGHT = '320'
     regTop.geometry(WIDTH + 'x' + HEIGHT)
     
     ## Registration Inputs
@@ -178,7 +179,7 @@ def adminAuth():
     blankLabel = Label(root, text="\n").pack()
     userButton = Button(root, width=20, text="User Site", command=lambda: userAuth() ).pack(anchor = "sw", padx=25,)
 
-    copyrightLabel = Label(root, text="© 2021 Bus Ticketing System. All Rights Reserved.").pack()
+    copyrightLabel = Label(root, text="© 2021 Bus Ticketing System. All Rights Reserved.").pack(pady=20)
 
 ## Admin Login Verification    
 def adminVerification(adminEntry,adminpasswordEntry):
