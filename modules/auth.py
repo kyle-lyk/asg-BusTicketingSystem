@@ -42,7 +42,7 @@ def userAuth():
     clear_frame(root)
 
     Label(root, text="Bus Ticketing System",font="Helvetica 25 bold").pack(pady=(40,0))
-    Label(root, text="User Authentication",font="Helvetica 20").pack(pady=(30,0))
+    Label(root, text="\nUser Authentication",font="Helvetica 20",width = 500).pack()
 
     userLabel = Label(root, text="\n\nUsername", font="Helvetica 10").pack()
     userEntry = Entry(root, width = 30)
@@ -160,7 +160,7 @@ def userRegisterConfirm(reguserEntry,regpasswordEntry,confregpasswordEntry,msg):
 def adminAuth():
     clear_frame(root)
 
-    Label(root, text="\nBus Ticketing System",font="Helvetica 25 bold").pack()
+    Label(root, text="Bus Ticketing System",font="Helvetica 25 bold").pack(pady=(40,0))
     Label(root, text="\nAdmin Authentication",font="Helvetica 20",bg = "grey",width = 500).pack()
 
     adminLabel = Label(root, text="\n\nAdmin Username", font="Helvetica 10").pack()
