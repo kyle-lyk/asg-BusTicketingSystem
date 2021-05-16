@@ -10,7 +10,7 @@ root = Tk()
 root.title("Bus Ticketing System")
 
 ## Geometry
-WIDTH = '720'
-HEIGHT = '510'
+WIDTH = '740'
+HEIGHT = '550'
 root.geometry(WIDTH + 'x' + HEIGHT)
 

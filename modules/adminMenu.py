@@ -5,6 +5,7 @@
 from tkinter import *
 from tkcalendar import *
 from tkinter import messagebox
+from tkinter import ttk
 import json
 
 from systems import system
@@ -45,7 +46,17 @@ def create_bus():
     HEIGHT = '510'
     WIDTH = '680'
     add_Top.geometry(WIDTH + 'x' + HEIGHT)
+
+    ## Function for minutes decrement
+    def up_or_down(direction):
+        if direction == 'down':
+            after_pressed_minutes = int(minutes.get())
+            if after_pressed_minutes == 59:
+                min_update.set(after_pressed_minutes - 9)
+            
+    is_up_or_down = root.register(up_or_down)
     
+    ## Confirm Bus Creation
     def createBusConfirm(date, departure_town, hour, minute, arrival_town, total_seats, fare):
         
         ## Generate Bus ID
@@ -80,9 +91,9 @@ def create_bus():
                     data = (view_json(dataDir+'busesInfo.json'))                   
                     data = {
                         'bus_id': busID,
-                        'departure_date': departure_date ,
-                        'departure_town': start_town,
+                        'departure_date': departure_date,
                         'departure_time': str(departure_hour) + ':' + str(departure_minute),
+                        'departure_town': start_town,
                         'arrival town': end_town,
                         'total_seats': seats,
                         'fare per seat': fee
@@ -90,11 +101,12 @@ def create_bus():
                     add_json(data, dataDir+'busesInfo.json')  
                     messagebox.showinfo("Successful!", "Bus created!", parent=add_Top)
                     add_Top.destroy()
+                    admin_interface()
             
             else:
                 messagebox.showwarning("Error", "Please enter number value only", parent=add_Top)
     
-    stations = ["Tamarind Square, Cyberjaya", "Sunway, Kuala Lumpur", "Alor Gajah, Malacca", "Skudai, Johor", "Butterworth, Penang"]
+    stations = ["Ketereh,KLT", "Cyberjaya,SLG", "Ipoh,PRK", "Skudai,JHR", "Jawi,PNG"]
 
     station1 = StringVar()
     station1.set(stations[0])
@@ -117,8 +129,9 @@ def create_bus():
 
     Label(add_Top, text="Select Departure Time", font="Helvetica 10").pack(pady=(20, 0))
     time = Frame(add_Top, width=100, height=100)
+    min_update = StringVar()
     hours = Spinbox(time, from_=0, to=23, wrap=True, state="readonly",width=2,format="%02.0f")
-    minutes = Spinbox(time, from_=0, to=59, wrap=True, state="readonly",width=2, format="%02.0f", increment=10)
+    minutes = Spinbox(time, from_=0, to=59, wrap=True, state="readonly",width=2, format="%02.0f", increment=10, textvariable=min_update, command=(is_up_or_down,'%d'))
     time.pack()
     hours.pack(side=LEFT)
     minutes.pack(side=LEFT)
@@ -161,12 +174,54 @@ def log_out():
 
 def admin_interface():
     clear_frame(root)
-    Label(root).pack(pady=55)
-    bus_list = Frame(root)
-    bus_list.place(x=30, y=110)
-    Label(bus_list, text="List of Buses", font="Helvetica 15 bold").pack()
 
-    create_btn = Button(root, text="Create New Bus", command=create_bus, padx=50).pack(anchor=E, pady=10)
-    edit_btn = Button(root, text="Edit Bus", command=edit_bus, padx=70).pack(anchor=E)
-    delete_btn = Button(root, text="Delete Bus", command=delete_bus, padx=63).pack(anchor=E, pady=10)
-    logout_btn = Button(root, text="Log Out", command=lambda:log_out(), padx=70).pack(anchor=E, pady=80)
+    bus_frame = Frame(root)
+
+    bus_list = ttk.Treeview(bus_frame, show='headings', selectmode="browse")
+
+    bus_list['columns'] = ("Bus ID", "Departure Date", "Departure Time", "Departure Town", "Arrival Town",  "Seats Available", "Total Fare")
+    bus_list.column("Bus ID", anchor=CENTER, width = 60)
+    bus_list.column("Departure Date", anchor=CENTER, width = 100)
+    bus_list.column("Departure Time", anchor=CENTER, width = 100)
+    bus_list.column("Departure Town", anchor=CENTER, width = 100)
+    bus_list.column("Arrival Town", anchor=CENTER, width = 90)
+    bus_list.column("Seats Available", anchor=CENTER, width = 90)
+    bus_list.column("Total Fare", anchor=CENTER, width = 70)
+
+    bus_list.heading('Bus ID', text= 'Bus ID')
+    bus_list.heading('Departure Date', text='Departure Date')
+    bus_list.heading('Departure Time', text='Departure Time')
+    bus_list.heading('Departure Town', text='Departure Town')
+    bus_list.heading('Arrival Town', text='Arrival Town')
+    bus_list.heading('Seats Available', text='Seats Available')
+    bus_list.heading('Total Fare', text='Fare')
+
+    data = view_json(dataDir + 'busesInfo.json')
+
+    ##Append data to Treeview from Database
+    global i 
+    i = 0
+    for record in data:
+        bus_list.insert(parent='', index='end', iid=i, text="", values=(
+            data[i]['bus_id'], 
+            data[i]['departure_date'], 
+            data[i]['departure_time'], 
+            data[i]['departure_town'], 
+            data[i]['arrival town'], 
+            data[i]['total_seats'],
+            data[i]['fare per seat']
+            )
+            )
+        i += 1
+    button_list = Frame(root)
+    
+    create_btn = Button(button_list, text="Create Bus", command=create_bus, width=20).pack(pady=(30, 20))
+    edit_btn = Button(button_list, text="Edit Bus", command=edit_bus, width=20).pack(pady=(0,10))
+    delete_btn = Button(button_list, text="Delete Bus", command=delete_bus, width=20).pack(pady=10)
+    logout_btn = Button(button_list, text="Log Out", command=log_out, width=20).pack(pady=80)
+    
+    Label(root, text="List of Buses", font="Helvetica 15 bold").pack(anchor = W, padx=20)
+
+    bus_list.pack(expand=True, fill=BOTH)
+    bus_frame.pack(anchor=N, side=LEFT, pady=(5, 10), padx=10, expand=True, fill=BOTH)
+    button_list.pack(anchor=N, side=RIGHT, pady=20, padx=10)
