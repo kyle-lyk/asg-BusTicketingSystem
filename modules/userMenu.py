@@ -7,7 +7,7 @@ from tkinter import *
 from tkinter import ttk
 from tkcalendar import *
 from tkinter import messagebox
-
+import json
 
 from systems import system
 from modules import auth, ticketHistory
@@ -35,6 +35,11 @@ def view_json(filename):
     with open (filename,'r') as f:
         data = json.load(f)
     return data
+
+def update_json(updated_data,filename):
+    with open (filename,'w') as f:
+        json.dump(updated_data,f,indent=4)
+
 
 #######################################################   User Section   #################################################################
 
@@ -134,30 +139,127 @@ def show_selected():
         print(my_tree.item(child)["values"])
 
 
+#######################################################   Account Settings   #################################################################
 def acc_settings():
     setting_Top = Toplevel(root)
     setting_Top.title("Account Settings")
-    clear_frame(setting_Top)
-
     WIDTH = '400'
     HEIGHT = '320'
     setting_Top.geometry(WIDTH + 'x' + HEIGHT)
 
-    chgpw_Button = Button(setting_Top, width=20, text="Change Password").pack(pady=(30,0))
-    logout_Button = Button(setting_Top, width=20, text="Log out",command=lambda:Logout()).pack(pady=(30,0))
-    delacc_Button = Button(setting_Top, width=15, text="Delete Account", font="Helvetica 9 bold", bg="#FF0000")
-    delacc_Button.pack(anchor='w',side=BOTTOM,padx=10,pady=10)
+    def acc_settings_menu():
+        clear_frame(setting_Top)
+        AccSettings_Label = Label(setting_Top, text="Account Settings", font="Helvetica 12 bold").pack(pady=(10,0))
+        chgpw_Button = Button(setting_Top, width=20, text="Change Password", command=lambda:ChgPw()).pack(pady=(30,0))
+        logout_Button = Button(setting_Top, width=20, text="Log out",command=lambda:Logout()).pack(pady=(30,0))
+        delacc_Button = Button(setting_Top, width=15, text="Delete Account", font="Helvetica 9 bold", bg="#FF0000",command=lambda:DelAcc())
+        delacc_Button.pack(anchor='w',side=BOTTOM,padx=10,pady=10)
+
+    acc_settings_menu()
+
 
     def ChgPw():
+
+        def ChgPw_Verification():
+            username = auth.user_id
+            currentpw = currentpw_Entry.get()
+            newpw = newpw_Entry.get()
+            confirm_newpw = confirm_newpw_Entry.get()
+
+            if currentpw == "" :
+                msg.set("Please enter your current password!")
+
+            elif newpw == "" :
+                msg.set("Please enter a new password!")
+            elif ' ' in newpw:
+                msg.set("Do not put whitespace in password!")
+            
+            elif confirm_newpw != newpw :
+                msg.set("Passwords doesn't match!")
+                
+            else:
+                data = view_json(dataDir+'userAcc.json')
+
+                for i in data:
+                    if auth.user_id == (i.get('username')):
+                        if currentpw == (i.get('password')):
+                            i['password'] = newpw
+                            update_json(data,dataDir+'userAcc.json')
+                            
+                            msg.set("Password changed successfully!")
+                        else:
+                            msg.set("Wrong Current Password, Please check again.")
+
+            
         clear_frame(setting_Top)
-        reguserEntry = Entry(regTop, width = 30)
-        reguserEntry = Entry(regTop, width = 30)
+        ChangePassword_Label = Label(setting_Top, text="Change Password", font="Helvetica 12 bold").pack(pady=(10,0))
+        
+        currentpw_Label = Label(setting_Top, text="Current password").pack(pady=(15,0))
+        currentpw_Entry = Entry(setting_Top, width = 30)
+        currentpw_Entry.pack()
+
+        newpw_Label = Label(setting_Top, text="New password" ).pack(pady=(10,0))
+        newpw_Entry = Entry(setting_Top, width = 30)
+        newpw_Entry.pack()
+
+        confirm_newpw_Label = Label(setting_Top, text="Confirm New password " ).pack(pady=(10,0))
+        confirm_newpw_Entry = Entry(setting_Top, width = 30)
+        confirm_newpw_Entry.pack()
+
+        msg = StringVar()
+        msgLabel = Label(setting_Top, textvariable = msg ).pack(pady=(5,0))
+
+        confirm_Button = Button(setting_Top, width=20, text="Confirm", command=lambda:ChgPw_Verification()).pack(pady=(20,0))
+        cancel_Button = Button(setting_Top, width=20, text="Cancel", command=lambda:acc_settings_menu()).pack(pady=(20,0))
+
 
     def Logout():
         confirmLogout = messagebox.askquestion ('Logout Confirmation','Are you sure you want to log out from your account?',icon = 'warning')
         if confirmLogout == 'yes':
             auth.userAuth()
-    def DelAcc():
-        pass
 
+
+    def DelAcc():
+        clear_frame(setting_Top)
+        Del_acc_Label = Label(setting_Top, text="Delete Account", font="Helvetica 12 bold", fg='#FF0000').pack(pady=(10,0))
+        warning_Label = Label(setting_Top, text="Warning:\nYour account will be permanantly erased from system once deleted", font="Helvetica 8 bold", fg='#FF0000').pack(pady=(10,0))
+
+        currentpw_Label = Label(setting_Top, text="Current password").pack(pady=(15,0))
+        currentpw_Entry = Entry(setting_Top, width = 30)
+        currentpw_Entry.pack()
+
+        confirm_pw_Label = Label(setting_Top, text="Confirm password " ).pack(pady=(10,0))
+        confirm_pw_Entry = Entry(setting_Top, width = 30)
+        confirm_pw_Entry.pack()
+
+        msg = StringVar()
+        msgLabel = Label(setting_Top, textvariable = msg ).pack(pady=(5,0))
+
+        confirm_Button = Button(setting_Top, width=20, text="Confirm", command=lambda:Del_acc_Verification()).pack(pady=(20,0))
+        cancel_Button = Button(setting_Top, width=20, text="Cancel", command=lambda:acc_settings_menu()).pack(pady=(20,0))
+
+        def Del_acc_Verification():
+            username = auth.user_id
+            currentpw = currentpw_Entry.get()
+            confirm_pw = confirm_pw_Entry.get()
+
+            if currentpw == "" :
+                msg.set("Please enter your current password!")
+            
+            elif confirm_pw != currentpw :
+                msg.set("Passwords doesn't match!")
+                
+            else:
+                data = view_json(dataDir+'userAcc.json')
+
+                for i in range(len(data)):
+                    if auth.user_id == (data[i].get('username')) and currentpw == (data[i].get('password')):
+                        confirm_del_acc = messagebox.askquestion ('Final Confirmation','Are you sure you want delete your account? \nYour account will be permanantly erased',icon = 'warning')
+                        if confirm_del_acc == 'yes':
+                            data.pop(i)
+                            update_json(data,dataDir+'userAcc.json')
+                            messagebox.showinfo("See you!", "Account has been deleted, Thank you for using us in the past time!")
+                            auth.userAuth()
+                    else:
+                        msg.set("Wrong Current Password, Please check again.")
 
