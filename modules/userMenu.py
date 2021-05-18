@@ -22,7 +22,7 @@ def show_selected():
         print(my_tree.item(child)["values"])
 
 ### Treeview List 
-properties = ['Bus ID','Departure Date','Departure Time','Departure Town','Arrival Town','Total Seat','Fare/Seat']
+properties = ['Bus ID','Departure Date','Departure Time','Departure Town','Arrival Town','Seat Available','Fare/Seat']
 my_tree = ttk.Treeview(treeframe, show='headings')
 my_tree['columns']= properties
 
@@ -33,7 +33,7 @@ my_tree.column('Departure Date',width=92)
 my_tree.column('Departure Time',width=92)
 my_tree.column('Departure Town',width=92)
 my_tree.column('Arrival Town',width=90)
-my_tree.column('Total Seat',width=82)
+my_tree.column('Seat Available',width=82)
 my_tree.column('Fare/Seat',width=60)
 
 
@@ -44,7 +44,7 @@ my_tree.heading('Departure Date', text='Departure Date')
 my_tree.heading('Departure Time', text='Departure Time')
 my_tree.heading('Departure Town', text='Departure Town')
 my_tree.heading('Arrival Town', text='Arrival Town')
-my_tree.heading('Total Seat', text='Seat Available')
+my_tree.heading('Seat Available', text='Seat Available')
 my_tree.heading('Fare/Seat', text='Fare/Seat')
 
 
