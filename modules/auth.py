@@ -8,7 +8,7 @@ from tkinter import messagebox
 import json
 
 from systems import system
-from modules import adminMenu
+from modules import adminMenu, userMenu
 
 ## Import root from system.py 
 root = system.root
@@ -34,6 +34,9 @@ def view_json(filename):
     with open (filename,'r') as f:
         data = json.load(f)
     return data
+
+## Store logged in username
+user_id = None
 
 #######################################################   User Section   #################################################################
 
@@ -84,7 +87,10 @@ def userVerification(userEntry,userpasswordEntry):
                 break
 
         if userExist:
+            global user_id 
+            user_id = username
             messagebox.showinfo(f"Welcome back!", "Login Successful!")
+            userMenu.user_interface()
         else:
             messagebox.showinfo("Failed Authentication", "Username or Password is incorrect! \nPlease check if you have registered the account or not.")
 

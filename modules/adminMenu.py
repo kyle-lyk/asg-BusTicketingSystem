@@ -213,15 +213,15 @@ def admin_interface():
             )
             )
         i += 1
-    button_list = Frame(root)
+    functionframe = Frame(root)
     
-    create_btn = Button(button_list, text="Create Bus", command=create_bus, width=20).pack(pady=(30, 20))
-    edit_btn = Button(button_list, text="Edit Bus", command=edit_bus, width=20).pack(pady=(0,10))
-    delete_btn = Button(button_list, text="Delete Bus", command=delete_bus, width=20).pack(pady=10)
-    logout_btn = Button(button_list, text="Log Out", command=log_out, width=20).pack(pady=80)
+    create_btn = Button(functionframe, text="Create Bus", command=create_bus, width=20).pack(pady=(30, 20))
+    edit_btn = Button(functionframe, text="Edit Bus", command=edit_bus, width=20).pack(pady=(0,10))
+    delete_btn = Button(functionframe, text="Delete Bus", command=delete_bus, width=20).pack(pady=10)
+    logout_btn = Button(functionframe, text="Log Out", command=log_out, width=20).pack(pady=80)
     
     Label(root, text="List of Buses", font="Helvetica 15 bold").pack(anchor = W, padx=20)
 
     bus_list.pack(expand=True, fill=BOTH)
     bus_frame.pack(anchor=N, side=LEFT, pady=(5, 10), padx=10, expand=True, fill=BOTH)
-    button_list.pack(anchor=N, side=RIGHT, pady=20, padx=10)
+    functionframe.pack(anchor=N, side=RIGHT, pady=20, padx=10)
