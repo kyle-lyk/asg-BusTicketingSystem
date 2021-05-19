@@ -26,6 +26,8 @@ def storageInit():
             print(f"'{data}' not found! Data file has been generated.")
             file = open(path + data, "w")
 
+            ### Init default data for all databases for easier debugging
+
             if data == 'userAcc.json':
                 data = [
                             {
