@@ -345,29 +345,38 @@ def edit_bus():
                 cancel_btn.pack(pady=10)
 
 def delete_bus():
+    ## Check if admin selected a bus to edit. if not reject enter edit interface
+    isDelete = False
+
+    ## Get Item Selected from Treeview
+    bus_del = bus_list.selection()
+    
+    if bus_del != ():
+        isDelete = True
+    else:
+        messagebox.showwarning("Error", "Please select a bus you want to delete")
     ##Get Item Selected in Treeview
     bus = bus_list.focus()
     buses = bus_list.item(bus, 'values')
-    bus_del = bus_list.selection()
 
-    confirmDelete = messagebox.askquestion ('Delete Confirmation','Are you sure you want to delete the bus?',icon = 'warning')
-    if confirmDelete == 'yes':
-        ##Delete selection on Treeview
-        data = view_json(dataDir + 'busesInfo.json')
-        for info in bus_del:
-            bus_list.delete(info)
+    if isDelete:
+        confirmDelete = messagebox.askquestion ('Delete Confirmation','Are you sure you want to delete the bus?',icon = 'warning')
+        if confirmDelete == 'yes':
+            ##Delete selection on Treeview
+            data = view_json(dataDir + 'busesInfo.json')
+            for info in bus_del:
+                bus_list.delete(info)
 
-        ##Delete object in database
-        i = 0
-        while i < len(data):
-            if (data[i].get('bus_id')) == buses[0]:
-                data.pop(i)
-                update_json(data, dataDir+'busesInfo.json')
-                continue
-            i += 1
-            
-        admin_interface()
-
+            ##Delete object in database
+            i = 0
+            while i < len(data):
+                if (data[i].get('bus_id')) == buses[0]:
+                    data.pop(i)
+                    update_json(data, dataDir+'busesInfo.json')
+                    continue
+                i += 1
+                
+            admin_interface()
 
 def log_out():
     confirmLogout = messagebox.askquestion ('Logout Confirmation','Are you sure you want to log out from your account?',icon = 'warning')
