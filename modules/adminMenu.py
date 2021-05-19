@@ -218,10 +218,16 @@ def create_bus():
     cancel_btn.pack(pady=10)
 
 def edit_bus():
+    ## Check if admin selected a bus to edit. if not reject enter edit interface
+    isEdit = False
+
     ## Get Item Selected from Treeview
     busid = bus_list.focus()
-    buses = bus_list.item(busid, 'values')
-    clear_frame(root)
+    if busid != '':
+        buses = bus_list.item(busid, 'values')
+        isEdit = True
+    else:
+        messagebox.showwarning("Error", "Please select a bus you want to edit")
     
     ## Function for minutes decrement
     def up_or_down(direction):
@@ -232,7 +238,7 @@ def edit_bus():
             
     is_up_or_down = root.register(up_or_down)
     
-    ## Confimr to Edit Bus
+    ## Confirm to Edit Bus
     def editBusConfirm(date, departure_town, hour, minute, arrival_town, total_seats, fare):
         if station1.get() == station2.get():
             messagebox.showwarning("Error", "Departure Town can not be same as Arrival Town")
@@ -274,67 +280,69 @@ def edit_bus():
     data = view_json(dataDir+'busesInfo.json')
 
     ##Get Bus Details
-    for i in data:
-        if i.get('bus_id') == buses[0]:
+    if isEdit:
+        clear_frame(root)
+        for i in data:
+            if i.get('bus_id') == buses[0]:
 
-            Label(root, text="Edit Bus", font="Helvetica 15 bold").pack(pady=(10,0))
+                Label(root, text="Edit Bus", font="Helvetica 15 bold").pack(pady=(10,0))
 
-            stations = ["Ketereh,KLT", "Cyberjaya,SLG", "Ipoh,PRK", "Skudai,JHR", "Jawi,PNG"]
+                stations = ["Ketereh,KLT", "Cyberjaya,SLG", "Ipoh,PRK", "Skudai,JHR", "Jawi,PNG"]
 
-            station1 = StringVar()
-            station1.set(i.get('departure_town'))
+                station1 = StringVar()
+                station1.set(i.get('departure_town'))
 
-            station2= StringVar()
-            station2.set(i.get('arrival town'))
+                station2= StringVar()
+                station2.set(i.get('arrival town'))
 
-            seats = IntVar()
-            seats.set(i.get('total_seats'))
+                seats = IntVar()
+                seats.set(i.get('total_seats'))
 
-            time_before = i.get('departure_time')
-            time_split = time_before.split(":")
+                time_before = i.get('departure_time')
+                time_split = time_before.split(":")
 
-            Label(root, text="Select Departure Date", font="Helvetica 10").pack(pady=(10, 0))
-            date = DateEntry(root, date_pattern = 'dd/mm/yy')
-            date.set_date(i.get('departure_date'))
-            date.pack()
+                Label(root, text="Select Departure Date", font="Helvetica 10").pack(pady=(10, 0))
+                date = DateEntry(root, date_pattern = 'dd/mm/yy')
+                date.set_date(i.get('departure_date'))
+                date.pack()
 
-            Label(root, text="Select Departure Town", font="Helvetica 10").pack(pady=(20, 0))
-            departure_town = OptionMenu(root, station1, *stations)
-            departure_town.pack()
+                Label(root, text="Select Departure Town", font="Helvetica 10").pack(pady=(20, 0))
+                departure_town = OptionMenu(root, station1, *stations)
+                departure_town.pack()
 
-            Label(root, text="Select Departure Time", font="Helvetica 10").pack(pady=(20, 0))
-            time = Frame(root, width=100, height=100)
+                Label(root, text="Select Departure Time", font="Helvetica 10").pack(pady=(20, 0))
+                time = Frame(root, width=100, height=100)
 
-            min_update = StringVar()
-            hour = StringVar(time)
-            
-            hour.set(time_split[0])
-            min_update.set(time_split[1])
+                min_update = StringVar()
+                hour = StringVar(time)
+                
+                hour.set(time_split[0])
+                min_update.set(time_split[1])
 
-            hours = Spinbox(time, from_=0, to=23, wrap=True, textvariable=hour, state="readonly", width=2, format="%02.0f")
-            minutes = Spinbox(time, from_=0, to=59, wrap=True, state="readonly", width=2, format="%02.0f", increment=10, textvariable=min_update, command=(is_up_or_down,'%d'))
-            time.pack()
-            hours.pack(side=LEFT)
-            minutes.pack(side=LEFT)
+                hours = Spinbox(time, from_=0, to=23, wrap=True, textvariable=hour, state="readonly", width=2, format="%02.0f")
+                minutes = Spinbox(time, from_=0, to=59, wrap=True, state="readonly", width=2, format="%02.0f", increment=10, textvariable=min_update, command=(is_up_or_down,'%d'))
+                time.pack()
+                hours.pack(side=LEFT)
+                minutes.pack(side=LEFT)
 
-            Label(root, text="Select Arrival Town", font="Helvetica 10").pack(pady=(20, 0))
-            arrival_town = OptionMenu(root, station2, *stations)
-            arrival_town.pack()
+                Label(root, text="Select Arrival Town", font="Helvetica 10").pack(pady=(20, 0))
+                arrival_town = OptionMenu(root, station2, *stations)
+                arrival_town.pack()
 
-            Label(root, text="Total Seats Available", font="Helvetica 10").pack(pady=(20,0))
-            total_seats = OptionMenu(root, seats, 20, 30, 40)
-            total_seats.pack()
+                Label(root, text="Total Seats Available", font="Helvetica 10").pack(pady=(20,0))
+                total_seats = OptionMenu(root, seats, 20, 30, 40)
+                total_seats.pack()
 
-            Label(root, text="Fare per Seat (RM)", font="Helvetica 10").pack(pady=(20,0))
-            fare = Entry(root, font="Helvetica 10")
-            fare.insert(0, str(i.get('fare per seat')))
-            fare.pack()
+                Label(root, text="Fare per Seat (RM)", font="Helvetica 10").pack(pady=(20,0))
+                fare = Entry(root, font="Helvetica 10")
+                fare.insert(0, str(i.get('fare per seat')))
+                fare.pack()
 
-    ConfirmEdit = Button(root, text="Edit", font="Helvetica 10", bg="#000000", fg="#ffffff", width=15, command=lambda:editBusConfirm(date, station1, hours, minutes, station2, seats, fare))
-    ConfirmEdit.pack(pady=(20,0))
+                ConfirmEdit = Button(root, text="Edit", font="Helvetica 10", bg="#000000", fg="#ffffff", width=15, command=lambda:editBusConfirm(date, station1, hours, minutes, station2, seats, fare))
+                ConfirmEdit.pack(pady=(20,0))
 
-    cancel_btn = Button(root, text="Cancel", font="Helvetica 10", bg="#000000", fg="#ffffff", width=15, command=admin_interface)
-    cancel_btn.pack(pady=10)
+                cancel_btn = Button(root, text="Cancel", font="Helvetica 10", bg="#000000", fg="#ffffff", width=15, command=admin_interface)
+                cancel_btn.pack(pady=10)
 
 def delete_bus():
     ##Get Item Selected in Treeview
