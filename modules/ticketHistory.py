@@ -75,43 +75,98 @@ def th_interface():
     my_tree.heading('Total Fare', text='Total Fare')
 
 
+    ### Append data to Treeview from Database
+    def show_all_data(my_tree):
+        my_tree.delete(*my_tree.get_children())
+        data = view_json(dataDir + 'ticketHistory.json')
+
+        for obj in data:
+            if obj.get('user_id') == auth.user_id:
+                my_tree.insert(parent='', index='end', text="", values=(
+                    obj['bus_id'], 
+                    obj['departure_date'], 
+                    obj['departure_town'], 
+                    obj['departure_time'],
+                    obj['arrival town'], 
+                    obj['selected_seat'],
+                    obj['total_fare']
+                    )
+                    )
+            
+
+    def show_selected_data(my_tree,Date,DepartureTown,ArrivalTown):
+        my_tree.delete(*my_tree.get_children())
+
+        Date = Date.get()
+        DepartureTown = DepartureTown.get()
+        ArrivalTown = ArrivalTown.get()
+
+        my_tree.delete(*my_tree.get_children())
+
+
+        data = view_json(dataDir + 'ticketHistory.json')
+
+        for obj in data:
+            if (obj.get('user_id') == auth.user_id):
+                if (obj.get('departure_date') == Date) and (obj.get('departure_town') == DepartureTown) and (obj.get('arrival town') == ArrivalTown):
+                    my_tree.insert(parent='', index='end', text="", values=(
+                        obj['bus_id'], 
+                        obj['departure_date'], 
+                        obj['departure_town'], 
+                        obj['departure_time'],
+                        obj['arrival town'], 
+                        obj['selected_seat'],
+                        obj['total_fare']
+                        )
+                        )
+                
+
+    ## Show all data first by default
+    show_all_data(my_tree)
+
     ####### WIDGETS #######
+    ### Texts
+    title_Label = Label(treeframe, text= 'Ticket History', font="Helvetica 15 bold").pack(anchor='n')
+    username_Label = Label(functionframe, text= f'Welcome back,\n{auth.user_id}!', font="Helvetica 10 bold").pack(pady=(20, 0))
+
     ### Dates
-    date = Label(functionframe, text='Departure Date').pack(pady=(20, 0))
-    dateEntry = DateEntry(functionframe, width = 10).pack()
+    dateLabel = Label(functionframe, text='Departure Date').pack(pady=(20, 0))
+    dateEntry = DateEntry(functionframe, date_pattern = 'dd/mm/yy')
+    dateEntry.pack()
 
     ### Location
-    stations = ["Tamarind Square, Cyberjaya", "Sunway, Kuala Lumpur", "Alor Gajah, Malacca", "Skudai, Johor", "Butterworth, Penang"]
+    stations = ["Ketereh,KLT", "Cyberjaya,SLG", "Ipoh,PRK", "Skudai,JHR", "Jawi,PNG"]
 
-    DepatureTown = StringVar()
-    DepatureTown.set("All") 
+    DepartureTown = StringVar()
+    DepartureTown.set(stations[0]) 
 
     ArrivalTown = StringVar()
-    ArrivalTown.set("All") 
+    ArrivalTown.set(stations[1]) 
 
-
-    DT_Label = Label(functionframe, text='Depature Town').pack(pady=(20, 0))
-    DT_OptionMenu = OptionMenu(functionframe, DepatureTown, *stations)
+    DT_Label = Label(functionframe, text='Departure Town').pack(pady=(20, 0))
+    DT_OptionMenu = OptionMenu(functionframe, DepartureTown, *stations)
     DT_OptionMenu.pack()
 
     AT_Label = Label(functionframe, text='Arrival Town').pack(pady=(20, 0))
     AT_OptionMenu = OptionMenu(functionframe, ArrivalTown, *stations)
     AT_OptionMenu.pack()
 
-    SB_Button = Button(functionframe, text="Search",fg="white", bg="black",justify=CENTER,width=10)
+    SB_Button = Button(functionframe, text="Search",fg="white", bg="black",justify=CENTER,width=10, command=lambda:show_selected_data(my_tree,dateEntry,DepartureTown,ArrivalTown))
     SB_Button.pack(pady=(20, 0))
 
+    AB_Button = Button(functionframe, text="Show All",fg="white", bg="black",justify=CENTER,width=10, command=lambda:show_all_data(my_tree))
+    AB_Button.pack(pady=(20, 0))
 
-    BS_Button = Button(functionframe, width=20, text="Bus Selection", command=lambda:userMenu.user_interface())
-    BS_Button.pack(pady=(80, 0))
+    BS_Button = Button(functionframe, text="Bus Selection", justify=CENTER, width=15, command=lambda:userMenu.user_interface())
+    BS_Button.pack(pady=(60, 0))
     AS_Button = Button(functionframe, width=20, text="Account Settings", command=lambda:acc_settings())
-    AS_Button.pack(pady=(80, 0))
+    AS_Button.pack(pady=(50, 0))
 
 
     ### Frame Packing
     my_tree.pack(expand=True, fill=BOTH)
-    treeframe.pack(anchor=N, side=LEFT, pady=20, padx=20, expand=True, fill=BOTH)
-    functionframe.pack(anchor=N, side=RIGHT, pady=20, padx=20)
+    treeframe.pack(anchor=N, side=LEFT, pady=(10,15), padx=15, expand=True, fill=BOTH)
+    functionframe.pack(anchor=N, side=RIGHT, pady=(10,15), padx=15)
 
     ### Disable resizing tree column
     my_tree.bind('<Button-1>', handle_click)
