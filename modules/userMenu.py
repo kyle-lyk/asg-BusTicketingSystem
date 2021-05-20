@@ -7,19 +7,34 @@ from tkinter import *
 from tkinter import ttk
 from tkcalendar import *
 from tkinter import messagebox
-from json import *
+import json
 
 from systems import system
 from modules import auth, ticketHistory
 
 ## Import root from system.py 
-root = Tk()
-root.title('Bus Selection')
-root.geometry('740x550')
+root = system.root
+#######################################################   Miscellaneous  #################################################################
 
-### Frame Layout
-treeframe = Frame(root)
-functionframe = Frame(root)
+## Clear Frame function
+def clear_frame(root):
+    for widget in root.winfo_children():
+        widget.destroy()
+
+### Json functions
+dataDir = './data/'
+
+def add_json(new_data,filename):
+    with open (filename,"r") as f:
+        temp = json.load(f)
+        temp.append(new_data)
+    with open (filename,"w") as f:
+        json.dump(temp, f, indent = 4)
+
+def view_json(filename):
+    with open (filename,'r') as f:
+        data = json.load(f)
+    return data
 
 def update_json(updated_data,filename):
     with open (filename,'w') as f:
@@ -51,24 +66,18 @@ def user_interface():
     my_tree.column('Total Seat',width=82)
     my_tree.column('Fare/Seat',width=60)
 
-### Treeview List 
-properties = ['Bus ID','Departure Date','Departure Time','Departure Town','Arrival Town','Seat Available','Fare/Seat']
-my_tree = ttk.Treeview(treeframe, show='headings')
-my_tree['columns']= properties
 
 
-## Define Columns
-my_tree.column('Bus ID',width=50)
-my_tree.column('Departure Date',width=92)
-my_tree.column('Departure Time',width=92)
-my_tree.column('Departure Town',width=92)
-my_tree.column('Arrival Town',width=90)
-my_tree.column('Seat Available',width=82)
-my_tree.column('Fare/Seat',width=60)
+    ## Define Headings  
+    my_tree.heading('Bus ID', text= 'Bus ID')
+    my_tree.heading('Departure Date', text='Departure Date')
+    my_tree.heading('Departure Time', text='Departure Time')
+    my_tree.heading('Departure Town', text='Departure Town')
+    my_tree.heading('Arrival Town', text='Arrival Town')
+    my_tree.heading('Total Seat', text='Seat Available')
+    my_tree.heading('Fare/Seat', text='Fare/Seat')
 
 
-<<<<<<< Updated upstream
-=======
     ### Append data to Treeview from Database
     def show_all_data(my_tree):
         my_tree.delete(*my_tree.get_children())
@@ -117,98 +126,63 @@ my_tree.column('Fare/Seat',width=60)
     ## Show all data first by default
     show_all_data(my_tree)
 
->>>>>>> Stashed changes
 
-## Define Headings  
-my_tree.heading('Bus ID', text= 'Bus ID')
-my_tree.heading('Departure Date', text='Departure Date')
-my_tree.heading('Departure Time', text='Departure Time')
-my_tree.heading('Departure Town', text='Departure Town')
-my_tree.heading('Arrival Town', text='Arrival Town')
-my_tree.heading('Seat Available', text='Seat Available')
-my_tree.heading('Fare/Seat', text='Fare/Seat')
+    ####### WIDGETS #######
+    ### Texts
 
-<<<<<<< Updated upstream
-=======
     title_Label = Label(treeframe, text= 'Bus Selection', font="Helvetica 15 bold").pack(anchor='n')
     username_Label = Label(functionframe, text= f'Welcome back,\n{auth.user_id}!').pack(pady=(20, 0))
->>>>>>> Stashed changes
 
-## Define Rows
-my_tree.insert(parent="", index="end", iid=0, text="", values=("A0001","27/2/2020","0020","TestTown", "TestTown", 30, "2" ))
 
-<<<<<<< Updated upstream
-####### WIDGETS #######
-### Dates
-date = Label(functionframe, text= 'Departure Date').pack(pady=(20, 0))
-dateEntry = DateEntry(functionframe, width = 10).pack()
-=======
     ### Dates
     dateLabel = Label(functionframe, text='Departure Date').pack(pady=(20, 0))
     dateEntry = DateEntry(functionframe, date_pattern = 'dd/mm/yy')
     dateEntry.pack()
->>>>>>> Stashed changes
 
-### Location
-stations = ["Ketereh,KLT", "Cyberjaya,SLG", "Ipoh,PRK", "Skudai,JHR", "Jawi,PNG"]
+    ### Location
+    stations = ["Ketereh,KLT", "Cyberjaya,SLG", "Ipoh,PRK", "Skudai,JHR", "Jawi,PNG"]
 
-<<<<<<< Updated upstream
-DepatureTown = StringVar()
-DepatureTown.set(stations[0]) 
-=======
     Date = dateEntry
     Date.pack()
 
     DepatureTown = StringVar()
     DepatureTown.set(stations[0]) 
->>>>>>> Stashed changes
 
-ArrivalTown = StringVar()
-ArrivalTown.set(stations[1])
+    ArrivalTown = StringVar()
+    ArrivalTown.set(stations[1])
 
-DT_Label = Label(functionframe, text='Depature Town').pack(pady=(20, 0))
-DT_OptionMenu = OptionMenu(functionframe, DepatureTown, *stations)
-DT_OptionMenu.pack()
+    DT_Label = Label(functionframe, text='Depature Town').pack(pady=(20, 0))
+    DT_OptionMenu = OptionMenu(functionframe, DepatureTown, *stations)
+    DT_OptionMenu.pack()
 
-AT_Label = Label(functionframe, text='Arrival Town').pack(pady=(20, 0))
-AT_OptionMenu = OptionMenu(functionframe, ArrivalTown, *stations)
-AT_OptionMenu.pack()
+    AT_Label = Label(functionframe, text='Arrival Town').pack(pady=(20, 0))
+    AT_OptionMenu = OptionMenu(functionframe, ArrivalTown, *stations)
+    AT_OptionMenu.pack()
 
-<<<<<<< Updated upstream
-SB_Button = Button(functionframe, text="Search",fg="white", bg="black",justify=CENTER,width=20)
-SB_Button.pack(pady=(20, 0))
-
-PB_Button = Button(functionframe, text="Proceed",fg="white", bg="black",justify=CENTER,width=20, command=show_selected)
-PB_Button.pack(pady=(20, 0))
-=======
     SB_Button = Button(functionframe, text="Search",fg="white", bg="black",justify=CENTER,width=10, command=lambda:show_selected_data(my_tree,dateEntry,DepatureTown,ArrivalTown))
     SB_Button.pack(pady=(20, 0))
 
     PB_Button = Button(functionframe, text="Proceed",fg="white", bg="black",justify=CENTER,width=10,)
     PB_Button.pack(pady=(20, 0))
->>>>>>> Stashed changes
 
-TS_Button = Button(functionframe, width=20, text="Ticket History")
-TS_Button.pack(pady=(60, 0))
+    TS_Button = Button(functionframe, width=20, text="Ticket History",command=lambda:ticketHistory.th_interface())
+    TS_Button.pack(pady=(60, 0))
 
-AS_Button = Button(functionframe, width=20, text="Account Settings")
-AS_Button.pack(pady=(40, 0))
+    AS_Button = Button(functionframe, width=20, text="Account Settings",command=lambda:acc_settings())
+    AS_Button.pack(pady=(40, 0))
 
 
-### Frame Packing
-my_tree.pack(expand=True, fill=BOTH)
-treeframe.pack(anchor=N, side=LEFT, pady=20, padx=20, expand=True, fill=BOTH)
-functionframe.pack(anchor=N, side=RIGHT, pady=20, padx=20)
+    ### Frame Packing
+    my_tree.pack(expand=True, fill=BOTH)
+    treeframe.pack(anchor=N, side=LEFT, pady=20, padx=20, expand=True, fill=BOTH)
+    functionframe.pack(anchor=N, side=RIGHT, pady=20, padx=20)
 
-<<<<<<< Updated upstream
-=======
     def handle_click(event):
         if my_tree.identify_region(event.x, event.y) == "separator":
             return "break"
 
     ### Disable resizing tree column
     my_tree.bind('<Button-1>', handle_click)
->>>>>>> Stashed changes
 
 #######################################################   Account Settings   #################################################################
 def acc_settings():
