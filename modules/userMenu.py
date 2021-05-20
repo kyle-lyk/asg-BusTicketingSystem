@@ -97,10 +97,10 @@ def user_interface():
                     )
             
         
-    def show_selected_data(my_tree,Date,DepartureTown,ArrivalTown):
+    def show_selected_data(my_tree,dateEntry,DepartureTown,ArrivalTown):
         my_tree.delete(*my_tree.get_children())
 
-        Date = Date.get()
+        Date = dateEntry.get()
         DepartureTown = DepartureTown.get()
         ArrivalTown = ArrivalTown.get()
 
@@ -110,17 +110,20 @@ def user_interface():
         data = view_json(dataDir + 'busesInfo.json')
 
         for obj in data:
-                if (obj.get('departure_date') == Date) and (obj.get('departure_town') == DepartureTown) and (obj.get('arrival town') == ArrivalTown):
-                    my_tree.insert(parent='', index='end', text="", values=(
-                        obj['bus_id'], 
-                        obj['departure_date'], 
-                        obj['departure_time'], 
-                        obj['departure_town'],
-                        obj['arrival town'], 
-                        obj['total_seats'],
-                        obj['fare per seat']
-                        )
-                        )
+            if DepartureTown == ArrivalTown:
+                messagebox.showwarning("Error", "Departure Town can not be same as Arrival Town", parent=treeframe)
+                break
+            elif (obj.get('departure_date') == Date) and (obj.get('departure_town') == DepartureTown) and (obj.get('arrival town') == ArrivalTown):
+                my_tree.insert(parent='', index='end', text="", values=(
+                    obj['bus_id'], 
+                    obj['departure_date'], 
+                    obj['departure_time'], 
+                    obj['departure_town'],
+                    obj['arrival town'], 
+                    obj['total_seats'],
+                    obj['fare per seat']
+                    )
+                    ) 
 
 
     ## Show all data first by default
@@ -141,9 +144,6 @@ def user_interface():
 
     ### Location
     stations = ["Ketereh,KLT", "Cyberjaya,SLG", "Ipoh,PRK", "Skudai,JHR", "Jawi,PNG"]
-
-    Date = dateEntry
-    Date.pack()
 
     DepatureTown = StringVar()
     DepatureTown.set(stations[0]) 
