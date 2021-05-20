@@ -59,9 +59,9 @@ def th_interface():
     my_tree.column('Bus ID',width=50)
     my_tree.column('Departure Date',width=92)
     my_tree.column('Departure Time',width=92)
-    my_tree.column('Departure Town',width=92)
-    my_tree.column('Arrival Town',width=92)
-    my_tree.column('Selected Seat',width=80)
+    my_tree.column('Departure Town',width=93)
+    my_tree.column('Arrival Town',width=93)
+    my_tree.column('Selected Seat',width=82)
     my_tree.column('Total Fare',width=60)
 
 
@@ -102,13 +102,15 @@ def th_interface():
         DepartureTown = DepartureTown.get()
         ArrivalTown = ArrivalTown.get()
 
-        my_tree.delete(*my_tree.get_children())
-
 
         data = view_json(dataDir + 'ticketHistory.json')
 
         for obj in data:
-            if (obj.get('user_id') == auth.user_id):
+            if DepartureTown == ArrivalTown:
+                messagebox.showwarning("Error", "Departure Town can not be same as Arrival Town", parent=treeframe)
+                show_all_data(my_tree)
+                break
+            elif (obj.get('user_id') == auth.user_id):
                 if (obj.get('departure_date') == Date) and (obj.get('departure_town') == DepartureTown) and (obj.get('arrival town') == ArrivalTown):
                     my_tree.insert(parent='', index='end', text="", values=(
                         obj['bus_id'], 
@@ -128,10 +130,10 @@ def th_interface():
     ####### WIDGETS #######
     ### Texts
     title_Label = Label(treeframe, text= 'Ticket History', font="Helvetica 15 bold").pack(anchor='n')
-    username_Label = Label(functionframe, text= f'Welcome back,\n{auth.user_id}!', font="Helvetica 10 bold").pack(pady=(20, 0))
+    username_Label = Label(functionframe, text= f'Welcome back,\n{auth.user_id}!', font="Helvetica 10 bold").pack(pady=(5, 0))
 
     ### Dates
-    dateLabel = Label(functionframe, text='Departure Date').pack(pady=(20, 0))
+    dateLabel = Label(functionframe, text='Departure Date').pack(pady=(15, 0))
     dateEntry = DateEntry(functionframe, date_pattern = 'dd/mm/yy')
     dateEntry.pack()
 
@@ -144,11 +146,11 @@ def th_interface():
     ArrivalTown = StringVar()
     ArrivalTown.set(stations[1]) 
 
-    DT_Label = Label(functionframe, text='Departure Town').pack(pady=(20, 0))
+    DT_Label = Label(functionframe, text='Departure Town').pack(pady=(15, 0))
     DT_OptionMenu = OptionMenu(functionframe, DepartureTown, *stations)
     DT_OptionMenu.pack()
 
-    AT_Label = Label(functionframe, text='Arrival Town').pack(pady=(20, 0))
+    AT_Label = Label(functionframe, text='Arrival Town').pack(pady=(15, 0))
     AT_OptionMenu = OptionMenu(functionframe, ArrivalTown, *stations)
     AT_OptionMenu.pack()
 
@@ -158,10 +160,11 @@ def th_interface():
     AB_Button = Button(functionframe, text="Show All",fg="white", bg="black",justify=CENTER,width=10, command=lambda:show_all_data(my_tree))
     AB_Button.pack(pady=(20, 0))
 
-    BS_Button = Button(functionframe, text="Bus Selection", justify=CENTER, width=15, command=lambda:userMenu.user_interface())
-    BS_Button.pack(pady=(60, 0))
+    BS_Button = Button(functionframe, text="Bus Selection", justify=CENTER, width=20, command=lambda:userMenu.user_interface())
+    BS_Button.pack(pady=(106, 0))
+
     AS_Button = Button(functionframe, width=20, text="Account Settings", command=lambda:acc_settings())
-    AS_Button.pack(pady=(50, 0))
+    AS_Button.pack(pady=(40, 0))
 
 
     ### Frame Packing
