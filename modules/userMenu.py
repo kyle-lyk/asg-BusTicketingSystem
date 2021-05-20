@@ -60,9 +60,9 @@ def user_interface():
     ## Define Columns
     my_tree.column('Bus ID',width=50)
     my_tree.column('Departure Date',width=92)
-    my_tree.column('Departure Time',width=92)
-    my_tree.column('Departure Town',width=92)
-    my_tree.column('Arrival Town',width=90)
+    my_tree.column('Departure Time',width=93)
+    my_tree.column('Departure Town',width=93)
+    my_tree.column('Arrival Town',width=92)
     my_tree.column('Total Seat',width=82)
     my_tree.column('Fare/Seat',width=60)
 
@@ -97,14 +97,12 @@ def user_interface():
                     )
             
         
-    def show_selected_data(my_tree,dateEntry,DepartureTown,ArrivalTown):
+    def show_selected_data(my_tree,Date,DepartureTown,ArrivalTown):
         my_tree.delete(*my_tree.get_children())
 
-        Date = dateEntry.get()
+        Date = Date.get()
         DepartureTown = DepartureTown.get()
         ArrivalTown = ArrivalTown.get()
-
-        my_tree.delete(*my_tree.get_children())
 
 
         data = view_json(dataDir + 'busesInfo.json')
@@ -112,6 +110,7 @@ def user_interface():
         for obj in data:
             if DepartureTown == ArrivalTown:
                 messagebox.showwarning("Error", "Departure Town can not be same as Arrival Town", parent=treeframe)
+                show_all_data(my_tree)
                 break
             elif (obj.get('departure_date') == Date) and (obj.get('departure_town') == DepartureTown) and (obj.get('arrival town') == ArrivalTown):
                 my_tree.insert(parent='', index='end', text="", values=(
@@ -132,40 +131,42 @@ def user_interface():
 
     ####### WIDGETS #######
     ### Texts
-
     title_Label = Label(treeframe, text= 'Bus Selection', font="Helvetica 15 bold").pack(anchor='n')
-    username_Label = Label(functionframe, text= f'Welcome back,\n{auth.user_id}!').pack(pady=(20, 0))
+    username_Label = Label(functionframe, text= f'Welcome back,\n{auth.user_id}!', font="Helvetica 10 bold").pack(pady=(5, 0))
 
 
     ### Dates
-    dateLabel = Label(functionframe, text='Departure Date').pack(pady=(20, 0))
+    dateLabel = Label(functionframe, text='Departure Date').pack(pady=(15, 0))
     dateEntry = DateEntry(functionframe, date_pattern = 'dd/mm/yy')
     dateEntry.pack()
 
     ### Location
     stations = ["Ketereh,KLT", "Cyberjaya,SLG", "Ipoh,PRK", "Skudai,JHR", "Jawi,PNG"]
 
-    DepatureTown = StringVar()
-    DepatureTown.set(stations[0]) 
+    DepartureTown = StringVar()
+    DepartureTown.set(stations[0]) 
 
     ArrivalTown = StringVar()
     ArrivalTown.set(stations[1])
 
-    DT_Label = Label(functionframe, text='Depature Town').pack(pady=(20, 0))
-    DT_OptionMenu = OptionMenu(functionframe, DepatureTown, *stations)
+    DT_Label = Label(functionframe, text='Departure Town').pack(pady=(15, 0))
+    DT_OptionMenu = OptionMenu(functionframe, DepartureTown, *stations)
     DT_OptionMenu.pack()
 
-    AT_Label = Label(functionframe, text='Arrival Town').pack(pady=(20, 0))
+    AT_Label = Label(functionframe, text='Arrival Town').pack(pady=(15, 0))
     AT_OptionMenu = OptionMenu(functionframe, ArrivalTown, *stations)
     AT_OptionMenu.pack()
 
-    SB_Button = Button(functionframe, text="Search",fg="white", bg="black",justify=CENTER,width=10, command=lambda:show_selected_data(my_tree,dateEntry,DepatureTown,ArrivalTown))
+    SB_Button = Button(functionframe, text="Search",fg="white", bg="black",justify=CENTER,width=10, command=lambda:show_selected_data(my_tree,dateEntry,DepartureTown,ArrivalTown))
     SB_Button.pack(pady=(20, 0))
 
-    PB_Button = Button(functionframe, text="Proceed",fg="white", bg="black",justify=CENTER,width=10,)
+    AB_Button = Button(functionframe, text="Show All",fg="white", bg="black",justify=CENTER,width=10, command=lambda:show_all_data(my_tree))
+    AB_Button.pack(pady=(20, 0))
+
+    PB_Button = Button(functionframe, text="Select Bus",fg="white", bg="black", justify=CENTER,width=12)
     PB_Button.pack(pady=(20, 0))
 
-    TS_Button = Button(functionframe, width=20, text="Ticket History",command=lambda:ticketHistory.th_interface())
+    TS_Button = Button(functionframe, text="Ticket History", width=20, command=lambda:ticketHistory.th_interface())
     TS_Button.pack(pady=(60, 0))
 
     AS_Button = Button(functionframe, width=20, text="Account Settings",command=lambda:acc_settings())
@@ -174,8 +175,8 @@ def user_interface():
 
     ### Frame Packing
     my_tree.pack(expand=True, fill=BOTH)
-    treeframe.pack(anchor=N, side=LEFT, pady=20, padx=20, expand=True, fill=BOTH)
-    functionframe.pack(anchor=N, side=RIGHT, pady=20, padx=20)
+    treeframe.pack(anchor=N, side=LEFT, pady=(10,15), padx=15, expand=True, fill=BOTH)
+    functionframe.pack(anchor=N, side=RIGHT, pady=(10,15), padx=15)
 
     def handle_click(event):
         if my_tree.identify_region(event.x, event.y) == "separator":
