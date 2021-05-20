@@ -78,6 +78,7 @@ def th_interface():
     ### Append data to Treeview from Database
     def show_all_data(my_tree):
         my_tree.delete(*my_tree.get_children())
+        
         data = view_json(dataDir + 'ticketHistory.json')
 
         for obj in data:
