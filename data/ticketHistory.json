@@ -1,0 +1,12 @@
+[
+    {
+        "user_id": "user1",
+        "bus_id": "A00001",
+        "departure_date": "30/12/21",
+        "departure_time": "00:00",
+        "departure_town": "Ketereh,KLT",
+        "arrival town": "Cyberjaya,SLG",
+        "selected_seat": "A1",
+        "total_fare": 5
+    }
+]
