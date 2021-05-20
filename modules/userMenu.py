@@ -41,6 +41,8 @@ def update_json(updated_data,filename):
         json.dump(updated_data,f,indent=4)
 
 
+
+
 #######################################################   User Section   #################################################################
 
 def user_interface():
@@ -76,18 +78,69 @@ def user_interface():
     my_tree.heading('Fare/Seat', text='Fare/Seat')
 
 
-    ## Define Rows
-    my_tree.insert(parent="", index="end", iid=0, text="", values=("A0001","27/2/2020","0020","TestTown", "TestTown", 30, "2" ))
+    ### Append data to Treeview from Database
+    def show_all_data(my_tree):
+        my_tree.delete(*my_tree.get_children())
+        
+        data = view_json(dataDir + 'busesInfo.json')
+
+        for obj in data:
+                my_tree.insert(parent='', index='end', text="", values=(
+                    obj['bus_id'], 
+                    obj['departure_date'], 
+                    obj['departure_time'], 
+                    obj['departure_town'],
+                    obj['arrival town'], 
+                    obj['total_seats'],
+                    obj['fare per seat']
+                    )
+                    )
+            
+        
+    def show_selected_data(my_tree,dateEntry,DepartureTown,ArrivalTown):
+        my_tree.delete(*my_tree.get_children())
+
+        Date = dateEntry.get()
+        DepartureTown = DepartureTown.get()
+        ArrivalTown = ArrivalTown.get()
+
+        my_tree.delete(*my_tree.get_children())
+
+
+        data = view_json(dataDir + 'busesInfo.json')
+
+        for obj in data:
+            if DepartureTown == ArrivalTown:
+                messagebox.showwarning("Error", "Departure Town can not be same as Arrival Town", parent=treeframe)
+                break
+            elif (obj.get('departure_date') == Date) and (obj.get('departure_town') == DepartureTown) and (obj.get('arrival town') == ArrivalTown):
+                my_tree.insert(parent='', index='end', text="", values=(
+                    obj['bus_id'], 
+                    obj['departure_date'], 
+                    obj['departure_time'], 
+                    obj['departure_town'],
+                    obj['arrival town'], 
+                    obj['total_seats'],
+                    obj['fare per seat']
+                    )
+                    ) 
+
+
+    ## Show all data first by default
+    show_all_data(my_tree)
+
 
     ####### WIDGETS #######
     ### Texts
 
+    title_Label = Label(treeframe, text= 'Bus Selection', font="Helvetica 15 bold").pack(anchor='n')
     username_Label = Label(functionframe, text= f'Welcome back,\n{auth.user_id}!').pack(pady=(20, 0))
 
 
     ### Dates
-    date = Label(functionframe, text= 'Departure Date').pack(pady=(20, 0))
-    dateEntry = DateEntry(functionframe, width = 10).pack()
+    dateLabel = Label(functionframe, text='Departure Date').pack(pady=(20, 0))
+    dateEntry = DateEntry(functionframe, date_pattern = 'dd/mm/yy')
+    dateEntry.pack()
 
     ### Location
     stations = ["Ketereh,KLT", "Cyberjaya,SLG", "Ipoh,PRK", "Skudai,JHR", "Jawi,PNG"]
@@ -106,10 +159,10 @@ def user_interface():
     AT_OptionMenu = OptionMenu(functionframe, ArrivalTown, *stations)
     AT_OptionMenu.pack()
 
-    SB_Button = Button(functionframe, text="Search",fg="white", bg="black",justify=CENTER,width=20)
+    SB_Button = Button(functionframe, text="Search",fg="white", bg="black",justify=CENTER,width=10, command=lambda:show_selected_data(my_tree,dateEntry,DepatureTown,ArrivalTown))
     SB_Button.pack(pady=(20, 0))
 
-    PB_Button = Button(functionframe, text="Proceed",fg="white", bg="black",justify=CENTER,width=20, command=lambda:show_selected())
+    PB_Button = Button(functionframe, text="Proceed",fg="white", bg="black",justify=CENTER,width=10,)
     PB_Button.pack(pady=(20, 0))
 
     TS_Button = Button(functionframe, width=20, text="Ticket History",command=lambda:ticketHistory.th_interface())
@@ -124,20 +177,12 @@ def user_interface():
     treeframe.pack(anchor=N, side=LEFT, pady=20, padx=20, expand=True, fill=BOTH)
     functionframe.pack(anchor=N, side=RIGHT, pady=20, padx=20)
 
+    def handle_click(event):
+        if my_tree.identify_region(event.x, event.y) == "separator":
+            return "break"
+
     ### Disable resizing tree column
     my_tree.bind('<Button-1>', handle_click)
-
-
-#######################
-### Disable resizing tree column
-def handle_click(event):
-    if my_tree.identify_region(event.x, event.y) == "separator":
-        return "break"
-
-def show_selected():
-    for child in my_tree.get_children():
-        print(my_tree.item(child)["values"])
-
 
 #######################################################   Account Settings   #################################################################
 def acc_settings():
@@ -262,4 +307,3 @@ def acc_settings():
                             auth.userAuth()
                     else:
                         msg.set("Wrong Current Password, Please check again.")
-

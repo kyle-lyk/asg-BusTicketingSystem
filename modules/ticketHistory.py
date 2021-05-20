@@ -169,11 +169,11 @@ def th_interface():
     treeframe.pack(anchor=N, side=LEFT, pady=(10,15), padx=15, expand=True, fill=BOTH)
     functionframe.pack(anchor=N, side=RIGHT, pady=(10,15), padx=15)
 
-    ### Disable resizing tree column
     def handle_click(event):
         if my_tree.identify_region(event.x, event.y) == "separator":
             return "break"
 
+    ### Disable resizing tree column
     my_tree.bind('<Button-1>', handle_click)
 
 
