@@ -86,8 +86,8 @@ def th_interface():
                 my_tree.insert(parent='', index='end', text="", values=(
                     obj['bus_id'], 
                     obj['departure_date'], 
-                    obj['departure_town'], 
-                    obj['departure_time'],
+                    obj['departure_time'], 
+                    obj['departure_town'],
                     obj['arrival town'], 
                     obj['selected_seat'],
                     obj['total_fare']
@@ -113,8 +113,8 @@ def th_interface():
                     my_tree.insert(parent='', index='end', text="", values=(
                         obj['bus_id'], 
                         obj['departure_date'], 
-                        obj['departure_town'], 
-                        obj['departure_time'],
+                        obj['departure_time'], 
+                        obj['departure_town'],
                         obj['arrival town'], 
                         obj['selected_seat'],
                         obj['total_fare']
@@ -170,15 +170,11 @@ def th_interface():
     functionframe.pack(anchor=N, side=RIGHT, pady=(10,15), padx=15)
 
     ### Disable resizing tree column
+    def handle_click(event):
+        if my_tree.identify_region(event.x, event.y) == "separator":
+            return "break"
+
     my_tree.bind('<Button-1>', handle_click)
-
-
-#######################
-### Disable resizing tree column
-def handle_click(event):
-    if my_tree.identify_region(event.x, event.y) == "separator":
-        return "break"
-
 
 
 #######################################################   Account Settings   #################################################################
