@@ -176,6 +176,7 @@ def th_interface():
     ### Disable resizing tree column
     my_tree.bind('<Button-1>', handle_click)
 
+
 #######################################################   Account Settings   #################################################################
 def acc_settings():
     setting_Top = Toplevel(root)
