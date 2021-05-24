@@ -40,66 +40,6 @@ def update_json(updated_data,filename):
         json.dump(updated_data,f,indent=4)
 
 #######################################################   Admin Section   #################################################################
-def admin_interface():
-    clear_frame(root)
-
-    bus_frame = Frame(root)
-
-    global bus_list
-
-    bus_list = ttk.Treeview(bus_frame, show='headings', selectmode='browse')
-
-    bus_list['columns'] = ("Bus ID", "Departure Date", "Departure Time", "Departure Town", "Arrival Town",  "Seats Available", "Total Fare")
-    bus_list.column("Bus ID", anchor=CENTER, width = 45)
-    bus_list.column("Departure Date", anchor=CENTER, width = 88)
-    bus_list.column("Departure Time", anchor=CENTER, width = 88)
-    bus_list.column("Departure Town", anchor=CENTER, width = 90)
-    bus_list.column("Arrival Town", anchor=CENTER, width = 90)
-    bus_list.column("Seats Available", anchor=CENTER, width = 83)
-    bus_list.column("Total Fare", anchor=CENTER, width = 40)
-
-    bus_list.heading('Bus ID', text= 'Bus ID')
-    bus_list.heading('Departure Date', text='Departure Date')
-    bus_list.heading('Departure Time', text='Departure Time')
-    bus_list.heading('Departure Town', text='Departure Town')
-    bus_list.heading('Arrival Town', text='Arrival Town')
-    bus_list.heading('Seats Available', text='Seats Available')
-    bus_list.heading('Total Fare', text='Fare')
-
-    data = view_json(dataDir + 'busesInfo.json')
-
-    ##Append data to Treeview from Database
-    i = 0
-    for record in data:
-        bus_list.insert(parent='', index='end', iid=i, text="", values=(
-            data[i]['bus_id'], 
-            data[i]['departure_date'], 
-            data[i]['departure_time'], 
-            data[i]['departure_town'], 
-            data[i]['arrival town'], 
-            data[i]['total_seats'],
-            data[i]['fare per seat']
-            )
-            )
-        i += 1
-
-    bus_list.pack(expand=True, fill=BOTH)
-    bus_frame.pack(anchor=N, side=LEFT, pady=(5, 10), padx=10, expand=True, fill=BOTH)
-    functionframe = Frame(root)
-    functionframe.pack(anchor=N, side=RIGHT, pady=20, padx=10)
-
-    Label(root, text="List of Buses", font="Helvetica 15 bold").pack(anchor = W, padx=20)
-    
-    create_btn = Button(functionframe, text="Create Bus", command=create_bus, width=20)
-    edit_btn = Button(functionframe, text="Edit Bus", command=edit_bus, width=20)
-    delete_btn = Button(functionframe, text="Delete Bus", command=delete_bus, width=20)
-    logout_btn = Button(functionframe, text="Log Out", command=log_out, width=20)
-
-    create_btn.pack(pady=(30, 20))
-    edit_btn.pack(pady=(0,10))
-    delete_btn.pack(pady=10)
-    logout_btn.pack(pady=80)
-
 def create_bus():
     add_Top = Toplevel(root)
     add_Top.title("Create New Bus")
@@ -157,17 +97,55 @@ def create_bus():
                     'departure_town': start_town,
                     'arrival town': end_town,
                     'total_seats': seats,
-                    'fare per seat': fee
+                    'fare per seat': float(fee)
                     }
                 add_json(data, dataDir+'busesInfo.json')  
                 messagebox.showinfo("Successful!", "Bus created!", parent=add_Top)
                 add_Top.destroy()
                 admin_interface()
+
+                data2 = view_json(dataDir+'seatInfo.json')
+                if seats == 20:
+                    data2 = {
+                        "ID": busID,
+                        "A": [True, True, True, True],
+                        "B": [True, True, True, True],
+                        "C": [True, True, True, True],
+                        "D": [True, True, True, True],
+                        "E": [True, True, True, True]
+                    }
+                elif seats == 30:
+                    data2 = {
+                        "ID": busID,
+                        "A": [True, True, True, True],
+                        "B": [True, True, True, True],
+                        "C": [True, True, True, True],
+                        "D": [True, True, True, True],
+                        "E": [True, True, True, True],
+                        "F": [True, True, True, True],
+                        "G": [True, True, True, True, True, True]
+                    }
+                elif seats == 40:
+                    data2 = {
+                        "ID": busID,
+                        "A": [True, True, True, True],
+                        "B": [True, True, True, True],
+                        "C": [True, True, True, True],
+                        "D": [True, True, True, True],
+                        "E": [True, True, True, True],
+                        "F": [True, True, True, True],
+                        "G": [True, True, True, True],
+                        "H": [True, True, True, True],
+                        "I": [True, True, True, True],
+                        "J": [True, True, True, True],
+                        "K": [True, True, True, True]
+                    }
+                add_json(data2, dataDir+'seatInfo.json') 
             
             ## Show warning if user input string
             except ValueError:
                 messagebox.showwarning("Error", "Please enter number value only", parent=add_Top)
-    
+
     ##Stations List
     stations = ["Ketereh,KLT", "Cyberjaya,SLG", "Ipoh,PRK", "Skudai,JHR", "Jawi,PNG"]
 
@@ -217,18 +195,63 @@ def create_bus():
     cancel_btn = Button(add_Top, text="Cancel", font="Helvetica 10", bg="#000000", fg="#ffffff", padx=30, command=admin_interface)
     cancel_btn.pack(pady=10)
 
+
 def edit_bus():
     ## Check if admin selected a bus to edit. if not reject enter edit interface
     isEdit = False
 
     ## Get Item Selected from Treeview
     busid = bus_list.focus()
+
     if busid != '':
         buses = bus_list.item(busid, 'values')
-        isEdit = True
+        data = (view_json(dataDir+'busesInfo.json'))
+        for i in data:
+            if (i.get('bus_id')) == buses[0]:
+                letter_id = []
+                if i['total_seats']== 20:
+                    letter_id = ["A", "B", "C", "D", "E"]
+                    break
+
+                elif i['total_seats'] == 30:
+                    letter_id = ["A", "B", "C", "D", "E", "F", "G"]
+                    break
+
+                elif i['total_seats'] == 40:
+                    letter_id = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"]
+                    break
+
+        data2 = (view_json(dataDir+'seatInfo.json'))
+        iter_letter = iter(letter_id)
+        letter = next(iter_letter)
+
+        id_list = []
+        TakenSeat = 0
+
+        for i in data2:
+            busID = i["ID"]
+            id_list.append(busID)    
+
+        get_id = buses[0]
+        if get_id in id_list:
+            id_index = id_list.index(get_id)
+ 
+        if data2[id_index]["ID"] == buses[0]:
+                for n in range(len(data2[id_index][letter]) + 1):
+                    for seat_info in (data2[id_index][letter]):
+                        if seat_info == False:
+                            TakenSeat += 1
+                            
+                    letter = next(iter_letter, None)
+        if TakenSeat == 0:
+            isEdit = True
+        else:
+            messagebox.showwarning("Error", "This bus cannot be edit!")
+        
     else:
         messagebox.showwarning("Error", "Please select a bus you want to edit")
-    
+
+
     ## Function for minutes decrement
     def up_or_down(direction):
         if direction == 'down':
@@ -266,7 +289,7 @@ def edit_bus():
                         i['departure_town'] = start_town
                         i['arrival town'] = end_town
                         i['total_seats'] = seats
-                        i['fare per seat'] = fee
+                        i['fare per seat'] = float(fee)
                     
                 update_json(data, dataDir+'busesInfo.json')  
                 messagebox.showinfo("Successful!", "Bus edited!")
@@ -278,7 +301,6 @@ def edit_bus():
                 messagebox.showwarning("Error", "Please enter number value only")
 
     data = view_json(dataDir+'busesInfo.json')
-
     ##Get Bus Details
     if isEdit:
         clear_frame(root)
@@ -294,7 +316,7 @@ def edit_bus():
 
                 station2= StringVar()
                 station2.set(i.get('arrival town'))
-
+                
                 seats = IntVar()
                 seats.set(i.get('total_seats'))
 
@@ -350,11 +372,56 @@ def delete_bus():
 
     ## Get Item Selected from Treeview
     bus_del = bus_list.selection()
+    busid = bus_list.focus()
     
     if bus_del != ():
-        isDelete = True
+        buses = bus_list.item(busid, 'values')
+        data = (view_json(dataDir+'busesInfo.json'))
+        for i in data:
+            if (i.get('bus_id')) == buses[0]:
+                letter_id = []
+                if i['total_seats']== 20:
+                    letter_id = ["A", "B", "C", "D", "E"]
+                    break
+
+                elif i['total_seats'] == 30:
+                    letter_id = ["A", "B", "C", "D", "E", "F", "G"]
+                    break
+
+                elif i['total_seats'] == 40:
+                    letter_id = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"]
+                    break
+
+        data2 = (view_json(dataDir+'seatInfo.json'))
+        iter_letter = iter(letter_id)
+        letter = next(iter_letter)
+
+        id_list = []
+        TakenSeat = 0
+
+        for i in data2:
+            busID = i["ID"]
+            id_list.append(busID)    
+
+        get_id = buses[0]
+        if get_id in id_list:
+            id_index = id_list.index(get_id)
+ 
+        if data2[id_index]["ID"] == buses[0]:
+                for n in range(len(data2[id_index][letter]) + 1):
+                    for seat_info in (data2[id_index][letter]):
+                        if seat_info == False:
+                            TakenSeat += 1
+                            
+                    letter = next(iter_letter, None)
+        if TakenSeat == 0:
+            isDelete = True
+        else:
+            messagebox.showwarning("Error", "This bus cannot be delete!")
+        
     else:
         messagebox.showwarning("Error", "Please select a bus you want to delete")
+    
     ##Get Item Selected in Treeview
     bus = bus_list.focus()
     buses = bus_list.item(bus, 'values')
@@ -378,7 +445,77 @@ def delete_bus():
                 
             admin_interface()
 
+            data2 = view_json(dataDir + 'seatInfo.json')
+            n = 0
+            while n < len(data2):
+                if (data2[n].get("ID")) == buses[0]:
+                    data2.pop(n)
+                    update_json(data2, dataDir+'seatInfo.json')
+                    continue
+                n += 1
+
 def log_out():
     confirmLogout = messagebox.askquestion ('Logout Confirmation','Are you sure you want to log out from your account?',icon = 'warning')
     if confirmLogout == 'yes':
        auth.userAuth()
+
+def admin_interface():
+    clear_frame(root)
+
+    bus_frame = Frame(root)
+
+    global bus_list
+
+    bus_list = ttk.Treeview(bus_frame, show='headings', selectmode='browse')
+
+    bus_list['columns'] = ("Bus ID", "Departure Date", "Departure Time", "Departure Town", "Arrival Town",  "Seats Available", "Total Fare")
+    bus_list.column("Bus ID", anchor=CENTER, width = 45)
+    bus_list.column("Departure Date", anchor=CENTER, width = 88)
+    bus_list.column("Departure Time", anchor=CENTER, width = 88)
+    bus_list.column("Departure Town", anchor=CENTER, width = 90)
+    bus_list.column("Arrival Town", anchor=CENTER, width = 90)
+    bus_list.column("Seats Available", anchor=CENTER, width = 85)
+    bus_list.column("Total Fare", anchor=CENTER, width = 55)
+
+    bus_list.heading('Bus ID', text= 'Bus ID')
+    bus_list.heading('Departure Date', text='Departure Date')
+    bus_list.heading('Departure Time', text='Departure Time')
+    bus_list.heading('Departure Town', text='Departure Town')
+    bus_list.heading('Arrival Town', text='Arrival Town')
+    bus_list.heading('Seats Available', text='Seats Available')
+    bus_list.heading('Total Fare', text='Fare(RM)')
+
+    data = view_json(dataDir + 'busesInfo.json')
+
+    ##Append data to Treeview from Database
+    for record in data:
+        fare_per_seat = ("{:.2f}".format(record['fare per seat']))
+        #available_seats = record['total_seats'] - TakenSeat
+        bus_list.insert(parent='', index='end', text="", values=(
+            record['bus_id'], 
+            record['departure_date'], 
+            record['departure_time'], 
+            record['departure_town'], 
+            record['arrival town'], 
+            record['total_seats'],
+            fare_per_seat
+            )
+            )
+        
+    Label(root, text="List of Buses", font="Helvetica 15 bold").pack(anchor = W, padx=20)
+    
+    bus_list.pack(expand=True, fill=BOTH)
+    bus_frame.pack(anchor=N, side=LEFT, pady=(5, 10), padx=10, expand=True, fill=BOTH)
+    
+    functionframe = Frame(root)
+    functionframe.pack(anchor=N, side=RIGHT, pady=20, padx=10)
+    
+    create_btn = Button(functionframe, text="Create Bus", command=create_bus, width=20)
+    edit_btn = Button(functionframe, text="Edit Bus", command=edit_bus, width=20)
+    delete_btn = Button(functionframe, text="Delete Bus", command=delete_bus, width=20)
+    logout_btn = Button(functionframe, text="Log Out", command=log_out, width=20)
+
+    create_btn.pack(pady=(30, 20))
+    edit_btn.pack(pady=(0,10))
+    delete_btn.pack(pady=10)
+    logout_btn.pack(pady=80)
