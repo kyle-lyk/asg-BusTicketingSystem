@@ -3,17 +3,21 @@ import json
 
 root = Tk()
 root.title("Seat Layout")
-db_filepath = "./BusTicketingSystem/data/seatInfo.json"
+db_filepath = "./data/seatInfo.json"
 
 top = Frame(root)
 top.pack()
 bottom = Frame(root)
 bottom.pack(side=BOTTOM)
 
+def view_json(filename):
+    with open (filename,'r') as f:
+        data = json.load(f)
+    return data
+
 def update_json(data, filename=db_filepath):
     with open(filename,'w') as file:
         json.dump(data, file, indent=4)
-
 
 def click_button(btn):
     def select_button():
@@ -35,7 +39,7 @@ def occupied_seat(letter_id, button_list):
     id_list = []
 
     for i in data:
-        busID = i["ID"]
+        busID = i["bus_id"]
         id_list.append(busID)
 
     while True:
@@ -48,7 +52,7 @@ def occupied_seat(letter_id, button_list):
             print("The bus ID entered does not exist!")
             continue
     
-    if get_id in id_list and data[id_index]["ID"] == get_id:
+    if get_id in id_list and data[id_index]["bus_id"] == get_id:
         for i in button_list:
             list_length = len(data[id_index][letter])
             if n < list_length:
@@ -69,7 +73,7 @@ def occupied_seat(letter_id, button_list):
 def seat_database_20(id=""):
 
     layout = {
-        "ID": id,
+        "bus_id": id,
         "A": [True, True, True, True],
         "B": [True, True, True, True],
         "C": [True, True, True, True],
@@ -83,12 +87,25 @@ def seat_database_20(id=""):
         
     update_json(data)
 
-
+# def edit_seat_database_20(id):
+#     data = view_json(db_filepath)
+#     for i in data:
+#         if i.get('bus_id') == id:
+#             i.clear()
+#             i["bus_id"] = id,
+#             i["A"] = [True, True, True, True]
+#             i["B"] = [True, True, True, True]
+#             i["C"] = [True, True, True, True]
+#             i["D"] = [True, True, True, True]
+#             i["E"] = [True, True, True, True]
+#             print(i)
+        
+#     update_json(data, db_filepath)
 
 def seat_database_30(id=""):
 
     layout = {
-        "ID": id,
+        "bus_id": id,
         "A": [True, True, True, True],
         "B": [True, True, True, True],
         "C": [True, True, True, True],
@@ -108,7 +125,7 @@ def seat_database_30(id=""):
 def seat_database_40(id=""):
     
     layout = {
-        "ID": id,
+        "bus_id": id,
         "A": [True, True, True, True],
         "B": [True, True, True, True],
         "C": [True, True, True, True],
@@ -127,7 +144,6 @@ def seat_database_40(id=""):
         data.append(layout)
         
     update_json(data)
-
 
 def seat_layout_20():
     entrance_label = Label(top, text="Entrance", borderwidth=2, relief="groove")
@@ -357,6 +373,5 @@ def seat_layout_40():
 # seat_database_20("insert_id") - test appending default layout to database
 # seat_layout_20() - see available seats, enter bus id to check available seats
 
-seat_layout_40()
 
-root.mainloop()
+
