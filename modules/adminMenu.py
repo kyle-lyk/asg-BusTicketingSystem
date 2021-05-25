@@ -3,18 +3,19 @@
 ######################
 
 from tkinter import *
+from typing import Union
 from tkcalendar import *
 from tkinter import messagebox
 from tkinter import ttk
 import json
 
 from systems import system
-from modules import auth
+from modules import auth, checkSeatStatus
 
 ## Import root from system.py 
 root = system.root
 #######################################################   Miscellaneous  #################################################################
-
+TakenSeat = 0
 ## Clear Frame function
 def clear_frame(root):
     for widget in root.winfo_children():
@@ -100,47 +101,21 @@ def create_bus():
                     'fare per seat': float(fee)
                     }
                 add_json(data, dataDir+'busesInfo.json')  
+
                 messagebox.showinfo("Successful!", "Bus created!", parent=add_Top)
+
                 add_Top.destroy()
                 admin_interface()
 
-                data2 = view_json(dataDir+'seatInfo.json')
                 if seats == 20:
-                    data2 = {
-                        "ID": busID,
-                        "A": [True, True, True, True],
-                        "B": [True, True, True, True],
-                        "C": [True, True, True, True],
-                        "D": [True, True, True, True],
-                        "E": [True, True, True, True]
-                    }
+                    checkSeatStatus.seat_database_20(busID)
+
                 elif seats == 30:
-                    data2 = {
-                        "ID": busID,
-                        "A": [True, True, True, True],
-                        "B": [True, True, True, True],
-                        "C": [True, True, True, True],
-                        "D": [True, True, True, True],
-                        "E": [True, True, True, True],
-                        "F": [True, True, True, True],
-                        "G": [True, True, True, True, True, True]
-                    }
+                    checkSeatStatus.seat_database_30(busID)
+
                 elif seats == 40:
-                    data2 = {
-                        "ID": busID,
-                        "A": [True, True, True, True],
-                        "B": [True, True, True, True],
-                        "C": [True, True, True, True],
-                        "D": [True, True, True, True],
-                        "E": [True, True, True, True],
-                        "F": [True, True, True, True],
-                        "G": [True, True, True, True],
-                        "H": [True, True, True, True],
-                        "I": [True, True, True, True],
-                        "J": [True, True, True, True],
-                        "K": [True, True, True, True]
-                    }
-                add_json(data2, dataDir+'seatInfo.json') 
+                    checkSeatStatus.seat_database_40(busID)
+                
             
             ## Show warning if user input string
             except ValueError:
@@ -229,14 +204,14 @@ def edit_bus():
         TakenSeat = 0
 
         for i in data2:
-            busID = i["ID"]
+            busID = i["bus_id"]
             id_list.append(busID)    
 
         get_id = buses[0]
         if get_id in id_list:
             id_index = id_list.index(get_id)
  
-        if data2[id_index]["ID"] == buses[0]:
+        if data2[id_index]["bus_id"] == buses[0]:
                 for n in range(len(data2[id_index][letter]) + 1):
                     for seat_info in (data2[id_index][letter]):
                         if seat_info == False:
@@ -282,8 +257,10 @@ def edit_bus():
                 data = (view_json(dataDir+'busesInfo.json'))                   
                 
                 ##Update New Bus Info
-                for i in data:    
+                for i in data:
                     if i.get('bus_id') == buses[0]:
+                        old_seats = i['total_seats']
+                        print(old_seats)
                         i['departure_date'] = departure_date
                         i['departure_time'] = str(departure_hour) + ':' + str(departure_minute)
                         i['departure_town'] = start_town
@@ -291,11 +268,52 @@ def edit_bus():
                         i['total_seats'] = seats
                         i['fare per seat'] = float(fee)
                     
-                update_json(data, dataDir+'busesInfo.json')  
+                update_json(data, dataDir+'busesInfo.json') 
+
                 messagebox.showinfo("Successful!", "Bus edited!")
                 
                 admin_interface()
-            
+
+                data2 = (view_json(dataDir+'seatInfo.json'))
+
+                if seats != old_seats:
+                    for i in data2:
+                        if i.get('bus_id') == buses[0]:
+                            i.clear()
+                            if seats == 20:
+                                #checkSeatStatus.edit_seat_database_20(buses[0])
+                                i['bus_id'] = buses[0]
+                                i['A'] = [True, True, True, True]
+                                i['B'] = [True, True, True, True]
+                                i['C'] = [True, True, True, True]
+                                i['D'] = [True, True, True, True]
+                                i['E'] = [True, True, True, True]
+                            elif seats == 30:
+                                i['bus_id'] = buses[0]
+                                i['A'] = [True, True, True, True]
+                                i['B'] = [True, True, True, True]
+                                i['C'] = [True, True, True, True]
+                                i['D'] = [True, True, True, True]
+                                i['E'] = [True, True, True, True]
+                                i['F'] = [True, True, True, True]
+                                i['G'] = [True, True, True, True, True, True]
+                                
+                            elif seats == 40:
+                                i['bus_id'] = buses[0]
+                                i['A'] = [True, True, True, True]
+                                i['B'] = [True, True, True, True]
+                                i['C'] = [True, True, True, True]
+                                i['D'] = [True, True, True, True]
+                                i['E'] = [True, True, True, True]
+                                i['F'] = [True, True, True, True]
+                                i['G'] = [True, True, True, True]
+                                i['H'] = [True, True, True, True]
+                                i['I'] = [True, True, True, True]
+                                i['J'] = [True, True, True, True]
+                                i['K'] = [True, True, True, True]
+
+                update_json(data2, dataDir+'seatInfo.json') 
+                
             ## Show warning if user input string
             except ValueError:
                 messagebox.showwarning("Error", "Please enter number value only")
@@ -400,14 +418,14 @@ def delete_bus():
         TakenSeat = 0
 
         for i in data2:
-            busID = i["ID"]
+            busID = i["bus_id"]
             id_list.append(busID)    
 
         get_id = buses[0]
         if get_id in id_list:
             id_index = id_list.index(get_id)
  
-        if data2[id_index]["ID"] == buses[0]:
+        if data2[id_index]["bus_id"] == buses[0]:
                 for n in range(len(data2[id_index][letter]) + 1):
                     for seat_info in (data2[id_index][letter]):
                         if seat_info == False:
@@ -448,7 +466,7 @@ def delete_bus():
             data2 = view_json(dataDir + 'seatInfo.json')
             n = 0
             while n < len(data2):
-                if (data2[n].get("ID")) == buses[0]:
+                if (data2[n].get("bus_id")) == buses[0]:
                     data2.pop(n)
                     update_json(data2, dataDir+'seatInfo.json')
                     continue
@@ -483,7 +501,7 @@ def admin_interface():
     bus_list.heading('Departure Town', text='Departure Town')
     bus_list.heading('Arrival Town', text='Arrival Town')
     bus_list.heading('Seats Available', text='Seats Available')
-    bus_list.heading('Total Fare', text='Fare(RM)')
+    bus_list.heading('Total Fare', text='Fare(RM)')  
 
     data = view_json(dataDir + 'busesInfo.json')
 
@@ -501,7 +519,7 @@ def admin_interface():
             fare_per_seat
             )
             )
-        
+    
     Label(root, text="List of Buses", font="Helvetica 15 bold").pack(anchor = W, padx=20)
     
     bus_list.pack(expand=True, fill=BOTH)
