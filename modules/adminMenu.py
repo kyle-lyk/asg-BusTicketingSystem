@@ -15,7 +15,6 @@ from modules import auth, checkSeatStatus
 ## Import root from system.py 
 root = system.root
 #######################################################   Miscellaneous  #################################################################
-TakenSeat = 0
 ## Clear Frame function
 def clear_frame(root):
     for widget in root.winfo_children():
@@ -41,6 +40,56 @@ def update_json(updated_data,filename):
         json.dump(updated_data,f,indent=4)
 
 #######################################################   Admin Section   #################################################################
+# def seat_taken():
+#     data = (view_json(dataDir+'busesInfo.json'))
+
+#     data2 = (view_json(dataDir+'seatInfo.json'))
+
+#     TakenSeat = 0
+
+#     for n in range(len(data2)):
+#         if data2[n]['bus_id'] == data[n]['bus_id']:
+#             print(data2[n])
+            # for seats in n:
+            #     if seats == 'bus_id':
+            #         TakenSeat = 0
+            #     for seat in n[seats]:
+            #         if seat == False:
+            #             TakenSeat += 1
+            #             seat_taken_num.append(TakenSeat)
+                    
+#  data2 = (view_json(dataDir+'seatInfo.json'))
+#     iter_letter = iter(letter_id)
+#     letter = next(iter_letter)
+
+#     id_list = []
+#     global TakenSeat
+#     TakenSeat = 0
+
+#     for i in data2:
+#         busID = i["bus_id"]
+#         id_list.append(busID)    
+
+#     get_id = buses[0]
+#     if get_id in id_list:
+#         id_index = id_list.index(get_id)
+
+#     n = 0
+        
+#     for i in button_list:
+#         if data2[id_index]["bus_id"] == buses[0]:
+#             if n < ((len(data2[id_index][letter]))):
+#                 if(data2[id_index][letter][n]) == False:
+#                     TakenSeat += 1   
+
+#             elif n == ((len(data2[id_index][letter]))): 
+#                 n = 0
+#                 letter = next(iter_letter)
+#                 if(data2[id_index][letter][n]) == False:
+#                     TakenSeat += 1
+                
+#             n += 1
+
 def create_bus():
     add_Top = Toplevel(root)
     add_Top.title("Create New Bus")
@@ -170,54 +219,72 @@ def create_bus():
     cancel_btn = Button(add_Top, text="Cancel", font="Helvetica 10", bg="#000000", fg="#ffffff", padx=30, command=admin_interface)
     cancel_btn.pack(pady=10)
 
+## Function to check if any seat is taken in the selected bus
+def seat_info(): 
+    busid = bus_list.focus()
+    buses = bus_list.item(busid, 'values')
+    data = (view_json(dataDir+'busesInfo.json'))
+    for i in data:
+        if (i.get('bus_id')) == buses[0]:
+            letter_id = []
+            if i['total_seats']== 20:
+                letter_id = ["A", "B", "C", "D", "E"]
+                button_list = ['a1', 'a2', 'a3', 'a4', 'b1', 'b2', 'b3', 'b4', 'c1', 'c2', 'c3', 'c4', 'd1', 'd2', 'd3', 'd4', 'e1', 'e2', 'e3', 'e4']
+                break
+
+            elif i['total_seats'] == 30:
+                letter_id = ["A", "B", "C", "D", "E", "F", "G"]
+                button_list = ['a1', 'a2', 'a3', 'a4', 'b1', 'b2', 'b3', 'b4', 'c1', 'c2', 'c3', 'c4', 'd1', 'd2', 'd3', 'd4', 'e1', 'e2', 'e3', 'e4',
+                'f1', 'f2', 'f3', 'f4', 'g1', 'g2', 'g3', 'g4', 'g5', 'g6']
+                break
+
+            elif i['total_seats'] == 40:
+                letter_id = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"]
+                button_list = ['a1', 'a2', 'a3', 'a4', 'b1', 'b2', 'b3', 'b4', 'c1', 'c2', 'c3', 'c4', 'd1', 'd2', 'd3', 'd4', 'e1', 'e2', 'e3', 'e4',
+                'f1', 'f2', 'f3', 'f4', 'g1', 'g2', 'g3', 'g4', 'h1', 'h2', 'h3', 'h4', 'i1', 'i2', 'i3', 'i4', 'j1', 'j2', 'j3', 'j4']
+                break
+
+    data2 = (view_json(dataDir+'seatInfo.json'))
+    iter_letter = iter(letter_id)
+    letter = next(iter_letter)
+
+    id_list = []
+    global TakenSeat
+    TakenSeat = 0
+
+    for i in data2:
+        busID = i["bus_id"]
+        id_list.append(busID)    
+
+    get_id = buses[0]
+    if get_id in id_list:
+        id_index = id_list.index(get_id)
+
+    n = 0
+        
+    for i in button_list:
+        if data2[id_index]["bus_id"] == buses[0]:
+            if n < ((len(data2[id_index][letter]))):
+                if(data2[id_index][letter][n]) == False:
+                    TakenSeat += 1   
+
+            elif n == ((len(data2[id_index][letter]))): 
+                n = 0
+                letter = next(iter_letter)
+                if(data2[id_index][letter][n]) == False:
+                    TakenSeat += 1
+                
+            n += 1
 
 def edit_bus():
     ## Check if admin selected a bus to edit. if not reject enter edit interface
     isEdit = False
-
     ## Get Item Selected from Treeview
     busid = bus_list.focus()
+    buses = bus_list.item(busid, 'values')
 
     if busid != '':
-        buses = bus_list.item(busid, 'values')
-        data = (view_json(dataDir+'busesInfo.json'))
-        for i in data:
-            if (i.get('bus_id')) == buses[0]:
-                letter_id = []
-                if i['total_seats']== 20:
-                    letter_id = ["A", "B", "C", "D", "E"]
-                    break
-
-                elif i['total_seats'] == 30:
-                    letter_id = ["A", "B", "C", "D", "E", "F", "G"]
-                    break
-
-                elif i['total_seats'] == 40:
-                    letter_id = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"]
-                    break
-
-        data2 = (view_json(dataDir+'seatInfo.json'))
-        iter_letter = iter(letter_id)
-        letter = next(iter_letter)
-
-        id_list = []
-        TakenSeat = 0
-
-        for i in data2:
-            busID = i["bus_id"]
-            id_list.append(busID)    
-
-        get_id = buses[0]
-        if get_id in id_list:
-            id_index = id_list.index(get_id)
- 
-        if data2[id_index]["bus_id"] == buses[0]:
-                for n in range(len(data2[id_index][letter]) + 1):
-                    for seat_info in (data2[id_index][letter]):
-                        if seat_info == False:
-                            TakenSeat += 1
-                            
-                    letter = next(iter_letter, None)
+        seat_info()
         if TakenSeat == 0:
             isEdit = True
         else:
@@ -310,7 +377,6 @@ def edit_bus():
                                 i['H'] = [True, True, True, True]
                                 i['I'] = [True, True, True, True]
                                 i['J'] = [True, True, True, True]
-                                i['K'] = [True, True, True, True]
 
                 update_json(data2, dataDir+'seatInfo.json') 
                 
@@ -391,47 +457,10 @@ def delete_bus():
     ## Get Item Selected from Treeview
     bus_del = bus_list.selection()
     busid = bus_list.focus()
+    buses = bus_list.item(busid, 'values')
     
     if bus_del != ():
-        buses = bus_list.item(busid, 'values')
-        data = (view_json(dataDir+'busesInfo.json'))
-        for i in data:
-            if (i.get('bus_id')) == buses[0]:
-                letter_id = []
-                if i['total_seats']== 20:
-                    letter_id = ["A", "B", "C", "D", "E"]
-                    break
-
-                elif i['total_seats'] == 30:
-                    letter_id = ["A", "B", "C", "D", "E", "F", "G"]
-                    break
-
-                elif i['total_seats'] == 40:
-                    letter_id = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"]
-                    break
-
-        data2 = (view_json(dataDir+'seatInfo.json'))
-        iter_letter = iter(letter_id)
-        letter = next(iter_letter)
-
-        id_list = []
-        TakenSeat = 0
-
-        for i in data2:
-            busID = i["bus_id"]
-            id_list.append(busID)    
-
-        get_id = buses[0]
-        if get_id in id_list:
-            id_index = id_list.index(get_id)
- 
-        if data2[id_index]["bus_id"] == buses[0]:
-                for n in range(len(data2[id_index][letter]) + 1):
-                    for seat_info in (data2[id_index][letter]):
-                        if seat_info == False:
-                            TakenSeat += 1
-                            
-                    letter = next(iter_letter, None)
+        seat_info()
         if TakenSeat == 0:
             isDelete = True
         else:
@@ -518,8 +547,8 @@ def admin_interface():
             record['total_seats'],
             fare_per_seat
             )
-            )
-    
+        )
+
     Label(root, text="List of Buses", font="Helvetica 15 bold").pack(anchor = W, padx=20)
     
     bus_list.pack(expand=True, fill=BOTH)
