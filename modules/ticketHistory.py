@@ -228,6 +228,7 @@ def acc_settings():
                             update_json(data,dataDir+'userAcc.json')
                             
                             msg.set("Password changed successfully!")
+                            break
                         else:
                             msg.set("Wrong Current Password, Please check again.")
 

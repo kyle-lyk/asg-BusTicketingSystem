@@ -33,6 +33,14 @@ def storageInit():
                             {
                                 "username": "user1",
                                 "password": "user1"
+                            },
+                            {
+                                "username": "user2",
+                                "password": "user2"
+                            },
+                            {
+                                "username": "user3",
+                                "password": "user3"
                             }
                         ]
 
@@ -51,6 +59,7 @@ def storageInit():
                                 "password": "admin3"
                             }
                         ]
+                        
             elif data == 'busesInfo.json':
                 data = [
                             {
@@ -60,20 +69,175 @@ def storageInit():
                                 "departure_town": "Ketereh,KLT",
                                 "arrival town": "Cyberjaya,SLG",
                                 "total_seats": 20,
-                                "fare per seat": 5
+                                "fare per seat": 3.0
+                            },
+                            {
+                                "bus_id": "A00002",
+                                "departure_date": "27/05/21",
+                                "departure_time": "00:00",
+                                "departure_town": "Ketereh,KLT",
+                                "arrival town": "Cyberjaya,SLG",
+                                "total_seats": 30,
+                                "fare per seat": 5.0
+                            },
+                            {
+                                "bus_id": "A00003",
+                                "departure_date": "27/05/21",
+                                "departure_time": "00:00",
+                                "departure_town": "Ketereh,KLT",
+                                "arrival town": "Cyberjaya,SLG",
+                                "total_seats": 40,
+                                "fare per seat": 7.0
                             }
                         ]
+
             elif data == 'seatInfo.json':
                 data = [
                             {
                                 "bus_id": "A00001",
-                                "A": [False, True, True, True],
-                                "B": [True, True, True, True],
-                                "C": [True, True, True, True],
-                                "D": [True, True, True, True],
-                                "E": [True, True, True, True]
+                                "A": [
+                                    False,
+                                    False,
+                                    True,
+                                    True
+                                ],
+                                "B": [
+                                    True,
+                                    True,
+                                    True,
+                                    True
+                                ],
+                                "C": [
+                                    True,
+                                    True,
+                                    True,
+                                    True
+                                ],
+                                "D": [
+                                    True,
+                                    True,
+                                    True,
+                                    True
+                                ],
+                                "E": [
+                                    True,
+                                    True,
+                                    True,
+                                    True
+                                ]
+                            },
+                            {
+                                "bus_id": "A00002",
+                                "A": [
+                                    True,
+                                    True,
+                                    True,
+                                    True
+                                ],
+                                "B": [
+                                    True,
+                                    True,
+                                    True,
+                                    True
+                                ],
+                                "C": [
+                                    True,
+                                    True,
+                                    True,
+                                    True
+                                ],
+                                "D": [
+                                    True,
+                                    True,
+                                    True,
+                                    True
+                                ],
+                                "E": [
+                                    True,
+                                    True,
+                                    True,
+                                    True
+                                ],
+                                "F": [
+                                    True,
+                                    True,
+                                    True,
+                                    True
+                                ],
+                                "G": [
+                                    True,
+                                    True,
+                                    True,
+                                    True,
+                                    True,
+                                    True
+                                ]
+                            },
+                            {
+                                "bus_id": "A00003",
+                                "A": [
+                                    True,
+                                    True,
+                                    True,
+                                    True
+                                ],
+                                "B": [
+                                    True,
+                                    True,
+                                    True,
+                                    True
+                                ],
+                                "C": [
+                                    True,
+                                    True,
+                                    True,
+                                    True
+                                ],
+                                "D": [
+                                    True,
+                                    True,
+                                    True,
+                                    True
+                                ],
+                                "E": [
+                                    True,
+                                    True,
+                                    True,
+                                    True
+                                ],
+                                "F": [
+                                    True,
+                                    True,
+                                    True,
+                                    True
+                                ],
+                                "G": [
+                                    True,
+                                    True,
+                                    True,
+                                    True
+                                ],
+                                "H": [
+                                    True,
+                                    True,
+                                    True,
+                                    True
+                                ],
+                                "I": [
+                                    True,
+                                    True,
+                                    True,
+                                    True
+                                ],
+                                "J": [
+                                    True,
+                                    True,
+                                    True,
+                                    True
+                                ]
                             }
                         ]
+                        
             elif data == 'ticketHistory.json':
                 data = [
                             {
@@ -83,8 +247,8 @@ def storageInit():
                                 "departure_time": "00:00",
                                 "departure_town": "Ketereh,KLT",
                                 "arrival town": "Cyberjaya,SLG",
-                                "selected_seat": "A1",
-                                "total_fare": 5
+                                "selected_seat": ["A1","A2"],
+                                "total_fare": 6.0
                             }
                         ]
 

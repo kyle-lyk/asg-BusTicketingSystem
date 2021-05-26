@@ -10,7 +10,7 @@ from tkinter import messagebox
 import json
 
 from systems import system
-from modules import auth, ticketHistory
+from modules import auth, ticketHistory, seatSelection
 
 ## Import root from system.py 
 root = system.root
@@ -79,22 +79,82 @@ def user_interface():
 
 
     ### Append data to Treeview from Database
+    ## Function to check how many seats available for each bus
+    def available_seats(busid):
+        data = (view_json(dataDir+'busesInfo.json'))
+        for i in data:
+            if (i.get('bus_id')) == busid:
+                letter_id = []
+                if i['total_seats']== 20:
+                    letter_id = ["A", "B", "C", "D", "E"]
+                    button_list = ['a1', 'a2', 'a3', 'a4', 'b1', 'b2', 'b3', 'b4', 'c1', 'c2', 'c3', 'c4', 'd1', 'd2', 'd3', 'd4', 'e1', 'e2', 'e3', 'e4']
+                    break
+
+                elif i['total_seats'] == 30:
+                    letter_id = ["A", "B", "C", "D", "E", "F", "G"]
+                    button_list = ['a1', 'a2', 'a3', 'a4', 'b1', 'b2', 'b3', 'b4', 'c1', 'c2', 'c3', 'c4', 'd1', 'd2', 'd3', 'd4', 'e1', 'e2', 'e3', 'e4',
+                    'f1', 'f2', 'f3', 'f4', 'g1', 'g2', 'g3', 'g4', 'g5', 'g6']
+                    break
+
+                elif i['total_seats'] == 40:
+                    letter_id = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"]
+                    button_list = ['a1', 'a2', 'a3', 'a4', 'b1', 'b2', 'b3', 'b4', 'c1', 'c2', 'c3', 'c4', 'd1', 'd2', 'd3', 'd4', 'e1', 'e2', 'e3', 'e4',
+                    'f1', 'f2', 'f3', 'f4', 'g1', 'g2', 'g3', 'g4', 'h1', 'h2', 'h3', 'h4', 'i1', 'i2', 'i3', 'i4', 'j1', 'j2', 'j3', 'j4']
+                    break
+
+        data2 = (view_json(dataDir+'seatInfo.json'))
+        iter_letter = iter(letter_id)
+        letter = next(iter_letter)
+
+        id_list = []
+
+        global SeatsAvailable
+        SeatsAvailable = 0
+
+        for i in data2:
+            busID = i["bus_id"]
+            id_list.append(busID)    
+
+        get_id = busid
+        if get_id in id_list:
+            id_index = id_list.index(get_id)
+
+        n = 0
+        for i in button_list:
+            if data2[id_index]["bus_id"] == busid:
+                if n < ((len(data2[id_index][letter]))):
+                    if(data2[id_index][letter][n]) == True:
+                        SeatsAvailable += 1  
+
+                elif n == ((len(data2[id_index][letter]))): 
+                    n = 0
+                    letter = next(iter_letter)
+                    if(data2[id_index][letter][n]) == True:
+                        SeatsAvailable += 1
+
+                n += 1
+
+### Show all data
+
+
     def show_all_data(my_tree):
         my_tree.delete(*my_tree.get_children())
-        
+
         data = view_json(dataDir + 'busesInfo.json')
 
         for obj in data:
-                my_tree.insert(parent='', index='end', text="", values=(
-                    obj['bus_id'], 
-                    obj['departure_date'], 
-                    obj['departure_time'], 
-                    obj['departure_town'],
-                    obj['arrival town'], 
-                    obj['total_seats'],
-                    obj['fare per seat']
-                    )
-                    )
+            available_seats(obj['bus_id'])
+            fare_per_seat = ("{:.2f}".format(obj['fare per seat']))
+            my_tree.insert(parent='', index='end', text="", values=(
+                obj['bus_id'], 
+                obj['departure_date'], 
+                obj['departure_time'], 
+                obj['departure_town'],
+                obj['arrival town'], 
+                str(SeatsAvailable) + "/" +str(obj['total_seats']),
+                fare_per_seat
+                )
+            )
             
         
     def show_selected_data(my_tree,Date,DepartureTown,ArrivalTown):
@@ -113,20 +173,53 @@ def user_interface():
                 show_all_data(my_tree)
                 break
             elif (obj.get('departure_date') == Date) and (obj.get('departure_town') == DepartureTown) and (obj.get('arrival town') == ArrivalTown):
+                available_seats(obj['bus_id'])
+                fare_per_seat = ("{:.2f}".format(obj['fare per seat']))
                 my_tree.insert(parent='', index='end', text="", values=(
                     obj['bus_id'], 
                     obj['departure_date'], 
                     obj['departure_time'], 
                     obj['departure_town'],
                     obj['arrival town'], 
-                    obj['total_seats'],
-                    obj['fare per seat']
+                    str(SeatsAvailable) + "/" +str(obj['total_seats']),
+                    fare_per_seat
                     )
-                    ) 
+                )
 
 
     ## Show all data first by default
     show_all_data(my_tree)
+
+    ### Proceed to selected Bus
+    def select_bus():
+        ## Check if user selected a bus to enter. if not reject enter seat selection interface
+        isSelected = False
+
+        ## Get Item Selected from Treeview
+        busid = my_tree.focus()
+        buses = my_tree.item(busid, 'values')
+        
+        if busid != '':
+            isSelected = True
+        else:
+            messagebox.showwarning("Error", "Please select a bus you want to proceed")
+
+
+        ## Read
+        if isSelected:
+            busID = buses[0]
+            total_seats = (buses[5].split('/'))[1]
+
+            fare_per_seat = buses[6]
+            if total_seats == '20':
+                seatSelection.seat_layout_20(root, busID, fare_per_seat, buses)
+            elif total_seats == '30':
+                seatSelection.seat_layout_30(root, busID, fare_per_seat, buses)
+            elif total_seats == '40':
+                seatSelection.seat_layout_40(root, busID, fare_per_seat, buses)
+
+            
+
 
 
     ####### WIDGETS #######
@@ -163,7 +256,7 @@ def user_interface():
     AB_Button = Button(functionframe, text="Show All",fg="white", bg="black",justify=CENTER,width=10, command=lambda:show_all_data(my_tree))
     AB_Button.pack(pady=(20, 0))
 
-    PB_Button = Button(functionframe, text="Select Bus",fg="white", bg="black", justify=CENTER,width=12)
+    PB_Button = Button(functionframe, text="Select Bus",fg="white", bg="black", justify=CENTER,width=12, command=lambda:select_bus())
     PB_Button.pack(pady=(20, 0))
 
     TS_Button = Button(functionframe, text="Ticket History", width=20, command=lambda:ticketHistory.th_interface())
@@ -233,6 +326,7 @@ def acc_settings():
                             update_json(data,dataDir+'userAcc.json')
                             
                             msg.set("Password changed successfully!")
+                            break
                         else:
                             msg.set("Wrong Current Password, Please check again.")
 
