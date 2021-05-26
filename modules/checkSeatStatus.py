@@ -1,20 +1,56 @@
 from tkinter import *
+from tkinter import messagebox
 import json
 
 root = Tk()
 root.title("Seat Layout")
-db_filepath = "./BusTicketingSystem/data/seatInfo.json"
 
-top = Frame(root)
-top.pack()
-bottom = Frame(root)
-bottom.pack(side=BOTTOM)
+# Change this according to location of JSON file on your computer:
+db_filepath = "./BusTicketingSystem/data/seatInfo.json" 
+
+# Change this to how much you want it costs to book a seat:
+price_per_seat = 2 
+
+# Change this to ID of the bus you want to select from JSON file:
+get_id = "A05"
+
+
+# JSON fuctions
 
 def update_json(data, filename=db_filepath):
     with open(filename,'w') as file:
         json.dump(data, file, indent=4)
 
 
+def add_json(new_data,filename):
+    with open (filename,"r") as f:
+        temp = json.load(f)
+        temp.append(new_data)
+    with open (filename,"w") as f:
+        json.dump(temp, f, indent = 4)
+
+def view_json(filename):
+    with open (filename,'r') as f:
+        data = json.load(f)
+    return data
+
+
+# Function that displays the amount of seats booked and the total price
+def exit_window(total, price, seats, id):
+    window = Toplevel(root)
+    title_label = Label(window, text=" Ticket ", font='Helvetica 15 bold', borderwidth=2, relief="ridge")
+    title_label.grid(row=0, padx=10, pady=10)
+    id_label = Label(window, text=f"Bus ID: {id}")
+    id_label.grid(row=1, padx=5, pady=5)
+    seats_label = Label(window, text=f"Booked seats: {seats}")
+    seats_label.grid(row=2, padx=5, pady=5)
+    total_label = Label(window, text=f"Total seats booked: {total}")
+    total_label.grid(row=3, padx=5, pady=5)
+    price_label = Label(window, text=f"Total price: RM {price}")
+    price_label.grid(row=4, padx=5, pady=5)
+
+
+# This function allows the selection of seats by highlighting them in green
 def click_button(btn):
     def select_button():
         if btn["bg"] == "SystemButtonFace":
@@ -24,6 +60,7 @@ def click_button(btn):
     return select_button
 
 
+# Function that generates a visual seat layout of a bus that is stored in the JSON file
 def occupied_seat(letter_id, button_list):
 
     with open(db_filepath) as db:
@@ -39,14 +76,13 @@ def occupied_seat(letter_id, button_list):
         id_list.append(busID)
 
     while True:
-        get_id = input("Enter bus ID: ").upper()
         if get_id in id_list:
             id_index = id_list.index(get_id)
             print("Seat layout has been successfully updated!")
             break
         else:
             print("The bus ID entered does not exist!")
-            continue
+            root.destroy()
     
     if get_id in id_list and data[id_index]["ID"] == get_id:
         for i in button_list:
@@ -66,6 +102,7 @@ def occupied_seat(letter_id, button_list):
             n += 1
 
 
+# Appends a default database for 20 seats bus in the JSON file
 def seat_database_20(id=""):
 
     layout = {
@@ -85,6 +122,7 @@ def seat_database_20(id=""):
 
 
 
+# Appends a default database for 30 seats bus in the JSON file
 def seat_database_30(id=""):
 
     layout = {
@@ -105,6 +143,7 @@ def seat_database_30(id=""):
     update_json(data)
 
 
+# Appends a default database for 40 seats bus in the JSON file
 def seat_database_40(id=""):
     
     layout = {
@@ -118,8 +157,7 @@ def seat_database_40(id=""):
         "G": [True, True, True, True],
         "H": [True, True, True, True],
         "I": [True, True, True, True],
-        "J": [True, True, True, True],
-        "K": [True, True, True, True]
+        "J": [True, True, True, True]
     }
 
     with open(db_filepath) as db:
@@ -129,7 +167,14 @@ def seat_database_40(id=""):
     update_json(data)
 
 
+# Defines the seat arrangement and design for a bus with 20 seats
 def seat_layout_20():
+
+    top = Frame(root, height = 40, width = 240)
+    top.pack()
+    bottom = Frame(root, height = 40, width = 240)
+    bottom.pack(side=BOTTOM)
+
     entrance_label = Label(top, text="Entrance", borderwidth=2, relief="groove")
     entrance_label.grid(row=0, column=0, columnspan=2, sticky=W, padx=10, pady=10)
     driver_label = Label(top, text="Driver's Seat", borderwidth=2, relief="groove")
@@ -176,15 +221,50 @@ def seat_layout_20():
     e3.grid(row=6, column=2)
     e4 = Button(top, text="E4", width=4)
     e4.grid(row=6, column=3)
+    
 
     letter_id = ["A", "B", "C", "D", "E"]
     button_list = [a1, a2, a3, a4, b1, b2, b3, b4, c1, c2, c3, c4, d1, d2, d3, d4, e1, e2, e3, e4]
+    button_name = ['A1', 'A2', 'A3', 'A4', 'B1', 'B2', 'B3', 'B4', 'C1', 'C2', 'C3', 'C4', 'D1', 'D2', 'D3', 'D4', 'E1', 'E2', 'E3', 'E4']
 
     occupied_seat(letter_id, button_list)
 
+    # Update unoccupied seats that are selected to "False" in JSON file
+    def confirm_func():
+        data = view_json(db_filepath)
+        total_seats = 0
+        total_price = 0
+        booked_seats = []
+        index = 0 # change to index of selected bus in JSON file
+
+        for i in range(len(button_list)):
+            # to check bg of each button:
+            # print(f"{button_name[i]} = {button_list[i]['bg']}" )
+            if button_list[i]['bg'] == 'green':
+                button = [char for char in button_name[i]]
+                alp,num = button[0],button[1]
+                data[index][alp][int(num)-1] = False
+                total_seats += 1
+                total_price += price_per_seat
+                booked_seats.append(button_name[i])
+
+        update_json(data,db_filepath)
+        exit_window(total_seats, total_price, booked_seats, get_id)
+        print('Sucessfully updated!')
+
+    submit = Button(top, text="Confirm", command=confirm_func)
+    submit.grid(row=7, columnspan=4, pady=(30, 0))
 
 
+
+# Defines the seat arrangement and design for a bus with 30 seats
 def seat_layout_30():
+
+    top = Frame(root)
+    top.pack()
+    bottom = Frame(root)
+    bottom.pack(side=BOTTOM)
+
     entrance_label = Label(top, text="Entrance", borderwidth=2, relief="groove")
     entrance_label.grid(row=0, column=0, columnspan=2, sticky=W, padx=10, pady=10)
     driver_label = Label(top, text="Driver's Seat", borderwidth=2, relief="groove")
@@ -255,11 +335,46 @@ def seat_layout_30():
     letter_id = ["A", "B", "C", "D", "E", "F", "G"]
     button_list = [a1, a2, a3, a4, b1, b2, b3, b4, c1, c2, c3, c4, d1, d2, d3, d4, e1, e2, e3, e4, f1,
     f2, f3, f4, g1, g2, g3, g4, g5, g6]
+    button_name = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4", "D1", "D2", "D3", "D4", "E1", "E2", "E3", "E4",
+    "F1", "F2", "F3", "F4", "G1", "G2", "G3", "G4", "G5", "G6"]
 
     occupied_seat(letter_id, button_list)
 
+    # Update unoccupied seats that are selected to "False" in JSON file
+    def confirm_func():
+        data = view_json(db_filepath)
+        total_seats = 0
+        total_price = 0
+        booked_seats = []
+        index = 2 # change to index of selected bus in JSON file
 
+        for i in range(len(button_list)):
+            # to check bg of each button:
+            # print(f"{button_name[i]} = {button_list[i]['bg']}" )
+            if button_list[i]['bg'] == 'green':
+                button = [char for char in button_name[i]]
+                alp,num = button[0],button[1]
+                data[index][alp][int(num)-1] = False
+                total_seats += 1
+                total_price += price_per_seat
+                booked_seats.append(button_name[i])
+
+        update_json(data,db_filepath)
+        exit_window(total_seats, total_price, booked_seats, get_id)
+        print('Sucessfully updated!')
+
+    submit = Button(bottom, text="Confirm", command=confirm_func)
+    submit.grid(row=9, columnspan=6, pady=(30, 0))
+
+
+# Defines the seat arrangement and design for a bus with 40 seats
 def seat_layout_40():
+
+    top = Frame(root)
+    top.pack()
+    bottom = Frame(root)
+    bottom.pack(side=BOTTOM)
+
     entrance_label = Label(top, text="Entrance", borderwidth=2, relief="groove")
     entrance_label.grid(row=0, column=0, columnspan=2, sticky=W, padx=10, pady=10)
     driver_label = Label(top, text="Driver's Seat", borderwidth=2, relief="groove")
@@ -350,12 +465,40 @@ def seat_layout_40():
     letter_id = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
     button_list = [a1, a2, a3, a4, b1, b2, b3, b4, c1, c2, c3, c4, d1, d2, d3, d4, e1, e2, e3, e4, f1,
     f2, f3, f4, g1, g2, g3, g4, h1, h2, h3, h4, i1, i2, i3, i4, j1, j2, j3, j4]
+    button_name = ["A1", "A2", "A3", "A4", "B1" , "B2", "B3", "B4", "C1", "C2", "C3", "C4", "D1", "D2", "D3", "D4", "E1", "E2", "E3", "E4",
+    "F1", "F2", "F3", "F4", "G1", "G2", "G3", "G4", "H1", "H2", "H3", "H4", "I1" , "I2", "I3", "I4", "J1", "J2", "J3", "J4"]
 
     occupied_seat(letter_id, button_list)
 
+    # Update unoccupied seats that are selected to "False" in JSON file
+    def confirm_func():
+        data = view_json(db_filepath)
+        total_seats = 0
+        total_price = 0
+        booked_seats = []
+        index = 4 # change to index of selected bus in JSON file
+
+        for i in range(len(button_list)):
+            # to check bg of each button:
+            # print(f"{button_name[i]} = {button_list[i]['bg']}" )
+            if button_list[i]['bg'] == 'green':
+                button = [char for char in button_name[i]]
+                alp,num = button[0],button[1]
+                data[index][alp][int(num)-1] = False
+                total_seats += 1
+                total_price += price_per_seat
+                booked_seats.append(button_name[i])
+
+        update_json(data,db_filepath)
+        exit_window(total_seats, total_price, booked_seats, get_id)
+        print('Sucessfully updated!')
+
+    submit = Button(bottom, text="Confirm", command=confirm_func)
+    submit.grid(row=12, columnspan=4, pady=(30, 0))
+
 
 # seat_database_20("insert_id") - test appending default layout to database
-# seat_layout_20() - see available seats, enter bus id to check available seats
+# seat_layout_20() - see available seats, enter bus id in console to check available seats
 
 seat_layout_40()
 
