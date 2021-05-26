@@ -89,7 +89,7 @@ def userVerification(userEntry,userpasswordEntry):
         if userExist:
             global user_id 
             user_id = username
-            messagebox.showinfo(f"Welcome back!", "Login Successful!")
+            messagebox.showinfo("Welcome back!", "Login Successful!")
             userMenu.user_interface()
         else:
             messagebox.showinfo("Failed Authentication", "Username or Password is incorrect! \nPlease check if you have registered the account or not.")
@@ -211,4 +211,5 @@ def adminVerification(adminEntry,adminpasswordEntry):
 
         else:
             messagebox.showinfo("Failed Authentication", "Username or Password is incorrect!")
+
 

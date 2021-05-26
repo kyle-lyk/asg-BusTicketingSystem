@@ -10,7 +10,7 @@ from tkinter import ttk
 import json
 
 from systems import system
-from modules import auth, checkSeatStatus
+from modules import auth, seatSelection
 
 ## Import root from system.py 
 root = system.root
@@ -102,13 +102,13 @@ def create_bus():
                 add_json(data, dataDir+'busesInfo.json')  
 
                 if seats == 20:
-                    checkSeatStatus.seat_database_20(busID)
+                    seatSelection.seat_database_20(busID)
 
                 elif seats == 30:
-                    checkSeatStatus.seat_database_30(busID)
+                    seatSelection.seat_database_30(busID)
 
                 elif seats == 40:
-                    checkSeatStatus.seat_database_40(busID)
+                    seatSelection.seat_database_40(busID)
 
                 messagebox.showinfo("Successful!", "Bus created!", parent=add_Top)
 
@@ -210,19 +210,18 @@ def available_seats(busid):
         id_index = id_list.index(get_id)
 
     n = 0
-        
     for i in button_list:
         if data2[id_index]["bus_id"] == busid:
             if n < ((len(data2[id_index][letter]))):
                 if(data2[id_index][letter][n]) == True:
-                    SeatsAvailable += 1   
+                    SeatsAvailable += 1  
 
             elif n == ((len(data2[id_index][letter]))): 
                 n = 0
                 letter = next(iter_letter)
                 if(data2[id_index][letter][n]) == True:
                     SeatsAvailable += 1
-                
+
             n += 1
 
 ## Function to check if any seat is taken in the selected bus
@@ -347,7 +346,7 @@ def edit_bus():
                         if i.get('bus_id') == buses[0]:
                             i.clear()
                             if seats == 20:
-                                #checkSeatStatus.edit_seat_database_20(buses[0])
+                                #seatSelection.edit_seat_database_20(buses[0])
                                 i['bus_id'] = buses[0]
                                 i['A'] = [True, True, True, True]
                                 i['B'] = [True, True, True, True]
@@ -387,8 +386,10 @@ def edit_bus():
             except ValueError:
                 messagebox.showwarning("Error", "Please enter number value only")
 
-    data = view_json(dataDir+'busesInfo.json')
+
     ##Get Bus Details
+    data = view_json(dataDir+'busesInfo.json')
+    
     if isEdit:
         clear_frame(root)
         for i in data:
