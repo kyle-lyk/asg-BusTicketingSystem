@@ -44,6 +44,7 @@ def return_func(root):
 # Function that displays the amount of seats booked and the total price
 def exit_window(root_, total, price, seats, id, businfo):
     root = root_
+    total_price = ("{:.2f}".format(price))
     clear_frame(root)
     title_label = Label(root, text=" Ticket ", font='Helvetica 15 bold', borderwidth=2, relief="ridge")
     title_label.pack(pady=(40,0))
@@ -53,7 +54,7 @@ def exit_window(root_, total, price, seats, id, businfo):
     seats_label.pack(pady=(20,0))
     total_label = Label(root, text=f"Total seats booked: {total}", font='Helvetica 10 bold')
     total_label.pack(pady=(20,0))
-    price_label = Label(root, text=f"Total price: RM {price}", font='Helvetica 10 bold')
+    price_label = Label(root, text=f"Total price: RM {total_price}", font='Helvetica 10 bold')
     price_label.pack(pady=(20,0))
     
     returnButton = Button(root, width=20, text="Return to Bus Selection", command=lambda:return_func(root)).pack(pady=(40,0))
@@ -166,7 +167,6 @@ def occupied_seat(busID, letter_id, button_list):
     while True:
         if busID in id_list:
             id_index = id_list.index(busID)
-            print(id_index)
             print("Seat layout has been successfully updated!")
             break
         else:
@@ -174,7 +174,7 @@ def occupied_seat(busID, letter_id, button_list):
 
     
     if busID in id_list and data[id_index]["bus_id"] == busID:
-        print(data[id_index])
+
         for i in button_list:
             list_length = len(data[id_index][letter])
             if n < list_length:
