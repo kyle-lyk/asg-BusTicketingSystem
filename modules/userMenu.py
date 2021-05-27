@@ -52,19 +52,19 @@ def user_interface():
     functionframe = Frame(root)
 
     ### Treeview List 
-    properties = ['Bus ID','Departure Date','Departure Time','Departure Town','Arrival Town','Total Seat','Fare/Seat']
+    properties = ['Bus ID','Departure Date','Departure Time','Departure Town','Arrival Town','Total Seat','Fare(RM)']
     my_tree = ttk.Treeview(treeframe, show='headings')
     my_tree['columns']= properties
 
 
     ## Define Columns
-    my_tree.column('Bus ID',width=50)
-    my_tree.column('Departure Date',width=92)
-    my_tree.column('Departure Time',width=93)
-    my_tree.column('Departure Town',width=93)
-    my_tree.column('Arrival Town',width=92)
-    my_tree.column('Total Seat',width=82)
-    my_tree.column('Fare/Seat',width=60)
+    my_tree.column('Bus ID', anchor=CENTER, width=50)
+    my_tree.column('Departure Date', anchor=CENTER, width=92)
+    my_tree.column('Departure Time', anchor=CENTER, width=93)
+    my_tree.column('Departure Town', anchor=CENTER, width=93)
+    my_tree.column('Arrival Town', anchor=CENTER, width=92)
+    my_tree.column('Total Seat', anchor=CENTER, width=82)
+    my_tree.column('Fare(RM)', anchor=CENTER, width=60)
 
 
 
@@ -75,7 +75,7 @@ def user_interface():
     my_tree.heading('Departure Town', text='Departure Town')
     my_tree.heading('Arrival Town', text='Arrival Town')
     my_tree.heading('Total Seat', text='Seat Available')
-    my_tree.heading('Fare/Seat', text='Fare/Seat')
+    my_tree.heading('Fare(RM)', text='Fare(RM)')
 
 
     ### Append data to Treeview from Database
