@@ -56,13 +56,13 @@ def th_interface():
 
 
     ## Define Columns
-    my_tree.column('Bus ID',width=50)
-    my_tree.column('Departure Date',width=92)
-    my_tree.column('Departure Time',width=92)
-    my_tree.column('Departure Town',width=93)
-    my_tree.column('Arrival Town',width=93)
-    my_tree.column('Selected Seat',width=82)
-    my_tree.column('Total Fare',width=60)
+    my_tree.column('Bus ID', anchor=CENTER, width=50)
+    my_tree.column('Departure Date', anchor=CENTER, width=92)
+    my_tree.column('Departure Time', anchor=CENTER, width=92)
+    my_tree.column('Departure Town', anchor=CENTER, width=93)
+    my_tree.column('Arrival Town', anchor=CENTER, width=93)
+    my_tree.column('Selected Seat', anchor=CENTER, width=82)
+    my_tree.column('Total Fare', anchor=CENTER, width=60)
 
 
     ## Define Headings  
@@ -83,6 +83,7 @@ def th_interface():
 
         for obj in data:
             if obj.get('user_id') == auth.user_id:
+                total_fare = ("{:.2f}".format(obj['total_fare']))
                 my_tree.insert(parent='', index='end', text="", values=(
                     obj['bus_id'], 
                     obj['departure_date'], 
@@ -90,7 +91,7 @@ def th_interface():
                     obj['departure_town'],
                     obj['arrival town'], 
                     obj['selected_seat'],
-                    obj['total_fare']
+                    total_fare
                     )
                     )
             
