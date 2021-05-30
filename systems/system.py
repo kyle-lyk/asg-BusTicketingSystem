@@ -9,7 +9,7 @@ from tkinter import ttk
 ### Tkinter Root Settings
 root = Tk()
 root.title("Bus Ticketing System")
-
+root.iconbitmap("./images/bus_icon.ico")
 ## Treeview Style
 style = ttk.Style()
 style.map('Treeview')
