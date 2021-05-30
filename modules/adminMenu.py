@@ -43,9 +43,11 @@ def update_json(updated_data,filename):
 def admin_interface():
     clear_frame(root)
 
+    ## Set background color
     root.configure(bg="#faf1e3")
-
     bus_frame = Frame(root, bg="#faf1e3")
+
+    ## Treeview Scrollbar
     tree_scroll = Scrollbar(bus_frame)
     tree_scroll.pack(side=RIGHT, fill=Y)
     
@@ -95,6 +97,7 @@ def admin_interface():
                     break
 
         data2 = (view_json(dataDir+'seatInfo.json'))
+        ## Iterate through the letter
         iter_letter = iter(letter_id)
         letter = next(iter_letter)
 
@@ -122,7 +125,7 @@ def admin_interface():
 
     data = view_json(dataDir + 'busesInfo.json')
 
-    ##Append data to Treeview from Database
+    ## Append data to Treeview from Database
     for record in data:
         available_seats(record['bus_id'])
         fare_per_seat = ("{:.2f}".format(record['fare per seat']))
@@ -159,7 +162,7 @@ def admin_interface():
         if bus_list.identify_region(event.x, event.y) == "separator":
             return "break"
 
-    ### Disable resizing tree column
+    ## Disable resizing tree column
     bus_list.bind('<Button-1>', handle_click)
 
 
@@ -218,7 +221,7 @@ def seat_info():
 
 ## Function to create new bus
 def create_bus():
-    add_Top = Toplevel(root)  ## New window
+    add_Top = Toplevel(root) 
     add_Top.title("Create New Bus")
     add_Top.iconbitmap("./images/bus_icon.ico")
     add_Top.configure(bg="#faf1e3")
@@ -315,7 +318,7 @@ def create_bus():
 
     time = StringVar()
 
-    ## Options for bus details
+    ## Options for bus details ##
     ## Date
     Label(add_Top, text="Select Departure Date", font="Helvetica 10", bg="#faf1e3").pack(pady=(20, 0))
     date = DateEntry(add_Top, date_pattern = 'dd/mm/yy')
@@ -363,6 +366,7 @@ def create_bus():
 def edit_bus():
     ## Check if admin selected a bus to edit. if not reject enter edit interface
     isEdit = False
+    
     ## Get Item Selected from Treeview
     busid = bus_list.focus()
     buses = bus_list.item(busid, 'values')
