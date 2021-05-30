@@ -49,9 +49,12 @@ def th_interface():
     treeframe = Frame(root, bg="#f3e0ca")
     functionframe = Frame(root, bg="#f3e0ca")
 
+    tree_scroll = Scrollbar(treeframe)
+    tree_scroll.pack(side=RIGHT, fill=Y)
     ### Treeview List 
     properties = ['Bus ID','Departure Date','Departure Time','Departure Town','Arrival Town','Selected Seat','Total Fare']
-    my_tree = ttk.Treeview(treeframe, show='headings')
+    my_tree = ttk.Treeview(treeframe, yscrollcommand=tree_scroll.set, show='headings')
+    tree_scroll.config(command=my_tree.yview)
     my_tree['columns']= properties
 
 
@@ -130,8 +133,8 @@ def th_interface():
 
     ####### WIDGETS #######
     ### Texts
-    title_Label = Label(treeframe, text= 'Ticket History', font="Helvetica 15 bold", bg="#f3e0ca").pack(anchor='n')
-    username_Label = Label(functionframe, text= f'Welcome back,\n{auth.user_id}!', font="Helvetica 10 bold", bg="#f3e0ca").pack(pady=(5, 0))
+    title_Label = Label(root, text= 'Ticket History', font="Helvetica 15 bold", bg="#f3e0ca").pack(anchor='n', pady=(10,0), padx=(0, 140))
+    username_Label = Label(functionframe, text= f'Welcome back,\n{auth.user_id}!', font="Helvetica 10 bold", bg="#f3e0ca").pack()
 
     ### Dates
     dateLabel = Label(functionframe, text='Departure Date', bg="#f3e0ca").pack(pady=(15, 0))
@@ -164,16 +167,16 @@ def th_interface():
     AB_Button.pack(pady=(10, 0))
 
     BS_Button = Button(functionframe, text="Bus Selection", justify=CENTER, width=20, command=lambda:userMenu.user_interface())
-    BS_Button.pack(pady=(106, 0))
+    BS_Button.pack(pady=(100, 0))
 
     AS_Button = Button(functionframe, width=20, text="Account Settings", command=lambda:acc_settings())
-    AS_Button.pack(pady=(40, 0))
+    AS_Button.pack(pady=(20, 0))
 
 
     ### Frame Packing
     my_tree.pack(expand=True, fill=BOTH)
-    treeframe.pack(anchor=N, side=LEFT, pady=(10,15), padx=15, expand=True, fill=BOTH)
-    functionframe.pack(anchor=N, side=RIGHT, pady=(10,15), padx=15)
+    treeframe.pack(anchor=N, side=LEFT, pady=(0,15), padx=15, expand=True, fill=BOTH)
+    functionframe.pack(anchor=N, side=RIGHT, pady=(10,15), padx=10)
 
     def handle_click(event):
         if my_tree.identify_region(event.x, event.y) == "separator":

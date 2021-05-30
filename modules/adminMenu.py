@@ -46,8 +46,13 @@ def admin_interface():
     root.configure(bg="#faf1e3")
 
     bus_frame = Frame(root, bg="#faf1e3")
+    tree_scroll = Scrollbar(bus_frame)
+    tree_scroll.pack(side=RIGHT, fill=Y)
+    
     global bus_list
-    bus_list = ttk.Treeview(bus_frame, show='headings', selectmode='browse')
+    bus_list = ttk.Treeview(bus_frame, yscrollcommand=tree_scroll.set, show='headings', selectmode='browse')
+
+    tree_scroll.config(command=bus_list.yview)
 
     bus_list['columns'] = ("Bus ID", "Departure Date", "Departure Time", "Departure Town", "Arrival Town",  "Seats Available", "Total Fare")
     bus_list.column("Bus ID", anchor=CENTER, width =50)
@@ -138,7 +143,7 @@ def admin_interface():
     bus_frame.pack(anchor=N, side=LEFT, pady=(0, 15), padx=15, expand=True, fill=BOTH)
     
     functionframe = Frame(root, bg="#faf1e3")
-    functionframe.pack(anchor=N, side=RIGHT, pady=10, padx=15)
+    functionframe.pack(anchor=N, side=RIGHT, pady=10, padx=10)
     
     create_btn = Button(functionframe, text="Create Bus", command=create_bus, width=20)
     edit_btn = Button(functionframe, text="Edit Bus", command=edit_bus, width=20)
