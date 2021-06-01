@@ -275,13 +275,10 @@ def seat_layout_20(root, busid, fare_per_seat, businfo):
         e3 = Button(top, text="E3", width=4)
         e3.grid(row=7, column=2)
         e4 = Button(top, text="E4", width=4)
+        e4.grid(row=7, column=3)
 
-        e4.grid(row=6, column=3)
-
-        reminder_label = Label(top, text="")
-        reminder_label.grid(row=8, columnspan=4)
-
-        
+        reminder_label = Label(top, text="", bg="#bcb4ac")
+        reminder_label.grid(row=9, columnspan=4)
 
         letter_id = ["A", "B", "C", "D", "E"]
         button_list = [a1, a2, a3, a4, b1, b2, b3, b4, c1, c2, c3, c4, d1, d2, d3, d4, e1, e2, e3, e4]
@@ -321,10 +318,10 @@ def seat_layout_20(root, busid, fare_per_seat, businfo):
                 print('Sucessfully updated!')
 
 
-        submit = Button(top, text="Confirm", fg="#ffffff",bg="#5e514d",width=15,activebackground="#726a63", activeforeground="#ffffff", command=confirm_func)
-        submit.grid(row=8, columnspan=4, pady=(30, 0))
-        cancel_button = Button(top, text="Cancel", command=lambda:return_func(root))
-        cancel_button.grid(row=7, columnspan=4, padx=(60, 0), pady=(30, 0))
+        submit = Button(top, text="Confirm", width=9, fg="#ffffff",bg="#5e514d",activebackground="#726a63", activeforeground="#ffffff", command=confirm_func)
+        submit.grid(row=8, columnspan=4, padx=(0, 80), pady=(30, 0))
+        cancel_button = Button(top, text="Cancel", width=9, fg="#ffffff",bg="#5e514d",activebackground="#726a63", activeforeground="#ffffff", command=lambda:return_func(root))
+        cancel_button.grid(row=8, columnspan=4, padx=(80, 0), pady=(30, 0))
     
 
     seat_layout_20_menu()
@@ -428,7 +425,7 @@ def seat_layout_30(root, busid, fare_per_seat, businfo):
         g2 = Button(bottom, text="G2", width=3)
         g2.grid(row=10, column=1)
         g3 = Button(bottom, text="G3", width=3)
-        g3.grid(row=10, column=2)
+        g3.grid(row=10, column=2, padx=(0, 1))
         g4 = Button(bottom, text="G4", width=3)
         g4.grid(row=10, column=3)
         g5 = Button(bottom, text="G5", width=3)
@@ -436,8 +433,8 @@ def seat_layout_30(root, busid, fare_per_seat, businfo):
         g6 = Button(bottom, text="G6", width=3)
         g6.grid(row=10, column=5)
 
-        reminder_label = Label(bottom, text="")
-        reminder_label.grid(row=10, columnspan=6)
+        reminder_label = Label(bottom, text="", bg="#bcb4ac")
+        reminder_label.grid(row=12, columnspan=6)
 
         letter_id = ["A", "B", "C", "D", "E", "F", "G"]
         button_list = [a1, a2, a3, a4, b1, b2, b3, b4, c1, c2, c3, c4, d1, d2, d3, d4, e1, e2, e3, e4, f1,
@@ -479,10 +476,10 @@ def seat_layout_30(root, busid, fare_per_seat, businfo):
                 print('Sucessfully updated!')
 
 
-        submit = Button(bottom, text="Confirm", fg="#ffffff",bg="#5e514d",width=15,activebackground="#726a63", activeforeground="#ffffff", command=confirm_func)
-        submit.grid(row=11, columnspan=6, pady=(30, 0))
-        cancel_button = Button(bottom, text="Cancel", command=lambda:return_func(root))
-        cancel_button.grid(row=9, columnspan=6, padx=(60, 0), pady=(30, 0))
+        submit = Button(bottom, text="Confirm", fg="#ffffff",bg="#5e514d", width=9, activebackground="#726a63", activeforeground="#ffffff", command=confirm_func)
+        submit.grid(row=11, columnspan=6, padx=(0, 80), pady=(30, 0))
+        cancel_button = Button(bottom, text="Cancel", fg="#ffffff",bg="#5e514d", width=9, activebackground="#726a63", activeforeground="#ffffff", command=lambda:return_func(root))
+        cancel_button.grid(row=11, columnspan=6, padx=(80, 0), pady=(30, 0))
 
 
     seat_layout_30_menu()
@@ -606,8 +603,8 @@ def seat_layout_40(root, busid, fare_per_seat, businfo):
         j4 = Button(top, text="J4", width=4)
         j4.grid(row=12, column=3)
 
-        reminder_label = Label(bottom, text="")
-        reminder_label.grid(row=13, columnspan=4)
+        reminder_label = Label(top, text="", bg="#bcb4ac")
+        reminder_label.grid(row=14, columnspan=4)
 
         letter_id = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
         button_list = [a1, a2, a3, a4, b1, b2, b3, b4, c1, c2, c3, c4, d1, d2, d3, d4, e1, e2, e3, e4, f1,
@@ -648,10 +645,10 @@ def seat_layout_40(root, busid, fare_per_seat, businfo):
                 print('Sucessfully updated!')
 
 
-        submit = Button(top, text="Confirm", fg="#ffffff",bg="#5e514d",width=15,activebackground="#726a63", activeforeground="#ffffff", command=confirm_func)
-        submit.grid(row=13, columnspan=4, pady=(30, 0))
-        cancel_button = Button(bottom, text="Cancel", command=lambda:return_func(root))
-        cancel_button.grid(row=12, columnspan=4, padx=(60, 0), pady=(30, 0))
+        submit = Button(top, text="Confirm", fg="#ffffff",bg="#5e514d", width=9, activebackground="#726a63", activeforeground="#ffffff", command=confirm_func)
+        submit.grid(row=13, columnspan=6, padx=(0, 80), pady=(30, 0))
+        cancel_button = Button(top, text="Cancel", fg="#ffffff",bg="#5e514d", width=9, activebackground="#726a63", activeforeground="#ffffff", command=lambda:return_func(root))
+        cancel_button.grid(row=13, columnspan=6, padx=(80, 0), pady=(30, 0))
 
 
     seat_layout_40_menu()
