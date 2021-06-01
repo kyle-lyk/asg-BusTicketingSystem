@@ -4,14 +4,11 @@
 #                   #
 #####################
 
-### IMPORT MODULES
-from modules import auth
+
+### System Initiation
+## Import root from systems initiation
 from systems import system, stor_init, pip_init
-
-## Import root from system.py 
 root = system.root
-
-### Init Functions
 
 ## Python Module Initiation
 pip_init.pip_init()
@@ -19,7 +16,8 @@ pip_init.pip_init()
 ## Storage Initiation
 stor_init.storageInit()
 
-## Authentication
+### Authentication
+from modules import auth
 auth.userAuth()
 
 
