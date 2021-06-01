@@ -9,9 +9,9 @@ package = ['tkcalendar']
 def pip_init():
     for i in package:
         try:
-            import i 
+            __import__(i)
             print(f"Module {i} found!")
 
-        except ModuleNotFoundError:
+        except ImportError:
             print(f"Module {i} not found. Module has been installed.")
             pip.main(['install', i])
