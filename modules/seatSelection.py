@@ -50,7 +50,7 @@ def exit_window(root_, total, price, seats, id, businfo):
     title_label.pack(pady=(40,0))
     id_label = Label(root, text=f"Bus ID: {id}", font='Helvetica 10 bold')
     id_label.pack(pady=(20,0))
-    seats_label = Label(root, text=f"Booked seats: {seats}", font='Helvetica 10 bold')
+    seats_label = Label(root, text=f"Booked seats: {seats}", font='Helvetica 10 bold', wraplength=250)
     seats_label.pack(pady=(20,0))
     total_label = Label(root, text=f"Total seats booked: {total}", font='Helvetica 10 bold')
     total_label.pack(pady=(20,0))
@@ -212,7 +212,7 @@ def seat_layout_20(root, busid, fare_per_seat, businfo):
         top = Frame(seatTop, height = 40, width = 240)
         top.pack()
         bottom = Frame(seatTop, height = 40, width = 240)
-        bottom.pack(side=BOTTOM)
+        bottom.pack(side=TOP)
 
     
         entrance_label = Label(top, text="Entrance", borderwidth=2, relief="groove")
@@ -261,6 +261,9 @@ def seat_layout_20(root, busid, fare_per_seat, businfo):
         e3.grid(row=6, column=2)
         e4 = Button(top, text="E4", width=4)
         e4.grid(row=6, column=3)
+
+        reminder_label = Label(top, text="")
+        reminder_label.grid(row=8, columnspan=4)
         
 
         letter_id = ["A", "B", "C", "D", "E"]
@@ -293,13 +296,18 @@ def seat_layout_20(root, busid, fare_per_seat, businfo):
                     total_price += fare_per_seat_
                     booked_seats.append(button_name[i])
 
-            update_json(data,db_filepath)
-            exit_window(seatTop, total_seats, total_price, booked_seats, busid_, businfos)
-            print('Sucessfully updated!')
+            if booked_seats == []:
+                reminder_label["text"] = "Please select a seat!"
+            else:
+                update_json(data,db_filepath)
+                exit_window(seatTop, total_seats, total_price, booked_seats, busid_, businfos)
+                print('Sucessfully updated!')
 
         submit = Button(top, text="Confirm", command=confirm_func)
-        submit.grid(row=7, columnspan=4, pady=(30, 0))
-    
+        submit.grid(row=7, columnspan=4, padx=(0, 60), pady=(30, 0))
+        cancel_button = Button(top, text="Cancel", command=lambda:return_func(root))
+        cancel_button.grid(row=7, columnspan=4, padx=(60, 0), pady=(30, 0))
+
     seat_layout_20_menu()
     
 
@@ -321,7 +329,7 @@ def seat_layout_30(root, busid, fare_per_seat, businfo):
         top = Frame(seatTop)
         top.pack()
         bottom = Frame(seatTop)
-        bottom.pack(side=BOTTOM)
+        bottom.pack(side=TOP)
 
         entrance_label = Label(top, text="Entrance", borderwidth=2, relief="groove")
         entrance_label.grid(row=0, column=0, columnspan=2, sticky=W, padx=10, pady=10)
@@ -390,6 +398,9 @@ def seat_layout_30(root, busid, fare_per_seat, businfo):
         g6 = Button(bottom, text="G6", width=3)
         g6.grid(row=8, column=5)
 
+        reminder_label = Label(bottom, text="")
+        reminder_label.grid(row=10, columnspan=6)
+
         letter_id = ["A", "B", "C", "D", "E", "F", "G"]
         button_list = [a1, a2, a3, a4, b1, b2, b3, b4, c1, c2, c3, c4, d1, d2, d3, d4, e1, e2, e3, e4, f1,
         f2, f3, f4, g1, g2, g3, g4, g5, g6]
@@ -422,12 +433,17 @@ def seat_layout_30(root, busid, fare_per_seat, businfo):
                     total_price += fare_per_seat_
                     booked_seats.append(button_name[i])
 
-            update_json(data,db_filepath)
-            exit_window(seatTop, total_seats, total_price, booked_seats, busid_, businfos)
-            print('Sucessfully updated!')
+            if booked_seats == []:
+                reminder_label["text"] = "Please select a seat!"
+            else:
+                update_json(data,db_filepath)
+                exit_window(seatTop, total_seats, total_price, booked_seats, busid_, businfos)
+                print('Sucessfully updated!')
 
         submit = Button(bottom, text="Confirm", command=confirm_func)
-        submit.grid(row=9, columnspan=6, pady=(30, 0))
+        submit.grid(row=9, columnspan=6, padx=(0, 60), pady=(30, 0))
+        cancel_button = Button(bottom, text="Cancel", command=lambda:return_func(root))
+        cancel_button.grid(row=9, columnspan=6, padx=(60, 0), pady=(30, 0))
 
     seat_layout_30_menu()
 
@@ -436,7 +452,7 @@ def seat_layout_40(root, busid, fare_per_seat, businfo):
     seatTop = Toplevel(root)
     seatTop.title("Seat Selection")
     WIDTH = '500'
-    HEIGHT = '400'
+    HEIGHT = '425'
     seatTop.geometry(WIDTH + 'x' + HEIGHT)
 
     busid_ = busid
@@ -537,6 +553,9 @@ def seat_layout_40(root, busid, fare_per_seat, businfo):
         j4 = Button(top, text="J4", width=4)
         j4.grid(row=11, column=3)
 
+        reminder_label = Label(bottom, text="")
+        reminder_label.grid(row=13, columnspan=4)
+
         letter_id = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
         button_list = [a1, a2, a3, a4, b1, b2, b3, b4, c1, c2, c3, c4, d1, d2, d3, d4, e1, e2, e3, e4, f1,
         f2, f3, f4, g1, g2, g3, g4, h1, h2, h3, h4, i1, i2, i3, i4, j1, j2, j3, j4]
@@ -568,12 +587,17 @@ def seat_layout_40(root, busid, fare_per_seat, businfo):
                     total_price += fare_per_seat_
                     booked_seats.append(button_name[i])
 
-            update_json(data,db_filepath)
-            exit_window(seatTop, total_seats, total_price, booked_seats, busid_, businfos)
-            print('Sucessfully updated!')
+            if booked_seats == []:
+                reminder_label["text"] = "Please select a seat!"
+            else:
+                update_json(data,db_filepath)
+                exit_window(seatTop, total_seats, total_price, booked_seats, busid_, businfos)
+                print('Sucessfully updated!')
 
         submit = Button(bottom, text="Confirm", command=confirm_func)
-        submit.grid(row=12, columnspan=4, pady=(30, 0))
+        submit.grid(row=12, columnspan=4, padx=(0, 60), pady=(30, 0))
+        cancel_button = Button(bottom, text="Cancel", command=lambda:return_func(root))
+        cancel_button.grid(row=12, columnspan=4, padx=(60, 0), pady=(30, 0))
 
     seat_layout_40_menu()
 
