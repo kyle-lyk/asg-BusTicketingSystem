@@ -1,6 +1,6 @@
-############################
-# AUTHENTICATION FUNCTIONS #
-############################
+##################
+# AUTHENTICATION #
+##################
 
 ### IMPORT MODULES
 from tkinter import *
@@ -44,7 +44,7 @@ user_id = None
 def userAuth():
     clear_frame(root)
     
-    bg = PhotoImage(file="./images/bus.png")
+    bg = PhotoImage(file="./imgs/bus_menu.png")
     root.bg = bg # to prevent the image garbage collected
 
     #create canvas
@@ -110,7 +110,7 @@ def userRegisterPlatform():
     ## Register Interface
     regTop = Toplevel(root)
     regTop.title("Register account")
-    regTop.iconbitmap("./images/bus_icon.ico")
+    regTop.iconbitmap("./imgs/bus_icon.ico")
 
     WIDTH = '400'
     HEIGHT = '320'
@@ -180,7 +180,7 @@ def userRegisterConfirm(reguserEntry,regpasswordEntry,confregpasswordEntry,msg):
 ## Admin Authentication Menu
 def adminAuth():
     clear_frame(root)
-    bg = PhotoImage(file="./images/bus.png")
+    bg = PhotoImage(file="./imgs/bus_menu.png")
     root.bg = bg # to prevent the image garbage collected
 
     #create canvas
@@ -206,26 +206,11 @@ def adminAuth():
     blankLabel = Label(frame, text="", bg="white").pack()
     adminloginButton = Button(frame, width=15, text="Login", command=lambda: adminVerification(adminEntry,adminpasswordEntry)).pack()
 
-    # blankLabel = Label(root, text="",height=6).pack()
 
-    # blankLabel = Label(root, text="\n").pack()
     userButton = Button(root, width=20, text="User Site", command=lambda: userAuth())
     userButtonwin = my_canvas.create_window(30, 490, anchor=SW, window=userButton)
 
     copyrightLabel = my_canvas.create_text(370, 520, text="© 2021 Bus Ticketing System. All Rights Reserved.", fill="black")
-
-
-    # blankLabel = Label(frame, text="", bg="white").pack()
-    # loginButton = Button(frame, width=15, text="Login", command=lambda: userVerification(userEntry,userpasswordEntry)).pack()
-
-    # regLabel = Label(frame, text="\n\n\nNew to here?", font="Helvetica 10", bg="white").pack()
-    # regButton = Button(frame, width=20, text="Register user account", activeforeground="white",activebackground="black", command=lambda: userRegisterPlatform()).pack()
-
-    # adminButton = Button(root, width=20, text="Admin Site", command=lambda: adminAuth())
-    # adminButtonwin = my_canvas.create_window(30, 490, anchor=SW, window=adminButton)
-
-    # copyrightLabel = my_canvas.create_text(370, 520, text="© 2021 Bus Ticketing System. All Rights Reserved.", fill="black")
-
 
 ## Admin Login Verification    
 def adminVerification(adminEntry,adminpasswordEntry):

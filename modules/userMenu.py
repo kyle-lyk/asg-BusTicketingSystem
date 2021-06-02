@@ -1,6 +1,6 @@
-###################
-# BUS SELECTION #
-##################
+######################
+# USER BUS SELECTION #
+######################
 
 ### IMPORT MODULES
 from tkinter import *
@@ -43,7 +43,7 @@ def update_json(updated_data,filename):
 
 
 
-#######################################################   User Section   #################################################################
+#######################################################   USER BUS SELECTION FUNCTIONS   #################################################################
 
 def user_interface():
     clear_frame(root)
@@ -284,7 +284,7 @@ def user_interface():
 def acc_settings():
     setting_Top = Toplevel(root)
     setting_Top.title("Account Settings")
-    setting_Top.iconbitmap("./images/bus_icon.ico")
+    setting_Top.iconbitmap("./imgs/bus_icon.ico")
     setting_Top.configure(bg="#e9d3bf")
     WIDTH = '400'
     HEIGHT = '320'
