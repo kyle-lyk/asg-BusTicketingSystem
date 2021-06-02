@@ -6,6 +6,7 @@ import pip
 
 package = ['tkcalendar']
 
+## Function to check if your python has needed external module in this program, if not then auto install.
 def pip_init():
     for i in package:
         try:
