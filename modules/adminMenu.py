@@ -1,5 +1,5 @@
 ######################
-# Admin Bus Creation #
+# ADMIN BUS CREATION #
 ######################
 
 from tkinter import *
@@ -38,7 +38,7 @@ def update_json(updated_data,filename):
     with open (filename,'w') as f:
         json.dump(updated_data,f,indent=4)
 
-#######################################################   Admin Section   #################################################################
+#######################################################   ADMIN BUS CREATION FUNCTIONS   #################################################################
 ## Main interface
 def admin_interface():
     clear_frame(root)
@@ -97,6 +97,7 @@ def admin_interface():
                     break
 
         data2 = (view_json(dataDir+'seatInfo.json'))
+        
         ## Iterate through the letter
         iter_letter = iter(letter_id)
         letter = next(iter_letter)
@@ -223,7 +224,7 @@ def seat_info():
 def create_bus():
     add_Top = Toplevel(root) 
     add_Top.title("Create New Bus")
-    add_Top.iconbitmap("./images/bus_icon.ico")
+    add_Top.iconbitmap("./imgs/bus_icon.ico")
     add_Top.configure(bg="#faf1e3")
     HEIGHT = '510'
     WIDTH = '680'

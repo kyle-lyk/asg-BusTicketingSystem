@@ -6,20 +6,19 @@
 
 
 ### System Initiation
-## Import root from systems initiation
 from systems import system, stor_init, pip_init
+## Import root from systems initiation
 root = system.root
-
 ## Python Module Initiation
 pip_init.pip_init()
-
 ## Storage Initiation
 stor_init.storageInit()
 
-### Authentication
-from modules import auth
-auth.userAuth()
 
+### Calling modules
+from modules import auth
+## Authentication Page
+auth.userAuth()
 
 
 ### Tkinter Loop

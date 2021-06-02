@@ -41,7 +41,7 @@ def update_json(updated_data,filename):
         json.dump(updated_data,f,indent=4)
 
 
-#######################################################   Interface   #################################################################
+#######################################################   USER TICKET HISTORY FUNCTIONS   #################################################################
 
 def th_interface():
     clear_frame(root)
@@ -117,6 +117,7 @@ def th_interface():
                 break
             elif (obj.get('user_id') == auth.user_id):
                 if (obj.get('departure_date') == Date) and (obj.get('departure_town') == DepartureTown) and (obj.get('arrival town') == ArrivalTown):
+                    total_fare = ("{:.2f}".format(obj['total_fare']))
                     my_tree.insert(parent='', index='end', text="", values=(
                         obj['bus_id'], 
                         obj['departure_date'], 
@@ -124,7 +125,7 @@ def th_interface():
                         obj['departure_town'],
                         obj['arrival town'], 
                         obj['selected_seat'],
-                        obj['total_fare']
+                        total_fare
                         )
                         )
                 
@@ -191,7 +192,7 @@ def th_interface():
 def acc_settings():
     setting_Top = Toplevel(root)
     setting_Top.title("Account Settings")
-    setting_Top.iconbitmap("./images/bus_icon.ico")
+    setting_Top.iconbitmap("./imgs/bus_icon.ico")
     setting_Top.configure(bg="#e9d3bf")
     WIDTH = '400'
     HEIGHT = '320'

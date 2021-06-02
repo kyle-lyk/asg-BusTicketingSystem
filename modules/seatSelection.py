@@ -1,24 +1,22 @@
+###################
+# SEAT SELECTION #
+##################
+
+### IMPORT MODULES
 from tkinter import *
-from tkinter import messagebox
 import json
 
 from modules import auth, userMenu
-# Change this according to location of JSON file on your computer:
-db_filepath = './data/seatInfo.json'
 
-# Change this to how much you want it costs to book a seat:
-#price_per_seat = 2 
-
-# Change this to ID of the bus you want to select from JSON file:
-#get_id = "A00001"
-
-
+#######################################################   Miscellaneous  #################################################################
 ## Clear Frame function
 def clear_frame(root):
     for widget in root.winfo_children():
         widget.destroy()
 
-# JSON fuctions
+### JSON fuctions
+db_filepath = './data/seatInfo.json'
+
 
 def update_json(data, filename=db_filepath):
     with open(filename,'w') as file:
@@ -36,7 +34,9 @@ def view_json(filename):
         data = json.load(f)
     return data
 
-# Function to close exit_window and refresh bus selection page
+#######################################################   SEAT SELECTION FUNCTIONS  #################################################################
+
+## Function to close exit_window and refresh bus selection page
 def return_func(root):
     userMenu.user_interface()
     root.destroy
@@ -200,7 +200,7 @@ def occupied_seat(busID, letter_id, button_list):
 def seat_layout_20(root, busid, fare_per_seat, businfo):
     seatTop = Toplevel(root)
     seatTop.title("Seat Selection")
-    seatTop.iconbitmap("./images/bus_icon.ico")
+    seatTop.iconbitmap("./imgs/bus_icon.ico")
     seatTop.configure(bg="#bcb4ac")
     WIDTH = '400'
     HEIGHT = '450'
@@ -332,7 +332,7 @@ def seat_layout_20(root, busid, fare_per_seat, businfo):
 def seat_layout_30(root, busid, fare_per_seat, businfo):
     seatTop = Toplevel(root)
     seatTop.title("Seat Selection")
-    seatTop.iconbitmap("./images/bus_icon.ico")
+    seatTop.iconbitmap("./imgs/bus_icon.ico")
     seatTop.configure(bg="#bcb4ac")
     WIDTH = '400'
     HEIGHT = '450'
@@ -489,7 +489,7 @@ def seat_layout_40(root, busid, fare_per_seat, businfo):
     seatTop = Toplevel(root)
     seatTop.title("Seat Selection")
 
-    seatTop.iconbitmap("./images/bus_icon.ico")
+    seatTop.iconbitmap("./imgs/bus_icon.ico")
     seatTop.configure(bg="#bcb4ac")
     WIDTH = '400'
     HEIGHT = '450'
@@ -652,8 +652,5 @@ def seat_layout_40(root, busid, fare_per_seat, businfo):
 
 
     seat_layout_40_menu()
-
-# seat_database_20("insert_id") - test appending default layout to database
-# seat_layout_20() - see available seats, enter bus id in console to check available seats
 
 
