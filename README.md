@@ -1,7 +1,7 @@
 # BusTicketingSystem
-## 2021 Mini IT Project 
+## 21's PSP0201 / MIP
 
-A simple Python GUI app powered by Tkinker module.
+A simple Desktop GUI Application powered by Python Tkinter module.
 
 ### Devs
 <table>
