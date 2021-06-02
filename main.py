@@ -6,11 +6,11 @@
 
 
 ### System Initiation
-from systems import system, stor_init, pip_init
+from systems import system, stor_init, pip_valid
 ## Import root from systems initiation
 root = system.root
 ## Python Module Initiation
-pip_init.pip_init()
+pip_valid.pip_validation()
 ## Storage Initiation
 stor_init.storageInit()
 
