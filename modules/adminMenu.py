@@ -342,7 +342,7 @@ def create_bus():
     station1 = StringVar()
     station1.set(stations[0])
 
-    station2= StringVar()
+    station2 = StringVar()
     station2.set(stations[1])
 
     seats = IntVar()
@@ -462,7 +462,7 @@ def edit_bus():
                         if i.get('bus_id') == buses[0]:
                             i.clear()
                             if seats == 20:
-                                #seatSelection.edit_seat_database_20(buses[0])
+                                #replace the layout
                                 i['bus_id'] = buses[0]
                                 i['A'] = [True, True, True, True]
                                 i['B'] = [True, True, True, True]
@@ -579,12 +579,12 @@ def delete_bus():
     ## Check if admin selected a bus to edit. if not reject enter edit interface
     isDelete = False
 
+
     ## Get Item Selected from Treeview
-    bus_del = bus_list.selection()
     busid = bus_list.focus()
     buses = bus_list.item(busid, 'values')
     
-    if bus_del != ():
+    if busid != '':
         seat_info()
         if TakenSeat == 0:
             isDelete = True
@@ -598,9 +598,9 @@ def delete_bus():
         confirmDelete = messagebox.askquestion ('Delete Confirmation','Are you sure you want to delete the bus?',icon = 'warning')
         if confirmDelete == 'yes':
             ##Delete selection on Treeview
+            bus_list.delete(busid)
+            
             data = view_json(dataDir + 'busesInfo.json')
-            for info in bus_del:
-                bus_list.delete(info)
 
             ##Delete object in database
             i = 0
@@ -608,7 +608,7 @@ def delete_bus():
                 if (data[i].get('bus_id')) == buses[0]:
                     data.pop(i)
                     update_json(data, dataDir+'busesInfo.json')
-                    continue
+                    
                 i += 1
 
             data2 = view_json(dataDir + 'seatInfo.json')
@@ -618,7 +618,7 @@ def delete_bus():
                 if (data2[n].get("bus_id")) == buses[0]:
                     data2.pop(n)
                     update_json(data2, dataDir+'seatInfo.json')
-                    continue
+                   
                 n += 1
 
             admin_interface()
