@@ -29,28 +29,21 @@ Phone 4: 019-2580817
 '''
 
 
-#####################
-#                   #
-# PSP0201 - Group 4 #
-#                   #
-#####################
+##########################
+# PIP MODULE VALIDATION #
+##########################
 
+import pip
 
-### System Initiation
-from systems import system, stor_init, pip_valid
-## Import root from systems initiation
-root = system.root
-## Python Module Initiation
-pip_valid.pip_validation()
-## Storage Initiation
-stor_init.storageInit()
+package = ['tkcalendar']
 
+## Function to check if your python has needed external module in this program, if not then auto install.
+def pip_validation():
+    for i in package:
+        try:
+            __import__(i)
+            print(f"Module {i} found!")
 
-### Calling modules
-from modules import auth
-## Authentication Page
-auth.userAuth()
-
-
-### Tkinter Loop
-root.mainloop()
+        except ImportError:
+            print(f"Module {i} not found. Module has been installed.")
+            pip.main(['install', i])

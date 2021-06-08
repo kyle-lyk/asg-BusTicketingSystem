@@ -1,6 +1,37 @@
-############################
-# AUTHENTICATION FUNCTIONS #
-############################
+'''
+** ** ** ** **
+Code Filename: main.py
+Course: PSP0201 Mini IT Project 
+Trimester: 2030
+Lecture Section: TC1V
+Tutorial Section: TT2V
+
+Student Name as per MMU 1: Chua Hui Yi
+Student ID 1: 1201100840
+Email 1: 1201100840@student.mmu.edu.my
+Phone 1: 010-7843168
+
+Student Name as per MMU 2: Edwin Lim Cheng Yin
+Student ID 2: 1201100287
+Email 2: 1201100287@student.mmu.edu.my
+Phone 2: 016-2152148
+
+Student Name as per MMU 3: Lim Yuen Khai
+Student ID 3: 1201100842
+Email 3: 1201100842@student.mmu.edu.my
+Phone 3: 011-60977732
+
+Student Name as per MMU 4: Muhammad Haikal bin Lokman
+Student ID 4: 1201100844 
+Email 4: 1201100844@student.mmu.edu.my
+Phone 4: 019-2580817
+** ** ** ** **
+'''
+
+
+##################
+# AUTHENTICATION #
+##################
 
 ### IMPORT MODULES
 from tkinter import *
@@ -43,29 +74,40 @@ user_id = None
 ## User Authentication Menu
 def userAuth():
     clear_frame(root)
+    
+    bg = PhotoImage(file="./imgs/bus_menu.png")
+    root.bg = bg # to prevent the image garbage collected
 
-    Label(root, text="Bus Ticketing System",font="Helvetica 25 bold").pack(pady=(40,0))
-    Label(root, text="\nUser Authentication",font="Helvetica 20",width = 500).pack()
+    #create canvas
+    my_canvas = Canvas(root)
+    my_canvas.pack(fill="both", expand=True)
 
-    userLabel = Label(root, text="\n\nUsername", font="Helvetica 10").pack()
-    userEntry = Entry(root, width = 30)
+    my_canvas.create_image((0,0), image=bg, anchor="nw")
+
+    my_canvas.create_text(370, 60, text="Bus Ticketing System",font="Verdana 25 bold", fill="white")
+    my_canvas.create_text(370, 110, text="User Authentication", font="Helvetica 20", fill="white")
+
+    frame = Frame(root, bg = "white")
+    frame_window = my_canvas.create_window(370,280, window =frame, width = 380, height = 300)
+
+    userLabel = Label(frame, text="\n\nUsername", font="Helvetica 10", bg="white").pack()
+    userEntry = Entry(frame, width = 30, highlightbackground='#c99d9d', highlightthickness=1)
     userEntry.pack()
 
-    userpasswordLabel = Label(root, text="\nPassword", font="Helvetica 10").pack()
-    userpasswordEntry = Entry(root, width = 30, show="*")
+    userpasswordLabel = Label(frame, text="\nPassword", font="Helvetica 10", bg="white").pack()
+    userpasswordEntry = Entry(frame, width = 30, show="*", highlightbackground='#c99d9d', highlightthickness=1)
     userpasswordEntry.pack()
 
-    blankLabel = Label(root, text="").pack()
-    loginButton = Button(root, width=15, text="Login", command=lambda: userVerification(userEntry,userpasswordEntry)).pack()
+    blankLabel = Label(frame, text="", bg="white").pack()
+    loginButton = Button(frame, width=15, text="Login", command=lambda: userVerification(userEntry,userpasswordEntry)).pack()
 
-    regLabel = Label(root, text="\n\n\nNew to here?", font="Helvetica 10").pack()
-    regButton = Button(root, width=20, text="Register user account", command=lambda: userRegisterPlatform()).pack()
+    regLabel = Label(frame, text="\n\n\nNew to here?", font="Helvetica 10", bg="white").pack()
+    regButton = Button(frame, width=20, text="Register user account", activeforeground="white",activebackground="black", command=lambda: userRegisterPlatform()).pack()
 
-    blankLabel = Label(root, text="\n").pack()
-    adminButton = Button(root, width=20, text="Admin Site", command=lambda: adminAuth()).pack(anchor = "sw", padx=25)
+    adminButton = Button(root, width=20, text="Admin Site", command=lambda: adminAuth())
+    adminButtonwin = my_canvas.create_window(30, 490, anchor=SW, window=adminButton)
 
-
-    copyrightLabel = Label(root, text="© 2021 Bus Ticketing System. All Rights Reserved.").pack(pady=20)
+    copyrightLabel = my_canvas.create_text(370, 520, text="© 2021 Bus Ticketing System. All Rights Reserved.", fill="black")
 
 
 ## User Login Verification
@@ -89,7 +131,7 @@ def userVerification(userEntry,userpasswordEntry):
         if userExist:
             global user_id 
             user_id = username
-            messagebox.showinfo(f"Welcome back!", "Login Successful!")
+            messagebox.showinfo("Welcome back!", "Login Successful!")
             userMenu.user_interface()
         else:
             messagebox.showinfo("Failed Authentication", "Username or Password is incorrect! \nPlease check if you have registered the account or not.")
@@ -99,30 +141,34 @@ def userRegisterPlatform():
     ## Register Interface
     regTop = Toplevel(root)
     regTop.title("Register account")
+    regTop.iconbitmap("./imgs/bus_icon.ico")
 
     WIDTH = '400'
     HEIGHT = '320'
     regTop.geometry(WIDTH + 'x' + HEIGHT)
-    
+    regTop.configure(bg="#faf1e3")
     ## Registration Inputs
-    regLabel = Label(regTop, text="\nPlease fill in your information below",font="Helvetica 10 bold").pack()    
+    regLabel = Label(regTop, text="\nPlease fill in your information below",font="Times 13 bold", bg="#faf1e3").pack()    
 
-    reguserLabel = Label(regTop, text="\n\nUsername", font="Helvetica 10").pack()
+    reguserLabel = Label(regTop, text="\n\nUsername", font="Times 10", bg="#faf1e3").pack()
     reguserEntry = Entry(regTop, width = 30)
     reguserEntry.pack()
 
-    regpasswordLabel = Label(regTop, text="\nPassword", font="Helvetica 10").pack()
+    regpasswordLabel = Label(regTop, text="\nPassword", font="Times 10", bg="#faf1e3").pack()
     regpasswordEntry = Entry(regTop, width = 30, show="*")
     regpasswordEntry.pack()
 
-    confregpasswordLabel = Label(regTop, text="\nConfirm Password", font="Helvetica 10").pack()
+    confregpasswordLabel = Label(regTop, text="\nConfirm Password", font="Times 10", bg="#faf1e3").pack()
     confregpasswordEntry = Entry(regTop, width = 30, show="*")
     confregpasswordEntry.pack()
 
     msg = StringVar()
-    msgLabel = Label(regTop, textvariable = msg ).pack()
-    blankLabel = Label(regTop, text= '' ).pack()
-    confregButton = Button(regTop, width=20, text="Register", command=lambda: userRegisterConfirm(reguserEntry,regpasswordEntry,confregpasswordEntry,msg) ).pack()
+    msgLabel = Label(regTop, textvariable = msg, bg="#faf1e3").pack()
+    blankLabel = Label(regTop, text= '', bg="#faf1e3").pack()
+    confregButton = Button(regTop, width=20, text="Register", 
+                    fg="white", bg="#e0c787", activebackground="#ccb67c", font="Impact 10",
+                    command=lambda: userRegisterConfirm(reguserEntry,regpasswordEntry,confregpasswordEntry,msg))
+    confregButton.pack()
 
 ##User Registration Confirm
 def userRegisterConfirm(reguserEntry,regpasswordEntry,confregpasswordEntry,msg):
@@ -165,27 +211,37 @@ def userRegisterConfirm(reguserEntry,regpasswordEntry,confregpasswordEntry,msg):
 ## Admin Authentication Menu
 def adminAuth():
     clear_frame(root)
+    bg = PhotoImage(file="./imgs/bus_menu.png")
+    root.bg = bg # to prevent the image garbage collected
 
-    Label(root, text="Bus Ticketing System",font="Helvetica 25 bold").pack(pady=(40,0))
-    Label(root, text="\nAdmin Authentication",font="Helvetica 20",bg = "grey",width = 500).pack()
+    #create canvas
+    my_canvas = Canvas(root)
+    my_canvas.pack(fill="both", expand=True)
 
-    adminLabel = Label(root, text="\n\nAdmin Username", font="Helvetica 10").pack()
-    adminEntry = Entry(root, width = 30)
+    my_canvas.create_image((0,0), image=bg, anchor="nw")
+
+    my_canvas.create_text(370, 60, text="Bus Ticketing System",font="Verdana 25 bold", fill="white")
+    my_canvas.create_text(370, 110, text="Admin Authentication", font="Helvetica 20", fill="white")
+
+    frame = Frame(root, bg = "white")
+    frame_window = my_canvas.create_window(370,280, window =frame, width = 380, height = 300)
+
+    adminLabel = Label(frame, text="\n\nAdmin Username", font="Helvetica 10", bg="white").pack()
+    adminEntry = Entry(frame, width = 30, highlightbackground='#c99d9d', highlightthickness=1)
     adminEntry.pack()
 
-    adminpasswordLabel = Label(root, text="\nPassword", font="Helvetica 10").pack()
-    adminpasswordEntry = Entry(root, width = 30, show="*")
+    adminpasswordLabel = Label(frame, text="\nPassword", font="Helvetica 10", bg="white").pack()
+    adminpasswordEntry = Entry(frame, width = 30, show="*", highlightbackground='#c99d9d', highlightthickness=1)
     adminpasswordEntry.pack()
 
-    blankLabel = Label(root, text="").pack()
-    adminloginButton = Button(root, width=15, text="Login", command=lambda: adminVerification(adminEntry,adminpasswordEntry)).pack()
+    blankLabel = Label(frame, text="", bg="white").pack()
+    adminloginButton = Button(frame, width=15, text="Login", command=lambda: adminVerification(adminEntry,adminpasswordEntry)).pack()
 
-    blankLabel = Label(root, text="",height=6).pack()
 
-    blankLabel = Label(root, text="\n").pack()
-    userButton = Button(root, width=20, text="User Site", command=lambda: userAuth() ).pack(anchor = "sw", padx=25,)
+    userButton = Button(root, width=20, text="User Site", command=lambda: userAuth())
+    userButtonwin = my_canvas.create_window(30, 490, anchor=SW, window=userButton)
 
-    copyrightLabel = Label(root, text="© 2021 Bus Ticketing System. All Rights Reserved.").pack(pady=20)
+    copyrightLabel = my_canvas.create_text(370, 520, text="© 2021 Bus Ticketing System. All Rights Reserved.", fill="black")
 
 ## Admin Login Verification    
 def adminVerification(adminEntry,adminpasswordEntry):
@@ -211,4 +267,5 @@ def adminVerification(adminEntry,adminpasswordEntry):
 
         else:
             messagebox.showinfo("Failed Authentication", "Username or Password is incorrect!")
+
 
