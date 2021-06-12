@@ -1,34 +1,3 @@
-'''
-** ** ** ** **
-Code Filename: main.py
-Course: PSP0201 Mini IT Project 
-Trimester: 2030
-Lecture Section: TC1V
-Tutorial Section: TT2V
-
-Student Name as per MMU 1: Chua Hui Yi
-Student ID 1: 1201100840
-Email 1: 1201100840@student.mmu.edu.my
-Phone 1: 010-7843168
-
-Student Name as per MMU 2: Edwin Lim Cheng Yin
-Student ID 2: 1201100287
-Email 2: 1201100287@student.mmu.edu.my
-Phone 2: 016-2152148
-
-Student Name as per MMU 3: Lim Yuen Khai
-Student ID 3: 1201100842
-Email 3: 1201100842@student.mmu.edu.my
-Phone 3: 011-60977732
-
-Student Name as per MMU 4: Muhammad Haikal bin Lokman
-Student ID 4: 1201100844 
-Email 4: 1201100844@student.mmu.edu.my
-Phone 4: 019-2580817
-** ** ** ** **
-'''
-
-
 ######################
 # USER BUS SELECTION #
 ######################
@@ -231,10 +200,10 @@ def user_interface():
         isSelected = False
 
         ## Get Item Selected from Treeview
-        busid = my_tree.focus()
-        buses = my_tree.item(busid, 'values')
+        bus = my_tree.focus()
+        bus_info = my_tree.item(bus, 'values')
         
-        if busid != '':
+        if bus != '':
             isSelected = True
         else:
             messagebox.showwarning("Error", "Please select a bus you want to proceed")
@@ -242,16 +211,16 @@ def user_interface():
 
         ## Read
         if isSelected:
-            busID = buses[0]
-            total_seats = (buses[5].split('/'))[1]
+            busID = bus_info[0]
+            total_seats = (bus_info[5].split('/'))[1]
 
-            fare_per_seat = buses[6]
+            fare_per_seat = bus_info[6]
             if total_seats == '20':
-                seatSelection.seat_layout_20(root, busID, fare_per_seat, buses)
+                seatSelection.seat_layout_20(root, busID, fare_per_seat, bus_info)
             elif total_seats == '30':
-                seatSelection.seat_layout_30(root, busID, fare_per_seat, buses)
+                seatSelection.seat_layout_30(root, busID, fare_per_seat, bus_info)
             elif total_seats == '40':
-                seatSelection.seat_layout_40(root, busID, fare_per_seat, buses)
+                seatSelection.seat_layout_40(root, busID, fare_per_seat, bus_info)
 
             
     ####### WIDGETS #######
@@ -314,12 +283,15 @@ def user_interface():
 #######################################################   Account Settings   #################################################################
 def acc_settings():
     setting_Top = Toplevel(root)
+
+    ## Top Window Settings
     setting_Top.title("Account Settings")
     setting_Top.iconbitmap("./imgs/bus_icon.ico")
     setting_Top.configure(bg="#e9d3bf")
     WIDTH = '400'
     HEIGHT = '320'
     setting_Top.geometry(WIDTH + 'x' + HEIGHT)
+    setting_Top.resizable(False, False)
 
     def acc_settings_menu():
         clear_frame(setting_Top)

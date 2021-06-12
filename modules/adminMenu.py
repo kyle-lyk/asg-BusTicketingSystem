@@ -1,34 +1,3 @@
-'''
-** ** ** ** **
-Code Filename: main.py
-Course: PSP0201 Mini IT Project 
-Trimester: 2030
-Lecture Section: TC1V
-Tutorial Section: TT2V
-
-Student Name as per MMU 1: Chua Hui Yi
-Student ID 1: 1201100840
-Email 1: 1201100840@student.mmu.edu.my
-Phone 1: 010-7843168
-
-Student Name as per MMU 2: Edwin Lim Cheng Yin
-Student ID 2: 1201100287
-Email 2: 1201100287@student.mmu.edu.my
-Phone 2: 016-2152148
-
-Student Name as per MMU 3: Lim Yuen Khai
-Student ID 3: 1201100842
-Email 3: 1201100842@student.mmu.edu.my
-Phone 3: 011-60977732
-
-Student Name as per MMU 4: Muhammad Haikal bin Lokman
-Student ID 4: 1201100844 
-Email 4: 1201100844@student.mmu.edu.my
-Phone 4: 019-2580817
-** ** ** ** **
-'''
-
-
 ######################
 # ADMIN BUS CREATION #
 ######################
@@ -200,12 +169,12 @@ def admin_interface():
 
 ## Function to check if any seat is taken in the selected bus
 def seat_info(): 
-    busid = bus_list.focus()   ## Refer to the item selected in treeview
-    buses = bus_list.item(busid, 'values')  ## Refer to the values in the item selected ('A00001', 'Cyberjaya' .... etc.)
+    bus = bus_list.focus()   ## Refer to the item selected in treeview
+    bus_info = bus_list.item(bus, 'values')  ## Refer to the values in the item selected ('A00001', 'Cyberjaya' .... etc.)
     data = (view_json(dataDir+'busesInfo.json'))
 
     for i in data:
-        if (i.get('bus_id')) == buses[0]:  ## Check the bus id
+        if (i.get('bus_id')) == bus_info[0]:  ## Check the bus id
             letter_id = []
             if i['total_seats']== 20:
                 letter_id = ["A", "B", "C", "D", "E"]  ## Seats layout according to the seats amount
@@ -232,13 +201,13 @@ def seat_info():
     TakenSeat = 0  ## Count how many seats are taken
 
     for i in range(len(data2)):
-        if data[i]['bus_id'] == buses[0]:
+        if data[i]['bus_id'] == bus_info[0]:
             id_index = i    ## Get the bus id when selected
 
     n = 0
         
     for i in button_list:
-        if data2[id_index]["bus_id"] == buses[0]:
+        if data2[id_index]["bus_id"] == bus_info[0]:
             if n < ((len(data2[id_index][letter]))): 
                 if(data2[id_index][letter][n]) == False:
                     TakenSeat += 1   
@@ -254,12 +223,15 @@ def seat_info():
 ## Function to create new bus
 def create_bus():
     add_Top = Toplevel(root) 
+
+    ## Top Window Settings
     add_Top.title("Create New Bus")
     add_Top.iconbitmap("./imgs/bus_icon.ico")
     add_Top.configure(bg="#faf1e3")
     HEIGHT = '510'
     WIDTH = '680'
     add_Top.geometry(WIDTH + 'x' + HEIGHT)
+    add_Top.resizable(False, False)
 
     ## Function for minutes decrement
     def up_or_down(direction):
@@ -400,11 +372,11 @@ def edit_bus():
     isEdit = False
     
     ## Get Item Selected from Treeview
-    busid = bus_list.focus()
-    buses = bus_list.item(busid, 'values')
+    bus = bus_list.focus()
+    bus_info = bus_list.item(bus, 'values')
 
     ## Check if there is item selected from treeview
-    if busid != '':
+    if bus != '':
         seat_info()
         if TakenSeat == 0:  ## Check if the bus seats are not taken
             isEdit = True
@@ -444,7 +416,7 @@ def edit_bus():
                 data = (view_json(dataDir+'busesInfo.json'))                   
                 ##Update New Bus Info
                 for i in data:
-                    if i.get('bus_id') == buses[0]:
+                    if i.get('bus_id') == bus_info[0]:
                         old_seats = i['total_seats']
                         i['departure_date'] = departure_date
                         i['departure_time'] = str(departure_hour) + ':' + str(departure_minute)
@@ -459,18 +431,18 @@ def edit_bus():
                 ##Update seats layout to database
                 if seats != old_seats:
                     for i in data2:
-                        if i.get('bus_id') == buses[0]:
+                        if i.get('bus_id') == bus_info[0]:
                             i.clear()
                             if seats == 20:
                                 #replace the layout
-                                i['bus_id'] = buses[0]
+                                i['bus_id'] = bus_info[0]
                                 i['A'] = [True, True, True, True]
                                 i['B'] = [True, True, True, True]
                                 i['C'] = [True, True, True, True]
                                 i['D'] = [True, True, True, True]
                                 i['E'] = [True, True, True, True]
                             elif seats == 30:
-                                i['bus_id'] = buses[0]
+                                i['bus_id'] = bus_info[0]
                                 i['A'] = [True, True, True, True]
                                 i['B'] = [True, True, True, True]
                                 i['C'] = [True, True, True, True]
@@ -480,7 +452,7 @@ def edit_bus():
                                 i['G'] = [True, True, True, True, True, True]
                                 
                             elif seats == 40:
-                                i['bus_id'] = buses[0]
+                                i['bus_id'] = bus_info[0]
                                 i['A'] = [True, True, True, True]
                                 i['B'] = [True, True, True, True]
                                 i['C'] = [True, True, True, True]
@@ -511,7 +483,7 @@ def edit_bus():
 
         ## Get the existing bus detail from database
         for i in data:
-            if i.get('bus_id') == buses[0]:
+            if i.get('bus_id') == bus_info[0]:
 
                 Label(root, text="Edit Bus", font="Helvetica 15 bold", bg="#faf1e3").pack(pady=(10,0))
 
@@ -581,10 +553,10 @@ def delete_bus():
 
 
     ## Get Item Selected from Treeview
-    busid = bus_list.focus()
-    buses = bus_list.item(busid, 'values')
+    bus = bus_list.focus()
+    bus_info = bus_list.item(bus, 'values')
     
-    if busid != '':
+    if bus != '':
         seat_info()
         if TakenSeat == 0:
             isDelete = True
@@ -598,14 +570,14 @@ def delete_bus():
         confirmDelete = messagebox.askquestion ('Delete Confirmation','Are you sure you want to delete the bus?',icon = 'warning')
         if confirmDelete == 'yes':
             ##Delete selection on Treeview
-            bus_list.delete(busid)
+            bus_list.delete(bus)
             
             data = view_json(dataDir + 'busesInfo.json')
 
             ##Delete object in database
             i = 0
             while i < len(data):
-                if (data[i].get('bus_id')) == buses[0]:
+                if (data[i].get('bus_id')) == bus_info[0]:
                     data.pop(i)
                     update_json(data, dataDir+'busesInfo.json')
                     
@@ -615,7 +587,7 @@ def delete_bus():
 
             n = 0
             while n < len(data2):
-                if (data2[n].get("bus_id")) == buses[0]:
+                if (data2[n].get("bus_id")) == bus_info[0]:
                     data2.pop(n)
                     update_json(data2, dataDir+'seatInfo.json')
                    
