@@ -4,6 +4,7 @@
 
 ### IMPORT MODULES
 from tkinter import *
+from tkinter import messagebox
 import json
 
 from modules import auth, userMenu
@@ -199,12 +200,15 @@ def occupied_seat(busID, letter_id, button_list):
 # Defines the seat arrangement and design for a bus with 20 seats
 def seat_layout_20(root, busid, fare_per_seat, businfo):
     seatTop = Toplevel(root)
+
+    ## Top Window Settings
     seatTop.title("Seat Selection")
     seatTop.iconbitmap("./imgs/bus_icon.ico")
     seatTop.configure(bg="#bcb4ac")
     WIDTH = '400'
     HEIGHT = '450'
     seatTop.geometry(WIDTH + 'x' + HEIGHT)
+    seatTop.resizable(False, False)
 
     busid_ = busid
     fare_per_seat_ = float(fare_per_seat)
@@ -313,10 +317,13 @@ def seat_layout_20(root, busid, fare_per_seat, businfo):
             if booked_seats == []:
                 reminder_label["text"] = "Please select a seat!"
             else:
-                update_json(data,db_filepath)
-                exit_window(seatTop, total_seats, total_price, booked_seats, busid_, businfos)
-                print('Sucessfully updated!')
-
+                seatConfirm = messagebox.askquestion("Seats Confirmation", "Proceed to check out?", parent=seatTop)
+                if seatConfirm == 'yes':
+                    update_json(data,db_filepath)
+                    exit_window(seatTop, total_seats, total_price, booked_seats, busid_, businfos)
+                    print('Sucessfully updated!')
+                else:
+                    seat_layout_20_menu
 
         submit = Button(top, text="Confirm", width=9, fg="#ffffff",bg="#5e514d",activebackground="#726a63", activeforeground="#ffffff", command=confirm_func)
         submit.grid(row=8, columnspan=4, padx=(0, 80), pady=(30, 0))
@@ -331,12 +338,15 @@ def seat_layout_20(root, busid, fare_per_seat, businfo):
 # Defines the seat arrangement and design for a bus with 30 seats
 def seat_layout_30(root, busid, fare_per_seat, businfo):
     seatTop = Toplevel(root)
+
+    ## Top Window Settings
     seatTop.title("Seat Selection")
     seatTop.iconbitmap("./imgs/bus_icon.ico")
     seatTop.configure(bg="#bcb4ac")
     WIDTH = '400'
     HEIGHT = '450'
     seatTop.geometry(WIDTH + 'x' + HEIGHT)
+    seatTop.resizable(False, False)
 
     busid_ = busid
     fare_per_seat_ = float(fare_per_seat)
@@ -470,9 +480,13 @@ def seat_layout_30(root, busid, fare_per_seat, businfo):
             if booked_seats == []:
                 reminder_label["text"] = "Please select a seat!"
             else:
-                update_json(data,db_filepath)
-                exit_window(seatTop, total_seats, total_price, booked_seats, busid_, businfos)
-                print('Sucessfully updated!')
+                seatConfirm = messagebox.askquestion("Seats Confirmation", "Proceed to check out?", parent=seatTop)
+                if seatConfirm == 'yes':
+                    update_json(data,db_filepath)
+                    exit_window(seatTop, total_seats, total_price, booked_seats, busid_, businfos)
+                    print('Sucessfully updated!')
+                else:
+                    seat_layout_30_menu
 
 
         submit = Button(bottom, text="Confirm", fg="#ffffff",bg="#5e514d", width=9, activebackground="#726a63", activeforeground="#ffffff", command=confirm_func)
@@ -486,14 +500,15 @@ def seat_layout_30(root, busid, fare_per_seat, businfo):
 # Defines the seat arrangement and design for a bus with 40 seats
 def seat_layout_40(root, busid, fare_per_seat, businfo):
     seatTop = Toplevel(root)
-    seatTop.title("Seat Selection")
 
+    ## Top Window Settings
+    seatTop.title("Seat Selection")
     seatTop.iconbitmap("./imgs/bus_icon.ico")
     seatTop.configure(bg="#bcb4ac")
     WIDTH = '400'
     HEIGHT = '450'
-
     seatTop.geometry(WIDTH + 'x' + HEIGHT)
+    seatTop.resizable(False, False)
 
     busid_ = busid
     fare_per_seat_ = float(fare_per_seat)
@@ -639,9 +654,13 @@ def seat_layout_40(root, busid, fare_per_seat, businfo):
             if booked_seats == []:
                 reminder_label["text"] = "Please select a seat!"
             else:
-                update_json(data,db_filepath)
-                exit_window(seatTop, total_seats, total_price, booked_seats, busid_, businfos)
-                print('Sucessfully updated!')
+                seatConfirm = messagebox.askquestion("Seats Confirmation", "Proceed to check out?", parent=seatTop)
+                if seatConfirm == 'yes':
+                    update_json(data,db_filepath)
+                    exit_window(seatTop, total_seats, total_price, booked_seats, busid_, businfos)
+                    print('Sucessfully updated!')
+                else:
+                    seat_layout_40_menu
 
 
         submit = Button(top, text="Confirm", fg="#ffffff",bg="#5e514d", width=9, activebackground="#726a63", activeforeground="#ffffff", command=confirm_func)

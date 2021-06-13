@@ -191,12 +191,15 @@ def th_interface():
 #######################################################   Account Settings   #################################################################
 def acc_settings():
     setting_Top = Toplevel(root)
+
+    ## Top Window Settings
     setting_Top.title("Account Settings")
     setting_Top.iconbitmap("./imgs/bus_icon.ico")
     setting_Top.configure(bg="#e9d3bf")
     WIDTH = '400'
     HEIGHT = '320'
     setting_Top.geometry(WIDTH + 'x' + HEIGHT)
+    setting_Top.resizable(False, False)
 
     def acc_settings_menu():
         clear_frame(setting_Top)

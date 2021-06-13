@@ -107,15 +107,17 @@ def userVerification(userEntry,userpasswordEntry):
 
 ## User Registration Pop-up Window
 def userRegisterPlatform():
-    ## Register Interface
+    
+    ## Top Window Settings
     regTop = Toplevel(root)
     regTop.title("Register account")
     regTop.iconbitmap("./imgs/bus_icon.ico")
-
+    regTop.configure(bg="#faf1e3")
     WIDTH = '400'
     HEIGHT = '320'
     regTop.geometry(WIDTH + 'x' + HEIGHT)
-    regTop.configure(bg="#faf1e3")
+    regTop.resizable(False, False)
+    
     ## Registration Inputs
     regLabel = Label(regTop, text="\nPlease fill in your information below",font="Times 13 bold", bg="#faf1e3").pack()    
 
