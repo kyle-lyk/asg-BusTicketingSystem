@@ -1,8 +1,7 @@
 # BusTicketingSystem
 ## 21's PSP0201 / MIP
-
 A simple Desktop GUI Application powered by Python Tkinter module.
-
+Bus ticket booking & creating system
 ### Devs
 <table>
   <tr>
