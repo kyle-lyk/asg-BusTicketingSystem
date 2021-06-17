@@ -16,5 +16,5 @@ Bus ticket booking & creating system
   </tr>
 <table>
 
-### Interface
+### Login Interface
 ![image](https://user-images.githubusercontent.com/68454409/122340600-0e1f7d00-cf75-11eb-9f0d-504e1abc9e91.png)
