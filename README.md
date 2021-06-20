@@ -2,7 +2,7 @@
 ## 21's PSP0201 / MIP
 A simple Desktop GUI Application powered by Python Tkinter module. <br>
 Bus ticket booking & creating system.
-### Devs
+### Contributions
 <table>
   <tr>
    <td align="center"><a href="https://github.com/kyle-lyk"><img src="https://avatars.githubusercontent.com/u/68454409?v=4" width="100px;" alt=""/><br /><sub><b>kyle-lyk</b></sub>
