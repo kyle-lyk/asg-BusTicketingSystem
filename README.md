@@ -1,4 +1,4 @@
-# BusTicketingSystem
+# TriBusTicketingSystem
 
 ## 21's PSP0201 / MIP
 
