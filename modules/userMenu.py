@@ -47,10 +47,10 @@ def update_json(updated_data,filename):
 
 def user_interface():
     clear_frame(root)
-    root.configure(bg="#f3e0ca")
+    root.configure(bg="#607d8b")
     ### Frame Layout
-    treeframe = Frame(root, bg="#f3e0ca")
-    functionframe = Frame(root, bg="#f3e0ca")
+    treeframe = Frame(root, bg="#607d8b")
+    functionframe = Frame(root, bg="#607d8b")
     
     ### Treeview Scrollbar
     tree_scroll = Scrollbar(treeframe)
@@ -105,6 +105,16 @@ def user_interface():
                     button_list = ['a1', 'a2', 'a3', 'a4', 'b1', 'b2', 'b3', 'b4', 'c1', 'c2', 'c3', 'c4', 'd1', 'd2', 'd3', 'd4', 'e1', 'e2', 'e3', 'e4',
                     'f1', 'f2', 'f3', 'f4', 'g1', 'g2', 'g3', 'g4', 'h1', 'h2', 'h3', 'h4', 'i1', 'i2', 'i3', 'i4', 'j1', 'j2', 'j3', 'j4']
                     break
+                elif i['total_seats'] == 30:
+                    letter_id = ["A", "B", "C", "D", "E", "F", "G"]
+                    button_list = ['a1', 'a2', 'a3', 'a4', 'b1', 'b2', 'b3', 'b4', 'c1', 'c2', 'c3', 'c4', 'd1', 'd2', 'd3', 'd4', 'e1', 'e2', 'e3', 'e4',
+                    'f1', 'f2', 'f3', 'f4', 'g1', 'g2', 'g3', 'g4', 'g5', 'g6']
+                    break
+                elif i['total_seats'] == 40:
+                    letter_id = ["A", "B", "C", "D", "E", "F", "G"]
+                    button_list = ['a1', 'a2', 'a3', 'a4', 'b1', 'b2', 'b3', 'b4', 'c1', 'c2', 'c3', 'c4', 'd1', 'd2', 'd3', 'd4', 'e1', 'e2', 'e3', 'e4',
+                    'f1', 'f2', 'f3', 'f4', 'g1', 'g2', 'g3', 'g4', 'g5', 'g6']
+                    break
 
         data2 = (view_json(dataDir+'seatInfo.json'))
         iter_letter = iter(letter_id)
@@ -117,7 +127,7 @@ def user_interface():
 
         for i in data2:
             busID = i["bus_id"]
-            id_list.append(busID)    
+            id_list.append(busID)
 
         get_id = busid
         if get_id in id_list:
@@ -128,9 +138,9 @@ def user_interface():
             if data2[id_index]["bus_id"] == busid:
                 if n < ((len(data2[id_index][letter]))):
                     if(data2[id_index][letter][n]) == True:
-                        SeatsAvailable += 1  
+                        SeatsAvailable += 1
 
-                elif n == ((len(data2[id_index][letter]))): 
+                elif n == ((len(data2[id_index][letter]))):
                     n = 0
                     letter = next(iter_letter)
                     if(data2[id_index][letter][n]) == True:
@@ -139,6 +149,7 @@ def user_interface():
                 n += 1
 
 ### Show all data
+
 
 
     def show_all_data(my_tree):
@@ -226,16 +237,16 @@ def user_interface():
             
     ####### WIDGETS #######
     ### Texts
-    title_Label = Label(root, text= 'Bus Selection', font="Helvetica 15 bold", bg="#f3e0ca").pack(anchor='n', pady=(10,0), padx=(0, 140))
-    username_Label = Label(functionframe, text= f'Welcome back,\n{auth.user_id}!', font="Helvetica 10 bold", bg="#f3e0ca").pack()
+    title_Label = Label(root, text= 'Bus Selection', font="Helvetica 15 bold", bg="#607d8b").pack(anchor='n', pady=(10,0), padx=(0, 140))
+    username_Label = Label(functionframe, text= f'Welcome back,\n{auth.user_id}!', font="Helvetica 10 bold", bg="#607d8b").pack()
 
     ### Dates
-    dateLabel = Label(functionframe, text='Departure Date', bg="#f3e0ca").pack(pady=(15, 0))
+    dateLabel = Label(functionframe, text='Departure Date', bg="#607d8b").pack(pady=(15, 0))
     dateEntry = DateEntry(functionframe, date_pattern = 'dd/mm/yy')
     dateEntry.pack()
 
     ### Location
-    stations = ["Ketereh,KLT", "Cyberjaya,SLG", "Ipoh,PRK", "Skudai,JHR", "Jawi,PNG"]
+    stations = ["Gensan", "Polomolok", "Tupi", "Koronadal", "Surallah"]
 
     DepartureTown = StringVar()
     DepartureTown.set(stations[0]) 
@@ -243,14 +254,14 @@ def user_interface():
     ArrivalTown = StringVar()
     ArrivalTown.set(stations[1])
 
-    DT_Label = Label(functionframe, text='Departure Town', bg="#f3e0ca").pack(pady=(15, 0))
+    DT_Label = Label(functionframe, text='Departure Town', bg="#607d8b").pack(pady=(15, 0))
     DT_OptionMenu = OptionMenu(functionframe, DepartureTown, *stations)
-    DT_OptionMenu.config(bg="#c5bab0")
+    DT_OptionMenu.config(bg="#607d8b")
     DT_OptionMenu.pack()
 
-    AT_Label = Label(functionframe, text='Arrival Town', bg="#f3e0ca").pack(pady=(15, 0))
+    AT_Label = Label(functionframe, text='Arrival Town', bg="#607d8b").pack(pady=(15, 0))
     AT_OptionMenu = OptionMenu(functionframe, ArrivalTown, *stations)
-    AT_OptionMenu.config(bg="#c5bab0")
+    AT_OptionMenu.config(bg="#607d8b")
     AT_OptionMenu.pack()
 
     SB_Button = Button(functionframe, text="Search",fg="black", bg="white",justify=CENTER,width=13, command=lambda:show_selected_data(my_tree,dateEntry,DepartureTown,ArrivalTown))
@@ -259,7 +270,7 @@ def user_interface():
     AB_Button = Button(functionframe, text="Show All",fg="black", bg="white",justify=CENTER,width=13, command=lambda:show_all_data(my_tree))
     AB_Button.pack(pady=(10, 0))
 
-    PB_Button = Button(functionframe, text="Select Bus",fg="black", bg="#c5bab0", justify=CENTER, width=13, activebackground="#5e514d", activeforeground="white", command=lambda:select_bus())
+    PB_Button = Button(functionframe, text="Select Bus",fg="black", bg="#607d8b", justify=CENTER, width=13, activebackground="#5e514d", activeforeground="white", command=lambda:select_bus())
     PB_Button.pack(pady=(25, 0))
 
     TS_Button = Button(functionframe, text="Ticket History", width=20, command=lambda:ticketHistory.th_interface())
@@ -287,8 +298,8 @@ def acc_settings():
 
     ## Top Window Settings
     setting_Top.title("Account Settings")
-    setting_Top.iconbitmap("./imgs/bus_icon.ico")
-    setting_Top.configure(bg="#e9d3bf")
+    setting_Top.iconbitmap("./img/bus_icon.ico")
+    setting_Top.configure(bg="#607d8b")
     WIDTH = '400'
     HEIGHT = '320'
     setting_Top.geometry(WIDTH + 'x' + HEIGHT)
@@ -296,10 +307,10 @@ def acc_settings():
 
     def acc_settings_menu():
         clear_frame(setting_Top)
-        AccSettings_Label = Label(setting_Top, text="Account Settings", font="Helvetica 12 bold", bg="#e9d3bf").pack(pady=(60,0))
+        AccSettings_Label = Label(setting_Top, text="Account Settings", font="Helvetica 12 bold", bg="#607d8b").pack(pady=(60,0))
         chgpw_Button = Button(setting_Top, width=20, text="Change Password", command=lambda:ChgPw()).pack(pady=(30,0))
         logout_Button = Button(setting_Top, width=20, text="Log out",command=lambda:Logout()).pack(pady=(30,0))
-        delacc_Button = Button(setting_Top, width=15, text="Delete Account", font="Helvetica 9 bold", bg="#e61212", activeforeground="white",activebackground="#990f0f",command=lambda:DelAcc())
+        delacc_Button = Button(setting_Top, width=15, text="Delete Account", font="Helvetica 9 bold", bg="#607d8b", activeforeground="white",activebackground="#990f0f",command=lambda:DelAcc())
         delacc_Button.pack(anchor='w',side=BOTTOM,padx=10,pady=10)
 
     acc_settings_menu()
@@ -340,22 +351,22 @@ def acc_settings():
 
             
         clear_frame(setting_Top)
-        ChangePassword_Label = Label(setting_Top, text="Change Password", font="Helvetica 12 bold", bg="#e9d3bf").pack(pady=(10,0))
+        ChangePassword_Label = Label(setting_Top, text="Change Password", font="Helvetica 12 bold", bg="#607d8b").pack(pady=(10,0))
         
-        currentpw_Label = Label(setting_Top, text="Current password", bg="#e9d3bf").pack(pady=(15,0))
+        currentpw_Label = Label(setting_Top, text="Current password", bg="#607d8b").pack(pady=(15,0))
         currentpw_Entry = Entry(setting_Top, width = 30)
         currentpw_Entry.pack()
 
-        newpw_Label = Label(setting_Top, text="New password", bg="#e9d3bf").pack(pady=(10,0))
+        newpw_Label = Label(setting_Top, text="New password", bg="#607d8b").pack(pady=(10,0))
         newpw_Entry = Entry(setting_Top, width = 30)
         newpw_Entry.pack()
 
-        confirm_newpw_Label = Label(setting_Top, text="Confirm New password", bg="#e9d3bf").pack(pady=(10,0))
+        confirm_newpw_Label = Label(setting_Top, text="Confirm New password", bg="#607d8b").pack(pady=(10,0))
         confirm_newpw_Entry = Entry(setting_Top, width = 30)
         confirm_newpw_Entry.pack()
 
         msg = StringVar()
-        msgLabel = Label(setting_Top, textvariable = msg, bg="#e9d3bf").pack(pady=(5,0))
+        msgLabel = Label(setting_Top, textvariable = msg, bg="#607d8b").pack(pady=(5,0))
 
         confirm_Button = Button(setting_Top, width=20, text="Confirm", command=lambda:ChgPw_Verification()).pack(pady=(20,0))
         cancel_Button = Button(setting_Top, width=20, text="Cancel", command=lambda:acc_settings_menu()).pack(pady=(20,0))
@@ -369,19 +380,19 @@ def acc_settings():
 
     def DelAcc():
         clear_frame(setting_Top)
-        Del_acc_Label = Label(setting_Top, text="Delete Account", font="Helvetica 12 bold", fg='#FF0000', bg="#e9d3bf").pack(pady=(20,0))
-        warning_Label = Label(setting_Top, text="Warning:\nYour account will be permanantly erased from system once deleted", font="Helvetica 8 bold", fg='#FF0000', bg="#e9d3bf").pack(pady=(10,0))
+        Del_acc_Label = Label(setting_Top, text="Delete Account", font="Helvetica 12 bold", fg='#FF0000', bg="#607d8b").pack(pady=(20,0))
+        warning_Label = Label(setting_Top, text="Warning:\nYour account will be permanantly erased from system once deleted", font="Helvetica 8 bold", fg='#FF0000', bg="#607d8b").pack(pady=(10,0))
 
-        currentpw_Label = Label(setting_Top, text="Current password", bg="#e9d3bf").pack(pady=(15,0))
+        currentpw_Label = Label(setting_Top, text="Current password", bg="#607d8b").pack(pady=(15,0))
         currentpw_Entry = Entry(setting_Top, width = 30)
         currentpw_Entry.pack()
 
-        confirm_pw_Label = Label(setting_Top, text="Confirm password", bg="#e9d3bf").pack(pady=(10,0))
+        confirm_pw_Label = Label(setting_Top, text="Confirm password", bg="#607d8b").pack(pady=(10,0))
         confirm_pw_Entry = Entry(setting_Top, width = 30)
         confirm_pw_Entry.pack()
 
         msg = StringVar()
-        msgLabel = Label(setting_Top, textvariable = msg, bg="#e9d3bf").pack(pady=(5,0))
+        msgLabel = Label(setting_Top, textvariable = msg, bg="#607d8b").pack(pady=(5,0))
 
         confirm_Button = Button(setting_Top, width=20, text="Confirm", command=lambda:Del_acc_Verification()).pack(pady=(20,0))
         cancel_Button = Button(setting_Top, width=20, text="Cancel", command=lambda:acc_settings_menu()).pack(pady=(15,0))

@@ -1,0 +1,58 @@
+[
+    {
+        "user_id": "user1",
+        "bus_id": "A00001",
+        "departure_date": "30/12/21",
+        "departure_time": "00:00",
+        "departure_town": "Gensan",
+        "arrival town": "Polomolok",
+        "selected_seat": [
+            "A1",
+            "A2",
+            "B1",
+            "B2",
+            "C1",
+            "C2"
+        ],
+        "total_fare": 252.0
+    },
+    {
+        "user_id": "user1",
+        "bus_id": "A00005",
+        "departure_date": "25/05/23",
+        "departure_time": "00:00",
+        "departure_town": "Gensan",
+        "arrival town": "Koronadal",
+        "selected_seat": [
+            "A1",
+            "A2"
+        ],
+        "total_fare": 184.0
+    },
+    {
+        "user_id": "user1",
+        "bus_id": "A00006",
+        "departure_date": "20/06/23",
+        "departure_time": "00:00",
+        "departure_town": "Tupi",
+        "arrival town": "Polomolok",
+        "selected_seat": [
+            "A1",
+            "A2"
+        ],
+        "total_fare": 60.0
+    },
+    {
+        "user_id": "user",
+        "bus_id": "A00007",
+        "departure_date": "20/06/23",
+        "departure_time": "00:00",
+        "departure_town": "Polomolok",
+        "arrival town": "Gensan",
+        "selected_seat": [
+            "A1",
+            "A2"
+        ],
+        "total_fare": 80.0
+    }
+]

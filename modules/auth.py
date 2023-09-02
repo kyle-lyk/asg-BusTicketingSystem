@@ -44,7 +44,8 @@ user_id = None
 def userAuth():
     clear_frame(root)
     
-    bg = PhotoImage(file="./imgs/bus_menu.png")
+
+    bg = PhotoImage(file="./img/tribus.png")
     root.bg = bg # to prevent the image garbage collected
 
     #create canvas
@@ -53,7 +54,7 @@ def userAuth():
 
     my_canvas.create_image((0,0), image=bg, anchor="nw")
 
-    my_canvas.create_text(370, 60, text="Bus Ticketing System",font="Verdana 25 bold", fill="white")
+    my_canvas.create_text(370, 60, text="TriBus Ticketing System",font="Verdana 25 bold", fill="white")
     my_canvas.create_text(370, 110, text="User Authentication", font="Helvetica 20", fill="white")
 
     frame = Frame(root, bg = "white")
@@ -76,7 +77,7 @@ def userAuth():
     adminButton = Button(root, width=20, text="Admin Site", command=lambda: adminAuth())
     adminButtonwin = my_canvas.create_window(30, 490, anchor=SW, window=adminButton)
 
-    copyrightLabel = my_canvas.create_text(370, 520, text="© 2021 Bus Ticketing System. All Rights Reserved.", fill="black")
+    copyrightLabel = my_canvas.create_text(370, 520, text="© 2023 TriBus Ticketing System. All Rights Reserved.", fill="black")
 
 
 ## User Login Verification
@@ -111,7 +112,7 @@ def userRegisterPlatform():
     ## Top Window Settings
     regTop = Toplevel(root)
     regTop.title("Register account")
-    regTop.iconbitmap("./imgs/bus_icon.ico")
+    regTop.iconbitmap("./img/bus_icon.ico")
     regTop.configure(bg="#faf1e3")
     WIDTH = '400'
     HEIGHT = '320'
@@ -182,7 +183,7 @@ def userRegisterConfirm(reguserEntry,regpasswordEntry,confregpasswordEntry,msg):
 ## Admin Authentication Menu
 def adminAuth():
     clear_frame(root)
-    bg = PhotoImage(file="./imgs/bus_menu.png")
+    bg = PhotoImage(file="./img/tribus.png")
     root.bg = bg # to prevent the image garbage collected
 
     #create canvas
@@ -191,7 +192,7 @@ def adminAuth():
 
     my_canvas.create_image((0,0), image=bg, anchor="nw")
 
-    my_canvas.create_text(370, 60, text="Bus Ticketing System",font="Verdana 25 bold", fill="white")
+    my_canvas.create_text(370, 60, text="TriBus Ticketing System",font="Verdana 25 bold", fill="white")
     my_canvas.create_text(370, 110, text="Admin Authentication", font="Helvetica 20", fill="white")
 
     frame = Frame(root, bg = "white")
@@ -212,7 +213,7 @@ def adminAuth():
     userButton = Button(root, width=20, text="User Site", command=lambda: userAuth())
     userButtonwin = my_canvas.create_window(30, 490, anchor=SW, window=userButton)
 
-    copyrightLabel = my_canvas.create_text(370, 520, text="© 2021 Bus Ticketing System. All Rights Reserved.", fill="black")
+    copyrightLabel = my_canvas.create_text(370, 520, text="© 2023 TriBus Ticketing System. All Rights Reserved.", fill="black")
 
 ## Admin Login Verification    
 def adminVerification(adminEntry,adminpasswordEntry):
