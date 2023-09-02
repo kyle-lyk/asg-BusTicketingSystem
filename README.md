@@ -17,7 +17,7 @@ Bus ticket booking & creating system.
     </td>
     <td align="center"><a href="https://github.com/mhaikal02"><img src="https://avatars.githubusercontent.com/u/79073790?v=4" width="100px;" alt=""/><br /><sub><b>mhaikal</b></sub>
     </td>
-      <td align="center"><a href="https://github.com/uhrzel"><img src="https://avatars.githubusercontent.com/u/80521619?v=4" width="100px;" alt=""/><br /><sub><b>mhaikal</b></sub>
+      <td align="center"><a href="https://github.com/uhrzel"><img src="https://avatars.githubusercontent.com/u/80521619?v=4" width="100px;" alt=""/><br /><sub><b>uhrzel</b></sub>
     </td>
   </tr>
 <table>
