@@ -14,6 +14,8 @@ from modules import adminMenu, userMenu
 import smtplib
 from email.mime.text import MIMEText
 ## Import root from system.py 
+import datetime  # Add this import for date and time
+
 root = system.root
 
 
@@ -274,10 +276,6 @@ def get_client_ip():
     except Exception:
         return None
 
-
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-import datetime  # Add this import for date and time
 
 def send_email_notification(email, client_ip):
     sender_name = "TriBus Ticketing System"  # Your desired sender name
