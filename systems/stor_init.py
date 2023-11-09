@@ -66,29 +66,47 @@ def storageInit():
                                 "bus_id": "A00001",
                                 "departure_date": "30/12/21",
                                 "departure_time": "00:00",
-                                "departure_town": "Ketereh,KLT",
-                                "arrival town": "Cyberjaya,SLG",
+                                "departure_town": "Gensan",
+                                "arrival town": "Polomolok",
                                 "total_seats": 20,
-                                "fare per seat": 3.0
+                                "fare per seat": 42.00
                             },
                             {
                                 "bus_id": "A00002",
                                 "departure_date": "27/05/21",
-                                "departure_time": "00:00",
-                                "departure_town": "Ketereh,KLT",
-                                "arrival town": "Cyberjaya,SLG",
+                                "departure_time": "00:0 0",
+                                "departure_town": "Polomolok",
+                                "arrival town": "Gensan",
                                 "total_seats": 30,
-                                "fare per seat": 5.0
+                                "fare per seat": 42.00
                             },
                             {
                                 "bus_id": "A00003",
-                                "departure_date": "27/05/21",
+                                "departure_date": "28/05/21",
                                 "departure_time": "00:00",
-                                "departure_town": "Ketereh,KLT",
-                                "arrival town": "Cyberjaya,SLG",
+                                "departure_town": "Polomolok",
+                                "arrival town": "Tupi",
                                 "total_seats": 40,
-                                "fare per seat": 7.0
-                            }
+                                "fare per seat": 31.00
+                            },
+                    {
+                        "bus_id": "A00004",
+                        "departure_date": "24/05/23",
+                        "departure_time": "00:00",
+                        "departure_town": "Tupi",
+                        "arrival town": "Polomolok",
+                        "total_seats": 30,
+                        "fare per seat": 31.00
+                    },
+                    {
+                        "bus_id": "A00005",
+                        "departure_date": "25/05/23",
+                        "departure_time": "00:00",
+                        "departure_town": "Gensan",
+                        "arrival town": "Koronadal",
+                        "total_seats": 40,
+                        "fare per seat": 92.00
+                    }
                         ]
 
             elif data == 'seatInfo.json':
@@ -96,8 +114,8 @@ def storageInit():
                             {
                                 "bus_id": "A00001",
                                 "A": [
-                                    False,
-                                    False,
+                                    True,
+                                    True,
                                     True,
                                     True
                                 ],
@@ -235,7 +253,118 @@ def storageInit():
                                     True,
                                     True
                                 ]
-                            }
+                            },
+                    {
+                        "bus_id": "A00004",
+                        "A": [
+                            True,
+                            True,
+                            True,
+                            True
+                        ],
+                        "B": [
+                            True,
+                            True,
+                            True,
+                            True
+                        ],
+                        "C": [
+                            True,
+                            True,
+                            True,
+                            True
+                        ],
+                        "D": [
+                            True,
+                            True,
+                            True,
+                            True
+                        ],
+                        "E": [
+                            True,
+                            True,
+                            True,
+                            True
+                        ],
+                        "F": [
+                            True,
+                            True,
+                            True,
+                            True
+                        ],
+                        "G": [
+                            True,
+                            True,
+                            True,
+                            True,
+                            True,
+                            True
+                        ]
+                    },
+                    {
+                        "bus_id": "A00005",
+                        "A": [
+                            True,
+                            True,
+                            True,
+                            True
+                        ],
+                        "B": [
+                            True,
+                            True,
+                            True,
+                            True
+                        ],
+                        "C": [
+                            True,
+                            True,
+                            True,
+                            True
+                        ],
+                        "D": [
+                            True,
+                            True,
+                            True,
+                            True
+                        ],
+                        "E": [
+                            True,
+                            True,
+                            True,
+                            True
+                        ],
+                        "F": [
+                            True,
+                            True,
+                            True,
+                            True
+                        ],
+                        "G": [
+                            True,
+                            True,
+                            True,
+                            True
+                        ],
+                        "H": [
+                            True,
+                            True,
+                            True,
+                            True
+                        ],
+                        "I": [
+                            True,
+                            True,
+                            True,
+                            True
+                        ],
+                        "J": [
+                            True,
+                            True,
+                            True,
+                            True
+                        ]
+                    },
+
                         ]
                         
             elif data == 'ticketHistory.json':
@@ -245,10 +374,10 @@ def storageInit():
                                 "bus_id": "A00001",
                                 "departure_date": "30/12/21",
                                 "departure_time": "00:00",
-                                "departure_town": "Ketereh,KLT",
-                                "arrival town": "Cyberjaya,SLG",
+                                "departure_town": "Gensan",
+                                "arrival town": "Polomolok",
                                 "selected_seat": ["A1","A2"],
-                                "total_fare": 6.0
+                                "total_fare": 42
                             }
                         ]
 

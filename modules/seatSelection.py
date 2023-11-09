@@ -47,17 +47,17 @@ def exit_window(root_, total, price, seats, id, businfo):
     root = root_
     total_price = ("{:.2f}".format(price))
     clear_frame(root)
-    title_label = Label(root, text=" Ticket ", font='Helvetica 15 bold', bg="#bcb4ac",borderwidth=2, relief="ridge")
+    title_label = Label(root, text=" Ticket ", font='Helvetica 15 bold', bg="#607d8b",borderwidth=2, relief="ridge")
     title_label.pack(pady=(40,0))
-    id_label = Label(root, text=f"Bus ID: {id}", font='Helvetica 10 bold',bg="#bcb4ac")
+    id_label = Label(root, text=f"Bus ID: {id}", font='Helvetica 10 bold',bg="#607d8b")
     id_label.pack(pady=(20,0))
 
-    seats_label = Label(root, text=f"Booked seats: {seats}", font='Helvetica 10 bold', bg="#bcb4ac", wraplength=250)
+    seats_label = Label(root, text=f"Booked seats: {seats}", font='Helvetica 10 bold', bg="#607d8b", wraplength=250)
 
     seats_label.pack(pady=(20,0))
-    total_label = Label(root, text=f"Total seats booked: {total}", font='Helvetica 10 bold',bg="#bcb4ac")
+    total_label = Label(root, text=f"Total seats booked: {total}", font='Helvetica 10 bold',bg="#607d8b")
     total_label.pack(pady=(20,0))
-    price_label = Label(root, text=f"Total price: RM {total_price}", font='Helvetica 10 bold',bg="#bcb4ac")
+    price_label = Label(root, text=f"Total price: RM {total_price}", font='Helvetica 10 bold',bg="#607d8b")
     price_label.pack(pady=(20,0))
     
     returnButton = Button(root, width=20, text="Return to Bus Selection", fg="#ffffff",bg="#5e514d",activebackground="#726a63", activeforeground="#ffffff", command=lambda:return_func(root)).pack(pady=(40,0))
@@ -203,8 +203,8 @@ def seat_layout_20(root, busid, fare_per_seat, businfo):
 
     ## Top Window Settings
     seatTop.title("Seat Selection")
-    seatTop.iconbitmap("./imgs/bus_icon.ico")
-    seatTop.configure(bg="#bcb4ac")
+    seatTop.iconbitmap("./img/bus_icon.ico")
+    seatTop.configure(bg="#607d8b")
     WIDTH = '400'
     HEIGHT = '450'
     seatTop.geometry(WIDTH + 'x' + HEIGHT)
@@ -217,10 +217,10 @@ def seat_layout_20(root, busid, fare_per_seat, businfo):
 
     def seat_layout_20_menu():
         clear_frame(seatTop)
-        top = Frame(seatTop, height = 40, width = 240, bg="#bcb4ac")
+        top = Frame(seatTop, height = 40, width = 240, bg="#607d8b")
         top.pack()
 
-        bottom = Frame(seatTop, height = 40, width = 240, bg="#bcb4ac")
+        bottom = Frame(seatTop, height = 40, width = 240, bg="#607d8b")
         bottom.pack(side=BOTTOM)
 
         data = view_json('./data/busesInfo.json')
@@ -229,14 +229,14 @@ def seat_layout_20(root, busid, fare_per_seat, businfo):
                 id = busid_
                 seats = data[i].get('total_seats')
                 
-        id_label = Label(top, text=f"ID: {id}", bg="#bcb4ac")
+        id_label = Label(top, text=f"ID: {id}", bg="#607d8b")
         id_label.grid(row=0, column=0, columnspan=2, sticky=W, padx=10, pady=(40,0))
-        seats_label = Label(top, text=f"Seats: {seats}", bg="#bcb4ac")
+        seats_label = Label(top, text=f"Seats: {seats}", bg="#607d8b")
         seats_label.grid(row=0, column=2, columnspan=2, sticky=W, padx=10, pady=(40,0))
     
-        entrance_label = Label(top, text="Entrance",bg="#bcb4ac", borderwidth=2, relief="groove")
+        entrance_label = Label(top, text="Entrance",bg="#607d8b", borderwidth=2, relief="groove")
         entrance_label.grid(row=1, column=0, columnspan=2, sticky=W, padx=10, pady=10)
-        driver_label = Label(top, text="Driver's Seat", borderwidth=2, bg="#bcb4ac", relief="groove")
+        driver_label = Label(top, text="Driver's Seat", borderwidth=2, bg="#607d8b", relief="groove")
         driver_label.grid(row=1, column=2, columnspan=2, pady=10)
         a1 = Button(top, text="A1", width=4)
         a1.grid(row=2, column=0)
@@ -262,7 +262,7 @@ def seat_layout_20(root, busid, fare_per_seat, businfo):
         c3.grid(row=4, column=2)
         c4 = Button(top, text="C4", width=4)
         c4.grid(row=4, column=3)
-        exit_label = Label(top, text="Exit", bg="#bcb4ac", borderwidth=2, relief="groove")
+        exit_label = Label(top, text="Exit", bg="#607d8b", borderwidth=2, relief="groove")
         exit_label.grid(row=5, column=0, columnspan=2, sticky=W, padx=10, pady=10)
         d1 = Button(top, text="D1", width=4)
         d1.grid(row=6, column=0)
@@ -281,7 +281,7 @@ def seat_layout_20(root, busid, fare_per_seat, businfo):
         e4 = Button(top, text="E4", width=4)
         e4.grid(row=7, column=3)
 
-        reminder_label = Label(top, text="", bg="#bcb4ac")
+        reminder_label = Label(top, text="", bg="#607d8b")
         reminder_label.grid(row=9, columnspan=4)
 
         letter_id = ["A", "B", "C", "D", "E"]
@@ -341,8 +341,8 @@ def seat_layout_30(root, busid, fare_per_seat, businfo):
 
     ## Top Window Settings
     seatTop.title("Seat Selection")
-    seatTop.iconbitmap("./imgs/bus_icon.ico")
-    seatTop.configure(bg="#bcb4ac")
+    seatTop.iconbitmap("./img/bus_icon.ico")
+    seatTop.configure(bg="#607d8b")
     WIDTH = '400'
     HEIGHT = '450'
     seatTop.geometry(WIDTH + 'x' + HEIGHT)
@@ -354,11 +354,11 @@ def seat_layout_30(root, busid, fare_per_seat, businfo):
 
     def seat_layout_30_menu():
         clear_frame(seatTop)
-        top = Frame(seatTop, bg="#bcb4ac")
+        top = Frame(seatTop, bg="#607d8b")
         top.pack()
 
         
-        bottom = Frame(seatTop, bg="#bcb4ac")
+        bottom = Frame(seatTop, bg="#607d8b")
         bottom.pack()
 
         data = view_json('./data/busesInfo.json')
@@ -367,14 +367,14 @@ def seat_layout_30(root, busid, fare_per_seat, businfo):
                 id = busid_
                 seats = data[i].get('total_seats')
                 
-        id_label = Label(top, text=f"ID: {id}",bg="#bcb4ac")
+        id_label = Label(top, text=f"ID: {id}",bg="#607d8b")
         id_label.grid(row=0, column=0, columnspan=2, sticky=W, padx=10, pady=(30,0))
-        seats_label = Label(top, text=f"Seats: {seats}", bg="#bcb4ac")
+        seats_label = Label(top, text=f"Seats: {seats}", bg="#607d8b")
         seats_label.grid(row=0, column=2, columnspan=2, sticky=W, padx=10, pady=(30,0))
 
-        entrance_label = Label(top, text="Entrance",bg="#bcb4ac", borderwidth=2, relief="groove")
+        entrance_label = Label(top, text="Entrance",bg="#607d8b", borderwidth=2, relief="groove")
         entrance_label.grid(row=1, column=0, columnspan=2, sticky=W, padx=10, pady=(10,10))
-        driver_label = Label(top, text="Driver's Seat",bg="#bcb4ac", borderwidth=2, relief="groove")
+        driver_label = Label(top, text="Driver's Seat",bg="#607d8b", borderwidth=2, relief="groove")
         driver_label.grid(row=1, column=2, columnspan=2, pady=(10,10))
 
         
@@ -418,7 +418,7 @@ def seat_layout_30(root, busid, fare_per_seat, businfo):
         e3.grid(row=6, column=2)
         e4 = Button(top, text="E4", width=4)
         e4.grid(row=6, column=3)
-        exit_label = Label(top, text="Exit", bg="#bcb4ac", borderwidth=2, relief="groove")
+        exit_label = Label(top, text="Exit", bg="#607d8b", borderwidth=2, relief="groove")
         exit_label.grid(row=7, column=0, columnspan=2, sticky=W, padx=10, pady=10)
         f1 = Button(top, text="F1", width=4)
         f1.grid(row=8, column=0)
@@ -428,7 +428,7 @@ def seat_layout_30(root, busid, fare_per_seat, businfo):
         f3.grid(row=8, column=2)
         f4 = Button(top, text="F4", width=4)
         f4.grid(row=8, column=3)
-        space_label = Label(bottom, bg="#bcb4ac", text="")
+        space_label = Label(bottom, bg="#607d8b", text="")
         space_label.grid(row=9, column=1)
         g1 = Button(bottom, text="G1", width=3)
         g1.grid(row=10, column=0)
@@ -443,7 +443,7 @@ def seat_layout_30(root, busid, fare_per_seat, businfo):
         g6 = Button(bottom, text="G6", width=3)
         g6.grid(row=10, column=5)
 
-        reminder_label = Label(bottom, text="", bg="#bcb4ac")
+        reminder_label = Label(bottom, text="", bg="#607d8b")
         reminder_label.grid(row=12, columnspan=6)
 
         letter_id = ["A", "B", "C", "D", "E", "F", "G"]
@@ -503,8 +503,8 @@ def seat_layout_40(root, busid, fare_per_seat, businfo):
 
     ## Top Window Settings
     seatTop.title("Seat Selection")
-    seatTop.iconbitmap("./imgs/bus_icon.ico")
-    seatTop.configure(bg="#bcb4ac")
+    seatTop.iconbitmap("./img/bus_icon.ico")
+    seatTop.configure(bg="#607d8b")
     WIDTH = '400'
     HEIGHT = '450'
     seatTop.geometry(WIDTH + 'x' + HEIGHT)
@@ -516,7 +516,7 @@ def seat_layout_40(root, busid, fare_per_seat, businfo):
 
     def seat_layout_40_menu():
         clear_frame(seatTop)
-        top = Frame(seatTop, bg="#bcb4ac")
+        top = Frame(seatTop, bg="#607d8b")
         top.pack()
         
         data = view_json('./data/busesInfo.json')
@@ -525,14 +525,14 @@ def seat_layout_40(root, busid, fare_per_seat, businfo):
                 id = busid_
                 seats = data[i].get('total_seats')
                 
-        id_label = Label(top, text=f"ID: {id}", bg="#bcb4ac")
+        id_label = Label(top, text=f"ID: {id}", bg="#607d8b")
         id_label.grid(row=0, column=0, columnspan=2, sticky=W, padx=10, pady=(10,0))
-        seats_label = Label(top, text=f"Seats: {seats}", bg="#bcb4ac")
+        seats_label = Label(top, text=f"Seats: {seats}", bg="#607d8b")
         seats_label.grid(row=0, column=2, columnspan=2, sticky=W, padx=10, pady=(10,0))
 
-        entrance_label = Label(top, text="Entrance", bg="#bcb4ac", borderwidth=2, relief="groove")
+        entrance_label = Label(top, text="Entrance", bg="#607d8b", borderwidth=2, relief="groove")
         entrance_label.grid(row=1, column=0, columnspan=2, sticky=W, padx=10, pady=10)
-        driver_label = Label(top, text="Driver's Seat", bg="#bcb4ac", borderwidth=2, relief="groove")
+        driver_label = Label(top, text="Driver's Seat", bg="#607d8b", borderwidth=2, relief="groove")
         driver_label.grid(row=1, column=2, columnspan=2, pady=10)
         a1 = Button(top, text="A1", width=4)
         a1.grid(row=2, column=0)
@@ -598,7 +598,7 @@ def seat_layout_40(root, busid, fare_per_seat, businfo):
         h3.grid(row=9, column=2)
         h4 = Button(top, text="H4", width=4)
         h4.grid(row=9, column=3)
-        exit_label = Label(top, text="Exit", bg="#bcb4ac", borderwidth=2, relief="groove")
+        exit_label = Label(top, text="Exit", bg="#607d8b", borderwidth=2, relief="groove")
         exit_label.grid(row=10, column=0, columnspan=2, sticky=W, padx=10, pady=10)
         i1 = Button(top, text="I1", width=4)
         i1.grid(row=11, column=0)
@@ -617,7 +617,7 @@ def seat_layout_40(root, busid, fare_per_seat, businfo):
         j4 = Button(top, text="J4", width=4)
         j4.grid(row=12, column=3)
 
-        reminder_label = Label(top, text="", bg="#bcb4ac")
+        reminder_label = Label(top, text="", bg="#607d8b")
         reminder_label.grid(row=14, columnspan=4)
 
         letter_id = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]

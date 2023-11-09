@@ -44,8 +44,8 @@ def admin_interface():
     clear_frame(root)
 
     ## Set background color
-    root.configure(bg="#faf1e3")
-    bus_frame = Frame(root, bg="#faf1e3")
+    root.configure(bg="#607d8b")
+    bus_frame = Frame(root, bg="#607d8b")
 
     ## Treeview Scrollbar
     tree_scroll = Scrollbar(bus_frame)
@@ -141,12 +141,12 @@ def admin_interface():
             )
         )
     
-    Label(root, text="List of Buses (Admin Section)", font="Helvetica 15 bold", bg="#faf1e3").pack(anchor='n', pady=(10,0), padx=(0, 145))
+    Label(root, text="List of Buses (Admin Section)", font="Helvetica 15 bold", bg="#607d8b").pack(anchor='n', pady=(10,0), padx=(0, 145))
     
     bus_list.pack(expand=True, fill=BOTH)
     bus_frame.pack(anchor=N, side=LEFT, pady=(0, 15), padx=15, expand=True, fill=BOTH)
     
-    functionframe = Frame(root, bg="#faf1e3")
+    functionframe = Frame(root, bg="#607d8b")
     functionframe.pack(anchor=N, side=RIGHT, pady=10, padx=10)
     
     create_btn = Button(functionframe, text="Create Bus", command=create_bus, width=20)
@@ -226,8 +226,8 @@ def create_bus():
 
     ## Top Window Settings
     add_Top.title("Create New Bus")
-    add_Top.iconbitmap("./imgs/bus_icon.ico")
-    add_Top.configure(bg="#faf1e3")
+    add_Top.iconbitmap("./img/bus_icon.ico")
+    add_Top.configure(bg="#607d8b")
     HEIGHT = '510'
     WIDTH = '680'
     add_Top.geometry(WIDTH + 'x' + HEIGHT)
@@ -309,7 +309,7 @@ def create_bus():
                 messagebox.showwarning("Error", "Please enter number value only", parent=add_Top)
 
     ##Stations List
-    stations = ["Ketereh,KLT", "Cyberjaya,SLG", "Ipoh,PRK", "Skudai,JHR", "Jawi,PNG"]
+    stations = ["Gensan", "Polomolok", "Tupi", "Koronadal", "Surallah"]
 
     station1 = StringVar()
     station1.set(stations[0])
@@ -324,18 +324,18 @@ def create_bus():
 
     ## Options for bus details ##
     ## Date
-    Label(add_Top, text="Select Departure Date", font="Helvetica 10", bg="#faf1e3").pack(pady=(20, 0))
+    Label(add_Top, text="Select Departure Date", font="Helvetica 10", bg="#607d8b").pack(pady=(20, 0))
     date = DateEntry(add_Top, date_pattern = 'dd/mm/yy')
     date.pack()
 
     ## Departure Town
-    Label(add_Top, text="Select Departure Town", font="Helvetica 10", bg="#faf1e3").pack(pady=(20, 0))
+    Label(add_Top, text="Select Departure Town", font="Helvetica 10", bg="#607d8b").pack(pady=(20, 0))
     departure_town = OptionMenu(add_Top, station1, *stations)
-    departure_town.config(bg="#bcb4ac")
+    departure_town.config(bg="#607d8b")
     departure_town.pack()
 
     ## Departure Time
-    Label(add_Top, text="Select Departure Time", font="Helvetica 10", bg="#faf1e3").pack(pady=(20, 0))
+    Label(add_Top, text="Select Departure Time", font="Helvetica 10", bg="#607d8b").pack(pady=(20, 0))
     time = Frame(add_Top, width=100, height=100)
     min_update = StringVar()
     hours = Spinbox(time, from_=0, to=23, wrap=True, state="readonly",width=2,format="%02.0f")
@@ -345,18 +345,18 @@ def create_bus():
     minutes.pack(side=LEFT)
 
     ## Arrival Town
-    Label(add_Top, text="Select Arrival Town", font="Helvetica 10", bg="#faf1e3").pack(pady=(20, 0))
+    Label(add_Top, text="Select Arrival Town", font="Helvetica 10", bg="#607d8b").pack(pady=(20, 0))
     arrival_town = OptionMenu(add_Top, station2, *stations)
-    arrival_town.config(bg="#bcb4ac")
+    arrival_town.config(bg="#607d8b")
     arrival_town.pack()
     
     ## Seats Amount
-    Label(add_Top, text="Total Seats Available", font="Helvetica 10", bg="#faf1e3").pack(pady=(20,0))
+    Label(add_Top, text="Total Seats Available", font="Helvetica 10", bg="#607d8b").pack(pady=(20,0))
     total_seats = OptionMenu(add_Top, seats, 20, 30, 40)
     total_seats.pack()
 
     ## Fare per Seat
-    Label(add_Top, text="Fare per Seat (RM)", font="Helvetica 10", bg="#faf1e3").pack(pady=(20,0))
+    Label(add_Top, text="Fare per Seat (RM)", font="Helvetica 10", bg="#607d8b").pack(pady=(20,0))
     fare = Entry(add_Top, font="Helvetica 10")
     fare.pack()
 
@@ -485,9 +485,9 @@ def edit_bus():
         for i in data:
             if i.get('bus_id') == bus_info[0]:
 
-                Label(root, text="Edit Bus", font="Helvetica 15 bold", bg="#faf1e3").pack(pady=(10,0))
+                Label(root, text="Edit Bus", font="Helvetica 15 bold", bg="#607d8b").pack(pady=(10,0))
 
-                stations = ["Ketereh,KLT", "Cyberjaya,SLG", "Ipoh,PRK", "Skudai,JHR", "Jawi,PNG"]
+                stations = ["Gensan", "Polomolok", "Tupi", "Koronadal", "Surallah"]
 
                 station1 = StringVar()
                 station1.set(i.get('departure_town'))
@@ -501,17 +501,17 @@ def edit_bus():
                 time_before = i.get('departure_time')
                 time_split = time_before.split(":")
 
-                Label(root, text="Select Departure Date", font="Helvetica 10", bg="#faf1e3").pack(pady=(10, 0))
+                Label(root, text="Select Departure Date", font="Helvetica 10", bg="#607d8b").pack(pady=(10, 0))
                 date = DateEntry(root, date_pattern = 'dd/mm/yy')
                 date.set_date(i.get('departure_date'))
                 date.pack()
 
-                Label(root, text="Select Departure Town", font="Helvetica 10", bg="#faf1e3").pack(pady=(20, 0))
+                Label(root, text="Select Departure Town", font="Helvetica 10", bg="#607d8b").pack(pady=(20, 0))
                 departure_town = OptionMenu(root, station1, *stations)
-                departure_town.config(bg="#bcb4ac")
+                departure_town.config(bg="#607d8b")
                 departure_town.pack()
 
-                Label(root, text="Select Departure Time", font="Helvetica 10", bg="#faf1e3").pack(pady=(20, 0))
+                Label(root, text="Select Departure Time", font="Helvetica 10", bg="#607d8b").pack(pady=(20, 0))
                 time = Frame(root, width=100, height=100)
 
                 min_update = StringVar()
@@ -526,16 +526,16 @@ def edit_bus():
                 hours.pack(side=LEFT)
                 minutes.pack(side=LEFT)
 
-                Label(root, text="Select Arrival Town", font="Helvetica 10", bg="#faf1e3").pack(pady=(20, 0))
+                Label(root, text="Select Arrival Town", font="Helvetica 10", bg="#607d8b").pack(pady=(20, 0))
                 arrival_town = OptionMenu(root, station2, *stations)
-                arrival_town.config(bg="#bcb4ac")
+                arrival_town.config(bg="#607d8b")
                 arrival_town.pack()
 
-                Label(root, text="Total Seats Available", font="Helvetica 10", bg="#faf1e3").pack(pady=(20,0))
+                Label(root, text="Total Seats Available", font="Helvetica 10", bg="#607d8b").pack(pady=(20,0))
                 total_seats = OptionMenu(root, seats, 20, 30, 40)
                 total_seats.pack()
 
-                Label(root, text="Fare per Seat (RM)", font="Helvetica 10", bg="#faf1e3").pack(pady=(20,0))
+                Label(root, text="Fare per Seat (RM)", font="Helvetica 10", bg="#607d8b").pack(pady=(20,0))
                 fare = Entry(root, font="Helvetica 10")
                 fare.insert(0, str(i.get('fare per seat')))
                 fare.pack()
